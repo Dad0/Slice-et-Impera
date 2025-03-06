@@ -14,5 +14,6 @@ Breve panoramica
 Basta scrivere la domanda nell'ultimo campo e attendere. Le finestre si popolano in base ai log. Se invece "interfaccia" è impostato su False, si utilizza il classico input di Python.
 
 L'interfaccia è ultra basilare e sicuramente migliorabile, a partire dai messaggi stampati, ma spero apprezziate l'idea :)
+Nel repo trovate un paio di screen di come dovreste vederla.
 
 
