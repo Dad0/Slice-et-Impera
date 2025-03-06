@@ -1,0 +1,2076 @@
+2025-03-06 17:43:08,627 - INFO - 
+1 Trova i piatti che:
+- hanno come ingrediente 'Chocobo Wings')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'CHOCOBO WINGS'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:43:25,081 - INFO - 
+2 Trova i piatti che:
+- sono adatti per un banchetto a tema magico
+- includono come ingrediente 'Cioccorane')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'CIOCCORANE'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:43:40,194 - INFO - 
+3 Trova i piatti che:
+- hanno come ingrediente 'Latte+')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'LATTE+'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:43:56,649 - INFO - 
+4 Trova i piatti che:
+- hanno come ingrediente 'Ravioli al Vaporeon')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'RAVIOLI AL VAPOREON'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:44:12,376 - INFO - 
+5 Trova i piatti che:
+- includono i 'Sashimi di Magikarp' come ingrediente)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'SASHIMI DI MAGICARP'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:44:28,694 - INFO - 
+6 Trova i piatti che:
+- sono accompagnati dai 'Frutti del Diavolo'
+- i Frutti del Diavolo donano poteri speciali a chi li consuma)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FRUTTI DEL DIAVOLO'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:44:44,756 - INFO - 
+7 Trova i piatti che:
+- utilizzano la tecnica della 'Grigliatura a Energia Stellare DiV')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'GRIGLIATURA A ENERGIA STELLARE DIV'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:45:00,792 - INFO - 
+8 Trova i piatti che:
+- utilizzano la tecnica della 'Sferificazione a Gravità Psionica Variabile')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'SFERIFICAZIONE A GRAVITÀ PSIONICA VARIABILE'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:45:19,190 - INFO - 
+9 Trova i piatti che:
+- utilizzano la tecnica della 'Marinatura Temporale Sincronizzata'
+- utilizzano la tecnica del 'Congelamento Bio-Luminiscente Sincronico')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['MARINATURA TEMPORALE SINCRONIZZATA', 'CONGELAMENTO BIO-LUMINISCENTE SINCRONICO']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:45:36,689 - INFO - 
+10 Trova i piatti eterei che:
+- utilizzano la tecnica della 'Cottura Olografica Quantum Fluttuante'
+- utilizzano la tecnica della 'Decostruzione Interdimensionale Lovecraftiana')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['COTTURA OLOGRAFICA QUANTUM FLUTTUANTE', 'DECOSTRUZIONE INTERDIMENSIONALE LOVERCRAFTIANA']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:45:55,685 - INFO - 
+11 Trova i piatti che:
+- combinano la saggezza del 'Riso di Cassandra'
+- includono l'intrigante tocco della 'Polvere di Crononite')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['RISO DI CASSANDRA', 'POLVERE DI CRONONITE']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:46:16,842 - INFO - 
+12 Trova i piatti che:
+- combinano 'Shard di Prisma Stellare' con 'Sale Temporale' per creare un'esperienza culinaria al di là del tempo e dello spazio)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['SHARD DI PRISMA STELLARE', 'SALE TEMPORALE']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:46:38,253 - INFO - 
+13 Trova i piatti che:
+- includono come ingrediente 'Teste di Idra'
+- utilizzano la tecnica della 'Cottura Sottovuoto Multirealità Collassante')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'TESTE DI IDRA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'COTTURA SOTTOVUOTO MULTIREALITÀ COLLASSANTE'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:46:55,625 - INFO - 
+14 Trova i piatti che:
+- sono preparati con la tecnica della 'Fermentazione Quantico Biometrica'
+- hanno tra gli ingredienti 'Erba Pipa')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'ERBA PIPA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'FERMENTAZIONE QUANTICO BIOMETRICA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:47:16,581 - INFO - 
+15 Trova i piatti che:
+- utilizzano la tecnica della 'Sferificazione Filamentare a Molecole Vibrazionali'
+- non utilizzano la tecnica dell' 'Amalgamazione Sintetica Molecolare')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'SFERIFICAZIONE FILAMENTARE A MOLECOLE VIBRAZIONALI'
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'AMALGAMAZIONE SINTETICA MOLECOLARE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:47:34,801 - INFO - 
+16 Trova i piatti che:
+- utilizzano la tecnica della 'Sferificazione Filamentare a Molecole Vibrazionali'
+- non utilizzano la tecnica della 'Decostruzione Magnetica Risonante')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'SFERIFICAZIONE FILAMENTARE A MOLECOLE VIBRAZIONALI'
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'DECOSTRUZIONE MAGNETICA RISONANTE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:48:00,205 - INFO - 
+17 Trova i piatti che:
+- utilizzano la tecnica della 'Sferificazione con Campi Magnetici Entropici'
+- non hanno come ingrediente 'Spezie Melange')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'SPEZIE MELANGE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'SFERIFICAZIONE CON CAMPI MAGNETICI ENTROPICI'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:48:18,501 - INFO - 
+18 Trova i piatti che:
+- utilizzano la tecnica del 'Surgelamento Antimaterico a Risonanza Inversa'
+- non hanno come ingrediente 'Foglie di Mandragora')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'FOGLIE DI MANDRAGORA'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'SURGELAMENTO ANTIMATERICO A RISONANZA INVERSA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:48:36,872 - INFO - 
+19 Trova i piatti che:
+- sono considerati leggendari nell'universo
+- hanno come ingredienti 'Foglie di Nebulosa', 'Amido di Stellarion' e 'Uova di Fenice')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['FOGLIE DI NEBULOSA', 'AMIDO DI STELLARION', 'UOVA DI FENICE']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 3
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ordine]
+
+MATCH (p:Piatto)-[:APPARTIENE_A_ORDINE]->(o:Ordine)
+WHERE o.nome = 'ORDINE DEI NATURALISTI'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:48:55,334 - INFO - 
+20 Trova i piatti che:
+- utilizzano gli ingredienti 'Carne di Balena spaziale', 'Essenza di Tachioni' e 'Alghe Bioluminescenti')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['CARNE DI BALENA SPAZIALE', 'ESSENZA DI TACHIONI', 'ALGHE BIOLUMINESCENTI']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 3
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:49:14,748 - INFO - 
+21 Trova i piatti che:
+- hanno come ingredienti 'Erba Pipa' e 'Funghi Orbitali'
+- utilizzano la tecnica della 'Bollitura Infrasonica Armonizzata')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['ERBA PIPA', 'FUNGHI ORBITALI']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'BOLLITURA INFRASONICA ARMONIZZATA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:49:40,980 - INFO - 
+22 Trova i piatti che:
+- sono del nostro pianeta
+- utilizzano la Cottura a Vapore con Flusso di Particelle Isoarmoniche
+- hanno come ingredienti 'Riso di Cassandra' e 'Foglie di Nebulosa')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['RISO DI CASSANDRA', 'FOGLIE DI NEBULOSA']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'COTTE A VAPORE CON FLUSSO DI PARTICELLE ISOARMONICHE'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:50:00,547 - INFO - 
+23 Trova i piatti che:
+- hanno come ingrediente 'Carne di Balena spaziale'
+- utilizzano la tecnica della 'Bollitura Entropica Sincronizzata'
+- utilizzano la tecnica dell' 'Affettamento a Pulsazioni Quantistiche')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'CARNE DI BALENA SPAZIALE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['BOLLITURA ENTROPICA SINCRONIZZATA', 'AFFETTAMENTO A PULSAZIONI QUANTISTICHE']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:50:21,142 - INFO - 
+24 Trova i piatti che:
+- hanno come ingrediente 'Lacrime di Unicorno'
+- utilizzano sia la tecnica del 'Taglio Sinaptico Biomimetico' sia la tecnica della 'Idro-Cristallizzazione Sonora Quantistica')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'LACRIME DI UNICORNO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t1:Tecnica {nome: 'TAGLIO SINAPTICO BIOMIMETICO'}),
+      (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica {nome: 'IDRO-CRISTALLIZZAZIONE SONORA QUANTISTICA'})
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:50:43,229 - INFO - 
+25 Trova i piatti che:
+- utilizzano la tecnica della 'Cottura a Vapore Risonante Simbiotico'
+- utilizzano la tecnica della 'Fermentazione Quantico Biometrica')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['COTTURA A VAPORE RISONANTE SIMBIOTICO', 'FERMENTAZIONE QUANTICO BIOMETRICA']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:51:02,541 - INFO - 
+26 Trova i piatti che:
+- utilizzano sia la tecnica del 'Taglio a Risonanza Sonica Rigenerativa' sia la tecnica della 'Cottura a Vapore Ecodinamico Bilanciato' nella loro preparazione)
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['TAGLIO A RISONANZA SONICA RIGENERATIVA', 'COTTURA A VAPORE CON VAPORE ECODINAMICO BILANCIATO']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:51:24,519 - INFO - 
+27 Trova i piatti che:
+- hanno come ingredienti 'Lattuga Namecciana' e 'Carne di Mucca'
+- non contengono 'Teste di Idra')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['LATTUGA NAMECCIANA', 'CARNE DI MUCCA']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+AND NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i2:Ingrediente)
+  WHERE i2.nome = 'TESTE DI IDRA'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:51:46,712 - INFO - 
+28 Trova i piatti che:
+- hanno come ingredienti 'Essenza di Tachioni' e 'Carne di Mucca'
+- non utilizzano 'Muffa Lunare')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['ESSENZA DI TACHIONI', 'CARNE DI MUCCA']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+AND NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i2:Ingrediente)
+  WHERE i2.nome = 'MUFFA LUNARE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:52:09,094 - INFO - 
+29 Trova i piatti che:
+- hanno come ingrediente 'Funghi Orbitali'
+- utilizzano la tecnica della 'Marinatura Psionica'
+- non impiegano come ingrediente 'Shard di Materia Oscura')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FUNGHI ORBITALI'
+AND NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i2:Ingrediente)
+  WHERE i2.nome = 'SHARD DI MATERIA OSCURA'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'MARINATURA PSIONICA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:52:27,178 - INFO - 
+30 Trova i piatti che:
+- non hanno come ingrediente il 'Plasma Vitale'
+- hanno come ingrediente 'Funghi dell’Etere'
+- utilizzano la tecnica dell'Impasto Gravitazionale Vorticoso)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FUNGHI DELL’ETERE'
+AND NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i2:Ingrediente)
+  WHERE i2.nome = 'PLASMA VITALE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'IMPASTO GRAVITAZIONALE VORTICOSO'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:52:47,525 - INFO - 
+31 Trova i piatti che:
+- combinano gli ingredienti 'Funghi dell’Etere' e 'Erba Pipa'
+- non utilizzano la tecnica della 'Decostruzione Magnetica Risonante')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['FUNGHI DELL’ETERE', 'ERBA PIPA']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+  WHERE t.nome = 'DECOSTRUZIONE MAGNETICA RISONANTE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:53:05,953 - INFO - 
+32 Trova i piatti che:
+- hanno come ingredienti 'Salsa Szechuan' e 'Granuli di Nebbia Arcobaleno'
+- non utilizzano la tecnica di 'Affumicatura a Stratificazione Quantica')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['SALSA SZECHUAN', 'GRANULI DI NEBBIA ARCOBALENO']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE NOT t.nome = 'AFFUMICATURA A STRATIFICAZIONE QUANTICA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:53:24,746 - INFO - 
+33 Trova i piatti che:
+- non utilizzano come ingrediente 'Funghi Orbitali'
+- sfruttano sia la tecnica dell’Affumicatura tramite 'Big Bang Microcosmico', sia la tecnica dell’Affettamento a Pulsazioni Quantistiche)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'FUNGHI ORBITALI'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t1:Tecnica {nome: 'AFFUMICATURA TRAMITE BIG BANG MICROCOSMICO'}),
+      (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica {nome: 'AFFETTAMENTO A PULSAZIONI QUANTISTICHE'})
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:53:44,347 - INFO - 
+34 Trova i piatti che:
+- utilizzano le tecniche 'Incisione Elettromagnetica Plasmica' e 'Bollitura Entropica Sincronizzata'
+- non hanno come ingredienti 'Cristalli di Memoria')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'CRISTALLI DI MEMORIA'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['INCISIONE ELETTROMAGNETICA PLASMICA', 'BOLLITURA ENTROPICA SINCRONIZZATA']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:54:02,190 - INFO - 
+35 Trova i piatti che:
+- utilizzano la "Polvere di Crononite" come ingrediente
+- impiegano la tecnica di "Incisione Elettromagnetica Plasmica"
+- non utilizzano la tecnica di "Decostruzione Atomica a Strati Energetici")
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'POLVERE DI CRONONITE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'INCISIONE ELETTROMAGNETICA PLASMICA'
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'DECOSTRUZIONE ATOMICA A STRATI ENERGETICI'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:54:20,978 - INFO - 
+36 Trova i piatti che:
+- utilizzano come ingrediente 'Alghe Bioluminescenti'
+- applicano la tecnica di 'Idro-Cristallizzazione Sonora Quantistica'
+- evitano la tecnica di 'Marinatura Temporale Sincronizzata')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'ALGHE BIOLUMINESCENTI'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'IDRO-CRISTALLIZZAZIONE SONORA QUANTISTICA'
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'MARINATURA TEMPORALE SINCRONIZZATA'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:54:40,702 - INFO - 
+37 Trova i piatti che:
+- non utilizzano la tecnica della 'Cottura a Vapore Termocinetica Multipla'
+- utilizzano sia la tecnica della 'Congelazione Iperdimensionalmente Stratificata', sia la tecnica della 'Fermentazione Quantico Biometrica')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['CONGELAZIONE IPERDIMENSIONALMENTE STRATIFICATA', 'FERMENTAZIONE QUANTICO BIOMETRICA']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'COTTURA A VAPORE TERMOCINETICA MULTIPLA'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:55:03,677 - INFO - 
+38 Trova i piatti che:
+- non utilizzano la tecnica della 'Fermentazione Quantico Biometrica'
+- utilizzano sia la tecnica 'Affumicatura tramite Big Bang Microcosmico', sia la tecnica 'Cottura Sottovuoto Frugale Energeticamente Negativa')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['AFFUMICATURA TRAMITE BIG BANG MICROCOSMICO', 'COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'FERMENTAZIONE QUANTICO BIOMETRICA'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:55:25,005 - INFO - 
+39 Trova i piatti che:
+- utilizzano la tecnica della 'Marinatura tramite Reazioni d'Antimateria Diluite'
+- non hanno come ingredienti né 'Cristalli di Nebulite' né 'Funghi dell’Etere')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome IN ['CRISTALLI DI MEMORIA', 'FUNGHI DELL’ETERE']
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'MARINATURA TRAMITE REAZIONI D’ANTIMATERIA DILUITE'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:55:43,914 - INFO - 
+40 Trova i piatti che:
+- utilizzano la tecnica della 'Congelazione Iperdimensionalmente Stratificata'
+- non hanno come ingredienti né 'Fibra di Sintetex' né 'Funghi Orbitali')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome IN ['SINTETEX', 'FUNGHI ORBITALI']
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'CONGELAZIONE IPERDIMENSIONALMENTE STRATIFICATA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:56:04,672 - INFO - 
+41 Trova i piatti che:
+- utilizzano la tecnica di 'Grigliatura Psionica Dinamica Ritmica'
+- non fanno uso dell'ingrediente 'Pane degli Abissi'
+- non utilizzano la tecnica di 'Cottura Olografica Quantum Fluttuante')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'PANE DEGLI ABISSI'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'GRIGLIATURA PSIONICA DINAMICA RITMICA'
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'COTTURA OLOGRAFICA QUANTUM FLUTTUANTE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:56:26,773 - INFO - 
+42 Trova i piatti che:
+- utilizzano la tecnica del 'Taglio Sinaptico Biomimetico'
+- non hanno come ingrediente 'Lattuga Namecciana'
+- non coinvolgono la tecnica della 'Cottura Sottovuoto Bioma Sintetico')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'LATTUGA NAMECCIANA'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'TAGLIO SINAPTICO BIOMIMETICO'
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'COTTURA SOTTOVUOTO BIOMA SINTETICO'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:56:50,394 - INFO - 
+43 Trova i piatti che:
+- sono preparati attraverso la tecnica della 'Decostruzione Ancestrale'
+- non utilizzano la tecnica della 'Cottura a Vapore Termocinetica Multipla'
+- non utilizzano la tecnica della 'Marinatura a Infusione Gravitazionale')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'DECOSTRUZIONE ANCESTRALE'
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'COTTURA A VAPORE TERMOCINETICA MULTIPLA'
+}
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t3:Tecnica)
+  WHERE t3.nome = 'MARINATURA A INFUSIONE GRAVITAZIONALE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:57:13,195 - INFO - 
+44 Trova i piatti che:
+- utilizzano la tecnica di 'Affumicatura Polarizzata a Freddo Iperbarico'
+- non utilizzano la tecnica di 'Fermentazione Psionica Energetica'
+- non utilizzano la tecnica di 'Congelamento Bio-Luminiscente Sincronico')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'AFFUMICATURA POLARIZZATA A FREDDO IPERBARICO'
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t2:Tecnica)
+  WHERE t2.nome = 'FERMENTAZIONE PSIONICA ENERGETICA'
+}
+AND NOT EXISTS {
+  MATCH (p)-[:CUCINATO_MEDIANTE]->(t3:Tecnica)
+  WHERE t3.nome = 'CONGELAMENTO BIO-LUMINISCENTE SINCRONICO'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:57:34,837 - INFO - 
+45 Trova i piatti che:
+- combinano come ingredienti 'Carne di Balena spaziale', 'Teste di Idra', 'Spaghi del Sole' e 'Carne di Xenodonte' nella loro preparazione)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['CARNE DI BALENA SPAZIALE', 'TESTE DI IDRA', 'SPAGHI DEL SOLE', 'CARNE DI XENODONTE']
+WITH p, COLLECT(i.nome) AS ingredienti_filtrati
+WHERE ALL(nome IN ['CARNE DI BALENA SPAZIALE', 'TESTE DI IDRA', 'SPAGHI DEL SOLE', 'CARNE DI XENODONTE'] WHERE nome IN ingredienti_filtrati)
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:57:53,797 - INFO - 
+46 Trova i piatti che:
+- hanno come ingredienti 'Cristalli di Memoria', 'Essenza di Tachioni' e 'Carne di Kraken')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['CRISTALLI DI MEMORIA', 'ESSENZA DI TACHIONI', 'CARNE DI KRAKEN']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 3
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:58:14,543 - INFO - 
+47 Trova i piatti che:
+- hanno come ingrediente 'Vero Ghiaccio'
+- utilizzano le tecniche 'Cottura Sottovuoto Frugale Energeticamente Negativa' e 'Cottura Sottovuoto Bioma Sintetico')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'VERO GHIACCIO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA', 'COTTURA SOTTOVUOTO BIOMA SINTETICO']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:58:35,012 - INFO - 
+48 Trova i piatti che:
+- hanno come ingredienti 'Shard di Materia Oscura' e 'Uova di Fenice'
+- utilizzano le tecniche di 'Affumicatura Polarizzata a Freddo Iperbarico' e 'Cottura a Vapore Ecodinamico Bilanciato')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['SHARD DI MATERIA OSCURA', 'UOVA DI FENICE']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['AFFUMICATURA POLARIZZATA A FREDDO IPERBARICO', 'COTTURA A VAPORE CON VAPORE ECODINAMICO BILANCIATO']
+WITH p, COLLECT(t) AS tecniche_filtrate
+WHERE SIZE(tecniche_filtrate) = 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:58:52,829 - INFO - 
+49 Trova i piatti che:
+- sono preparati nel ristorante sul pianeta Asgard
+- utilizzano l'ingrediente 'Essenza di Speziaria')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'ESSENZA DI SPEZIARIA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'ASGARD'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:59:11,168 - INFO - 
+50 Trova i piatti che:
+- sono preparati in un ristorante sul pianeta Asgard
+- hanno come ingrediente il 'Pane di Luce')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'PANE DI LUCE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'ASGARD'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:59:28,955 - INFO - 
+51 Trova i piatti che:
+- sono disponibili sul pianeta Krypton
+- utilizzano la tecnica della 'Cryo-Tessitura Energetica Polarizzata')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'CRYO-TESSITURA ENERGETICA POLARIZZATA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'KRYPTON'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 17:59:48,748 - INFO - 
+52 Trova i piatti che:
+- sono preparati sul pianeta Krypton
+- utilizzano la tecnica della Cottura Sottovuoto Bioma Sintetico)
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'COTTURA SOTTOVUOTO BIOMA SINTETICO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'KRYPTON'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:00:13,662 - INFO - 
+53 Trova i piatti che:
+- sono preparati al ristorante L'Etere del Gusto
+- utilizzano la tecnica della 'Decostruzione Atomica a Strati Energetici')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'DECOSTRUZIONE ATOMICA A STRATI ENERGETICI'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)
+WHERE r.nome = "L'ETERE DEL GUSTO"
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:00:37,849 - INFO - 
+54 Trova i piatti che:
+- sono preparati al ristorante 'Stelle dell'Infinito Celestiale'
+- utilizzano la tecnica del 'Congelamento Bio-Luminiscente Sincronico')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'CONGELAMENTO BIO-LUMINISCENTE SINCRONICO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)
+WHERE r.nome = "STELLE DELL'INFINITO CELESTIALE"
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:00:56,315 - INFO - 
+55 Trova i piatti che:
+- sono preparati al ristorante L'Universo in Cucina
+- hanno come ingrediente 'Funghi Orbitali')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FUNGHI ORBITALI'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)
+WHERE r.nome = "L'UNIVERSO IN CUCINA"
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:01:15,073 - INFO - 
+56 Trova i piatti che:
+- sono preparati al ristorante L'Oasi delle Dune Stellari
+- hanno come ingrediente 'Lattuga Namecciana')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'LATTUGA NAMECCIANA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)
+WHERE r.nome = "L'OASI DELLE DUNE STELLARI"
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:01:33,088 - INFO - 
+57 Trova i piatti che:
+- sono preparati da uno chef con una licenza 'LTK' di grado >= 7
+- hanno come ingrediente 'Spezie Melange')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'SPEZIE MELANGE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Chef]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)-[h:HA_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'LTK' AND h.grado >= 7
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:01:55,637 - INFO - 
+58 Trova i piatti che:
+- sono creati da uno chef con una licenza 'Q' di grado >= 15
+- hanno come ingrediente 'Nduja Fritta Tanto')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'NDUJA FRITTA TANTO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Chef]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)-[h:HA_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'Q' AND h.grado >= 15
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:02:27,748 - INFO - 
+59 Trova i piatti che:
+- sono preparati da uno chef con una licenza 't' di grado >= 2
+- utilizzano la tecnica della 'Cottura Idrodinamica Autoregolante')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'COTTURA IDRODINAMICA AUTOREGOLANTE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Chef]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)-[h:HA_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'T' AND h.grado >= 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:02:52,906 - INFO - 
+60 Trova i piatti che:
+- sono stati creati da uno chef con una licenza 'Luce' di grado >= 3
+- utilizzano la tecnica della 'Cottura Sottovuoto Multirealità Collassante')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'COTTURA SOTTOVUOTO MULTIREALITÀ COLLASSANTE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Chef]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)-[h:HA_LICENZA]->(l:Licenza)
+WHERE l.nome = 'LUCE' AND h.grado >= 3
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:03:15,402 - INFO - 
+61 Trova i piatti che:
+- sono preparati al ristorante L'Essenza dell'Infinito
+- utilizzano come ingrediente 'Fibra di Sintetex' o 'Essenza di Vuoto')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['SINTETEX', 'ESSENZA DI VUOTO']
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)
+WHERE r.nome = "L'ESSENZA DELL'INFINITO"
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:03:34,165 - INFO - 
+62 Trova i piatti che:
+- sono preparati al ristorante Le Dimensioni del Gusto
+- hanno come ingredienti 'Petali di Eco' o 'Uova di Fenice')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['PETALI DI ECO', 'UOVA DI FENICE']
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)
+WHERE r.nome = 'LE DIMENSIONI DEL GUSTO'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:03:55,039 - INFO - 
+63 Trova i piatti che:
+- sono serviti al ristorante L'Universo in Cucina
+- utilizzano come ingrediente 'Frammenti di Supernova' oppure la tecnica di 'Fermentazione Psionica Energetica')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FRAMMENTI DI SUPERNOVA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'FERMENTAZIONE PSIONICA ENERGETICA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)
+WHERE r.nome = "L'UNIVERSO IN CUCINA"
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:04:20,864 - INFO - 
+64 Trova i piatti che:
+- sono preparati al ristorante 'Cosmica Essenza'
+- utilizzano come ingrediente 'Funghi dell’Etere' oppure la tecnica della 'Marinatura Temporale Sincronizzata')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FUNGHI DELL’ETERE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'MARINATURA TEMPORALE SINCRONIZZATA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)
+WHERE r.nome = 'COSMICA ESSENZA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:04:40,557 - INFO - 
+65 Trova i piatti che:
+- sono preparati in un ristorante sul pianeta Klyntar
+- utilizzano l'ingrediente 'Alghe Bioluminescenti' o 'Amido di Stellarion')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['ALGHE BIOLUMINESCENTI', 'AMIDO DI STELLARION']
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'KLYNTAR'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:05:05,864 - INFO - 
+66 Trova i piatti che:
+- sono serviti in un ristorante sul pianeta Asgard
+- includono come ingrediente 'Essenza di Vuoto' oppure 'Carne di Xenodonte')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['ESSENZA DI VUOTO', 'CARNE DI XENODONTE']
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'ASGARD'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:05:27,246 - INFO - 
+67 Trova i piatti che:
+- sono serviti in un ristorante sul pianeta Pandora
+- sono preparati utilizzando la tecnica del 'Surgelamento Antimaterico a Risonanza Inversa' oppure la tecnica della 'Cottura a Vapore con Flusso di Particelle Isoarmoniche')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['SURGELAMENTO ANTIMATERICO A RISONANZA INVERSA', 'COTTE A VAPORE CON FLUSSO DI PARTICELLE ISOARMONICHE']
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'PANDORA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:05:48,672 - INFO - 
+68 Trova i piatti che:
+- sono serviti sul pianeta Namecc
+- utilizzano la tecnica della 'Grigliatura Plasma Sintetico Risonante' o dell''Affumicatura Polarizzata a Freddo Iperbarico')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['GRIGLIATURA PLASMA SINTETICO RISONANTE', 'AFFUMICATURA POLARIZZATA A FREDDO IPERBARICO']
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'NAMECC'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:06:12,544 - INFO - 
+69 Trova i piatti che:
+- sono preparati da uno chef con una licenza 'P' di grado >= 5
+- hanno come ingrediente 'Teste di Idra' oppure utilizzano la tecnica della 'Bollitura Entropica Sincronizzata')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'TESTE DI IDRA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'BOLLITURA ENTROPICA SINCRONIZZATA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Chef]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)-[h:HA_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'P' AND h.grado >= 5
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:06:36,203 - INFO - 
+70 Trova i piatti che:
+- sono creati da uno chef con una licenza 'LTK' di grado >= 6
+- utilizzano come ingrediente 'Polvere di Pulsar' o la tecnica di 'Cottura al Forno con Paradosso Temporale Cronospeculare')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'POLVERE DI PULSAR'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'COTTURA AL FORNO CON PARADOSSO TEMPORALE CRONOSPECULARE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Chef]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)-[h:HA_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'LTK' AND h.grado >= 6
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:06:57,876 - INFO - 
+71 Trova i piatti che:
+- sono creati da uno chef con una licenza 'Q' di grado >= 9
+- utilizzano la tecnica dell'Affumicatura Psionica Sensoriale o la tecnica della Cottura Sottovuoto Multirealità Collassante)
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['AFFUMICATURA PSIONICA SENSORIALE', 'COTTURA SOTTOVUOTO MULTIREALITÀ COLLASSANTE']
+RETURN DISTINCT p.nome AS piatto
+
+
+[Chef]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)-[h:HA_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'Q' AND h.grado >= 9
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:07:18,949 - INFO - 
+72 Trova i piatti che:
+- sono preparati da uno chef con una licenza 'Mx' di grado >= 1
+- utilizzano la tecnica della 'Congelazione Iperdimensionalmente Stratificata' o la tecnica della 'Cristallizzazione Temporale Reversiva')
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome IN ['CONGELAZIONE IPERDIMENSIONALMENTE STRATIFICATA', 'CRISTALLIZZAZIONE TEMPORALE REVERSIVA']
+RETURN DISTINCT p.nome AS piatto
+
+
+[Chef]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)-[h:HA_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'MX' AND h.grado >= 1
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:07:36,260 - INFO - 
+73 Trova i piatti che:
+- contengono almeno 2 ingredienti tra 'Spore Quantiche', 'Latte+' e 'Radici di Singolarità')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['SPORE QUANTICHE', 'LATTE+', 'RADICI DI SINGOLARITÀ']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) >= 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:07:55,536 - INFO - 
+74 Trova i piatti che:
+- contengono almeno 2 dei seguenti ingredienti: 'Ravioli al Vaporeon', 'Spaghi del Sole', 'Nettare di Sirena')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['RAVIOLI AL VAPOREON', 'SPAGHI DEL SOLE', 'NETTARE DI SIRENA']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) >= 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:08:16,766 - INFO - 
+75 Trova i piatti che:
+- contengono almeno 2 ingredienti tra 'Polvere di Crononite', 'Nduja Fritta Tanto', 'Spezie di Melange', e 'Polvere di Stelle')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['POLVERE DI CRONONITE', 'NDUJA FRITTA TANTO', 'SPEZIE MELANGE', 'POLVERE DI STELLE']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) >= 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:08:36,968 - INFO - 
+76 Trova i piatti che:
+- contengono almeno 2 degli ingredienti seguenti: 'Carne di Drago', 'Chocobo Wings', 'Foglie di Mandragora', 'Burrobirra')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['CARNE DI DRAGO', 'CHOCOBO WINGS', 'FOGLIE DI MANDRAGORA', 'BURROBIRRA']
+WITH p, COLLECT(i) AS ingredienti_filtrati
+WHERE SIZE(ingredienti_filtrati) >= 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:08:53,965 - INFO - 
+77 Trova i piatti che:
+- hanno come ingrediente 'Spaghi del Sole'
+- utilizzano almeno una tecnica del 'Surgelamento')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'SPAGHI DEL SOLE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia = 'SURGELAMENTO'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:09:15,584 - INFO - 
+78 Trova i piatti che:
+- utilizzano almeno una tecnica di taglio
+- includono i 'Fusilli del Vento' come ingrediente)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FUSILLI DEL VENTO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia = 'TECNICHE DI TAGLIO'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:09:37,385 - INFO - 
+79 Trova i piatti che:
+- sono preparati sul pianeta Asgard
+- richiedono una licenza temporale > 0
+- includono l'ingrediente 'Farina di Nettuno')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FARINA DI NETTUNO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'ASGARD'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.nome = 'TEMPORALE' AND r.grado > 0
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:09:56,600 - INFO - 
+80 Trova i piatti che:
+- sono preparati in un ristorante sul pianeta Asgard
+- richiedono una licenza 'LTK' di grado superiore a base
+- utilizzano come ingrediente 'Carne di Xenodonte')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'CARNE DI XENODONTE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'ASGARD'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'LTK' AND r.grado > 0
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:11:57,911 - INFO - 
+81 Trova i piatti che:
+- richiedono una licenza 'P' di grado >= 2 per essere preparati
+- sono serviti in un ristorante sul pianeta Pandora
+- utilizzano 'Spore Quantiche' come ingrediente)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'SPORE QUANTICHE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'PANDORA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'P' AND r.grado >= 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:12:19,437 - INFO - 
+82 Trova i piatti che:
+- richiedono la licenza 'e+' di grado >= 1
+- sono serviti sul pianeta Arrakis
+- utilizzano come ingrediente 'Riso di Cassandra')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'RISO DI CASSANDRA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Ristorante]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+WHERE pl.nome = 'ARRAKIS'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'E+' AND r.grado >= 1
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:12:42,273 - INFO - 
+83 Trova i piatti che:
+- utilizzano almeno una tecnica di taglio
+- utilizzano almeno una tecnica di surgelamento
+- non hanno come ingrediente 'Polvere di Crononite')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'POLVERE DI CRONONITE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia IN ['TECNICHE DI TAGLIO', 'SURGELAMENTO']
+WITH p, COLLECT(t.tipologia) AS tecniche_filtrate
+WHERE 'TECNICHE DI TAGLIO' IN tecniche_filtrate AND 'SURGELAMENTO' IN tecniche_filtrate
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:13:01,275 - INFO - 
+84 Trova i piatti che:
+- utilizzano sia tecniche di impasto sia tecniche di taglio
+- non hanno come ingrediente 'Shard di Prisma Stellare')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'SHARD DI PRISMA STELLARE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia IN ['TECNICHE DI IMPASTO', 'TECNICHE DI TAGLIO']
+WITH p, COLLECT(t.tipologia) AS tecniche_filtrate
+WHERE 'TECNICHE DI IMPASTO' IN tecniche_filtrate AND 'TECNICHE DI TAGLIO' IN tecniche_filtrate
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:13:19,953 - INFO - 
+85 Trova i piatti che:
+- utilizzano almeno una tecnica di taglio
+- richiedono una licenza 't' di grado > base per la preparazione
+- non hanno come ingrediente 'Fusilli del Vento')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'FUSILLI DEL VENTO'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia = 'TECNICHE DI TAGLIO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'T' AND r.grado > 0
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:13:39,605 - INFO - 
+86 Trova i piatti che:
+- utilizzano una tecnica di surgelamento
+- necessitano di una licenza temporale non base
+- non includono come ingrediente le spezie Melange)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'SPEZIE MELANGE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia = 'SURGELAMENTO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.nome = 'TEMPORALE'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:14:06,529 - INFO - 
+87 Trova i piatti che:
+- utilizzano almeno una tecnica di taglio
+- richiedono la licenza 'G' di grado >= 2
+- non hanno come ingrediente 'Gnocchi del Crepuscolo')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'GNOCCHI DEL CREPUSCOLO'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia = 'TECNICHE DI TAGLIO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'G' AND r.grado >= 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:14:27,734 - INFO - 
+88 Trova i piatti che:
+- utilizzano almeno una tecnica di taglio
+- richiedono la licenza 'G' di grado >= 2 per essere cucinati
+- non hanno come ingrediente 'Farina di Nettuno')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'FARINA DI NETTUNO'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia = 'TECNICHE DI TAGLIO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.sigla = 'G' AND r.grado >= 2
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:14:52,620 - INFO - 
+89 Trova i piatti che:
+- necessitano di una licenza di grado >= 3 per la preparazione
+- sono serviti in un ristorante che ha una distanza in anni luce dal pianeta Namecc <= 659)
+
+
+[Distanza]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+MATCH (pl)-[d:HA_DISTANZA]->(pl2:Pianeta {nome: 'NAMECC'})
+WHERE d.distanza <= 659
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE r.grado >= 3
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:15:12,832 - INFO - 
+90 Trova i piatti che:
+- hanno una licenza 'Psionica' di grado >= 4
+- sono serviti in un ristorante che ha una distanza in anni luce dal pianeta Arrakis <= 176)
+
+
+[Distanza]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(rp:Pianeta),
+      (rp)-[d:HA_DISTANZA]->(ap:Pianeta {nome: 'ARRAKIS'})
+WHERE d.distanza <= 176
+RETURN DISTINCT p.nome AS piatto
+
+
+[Licenza]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[r:RICHIEDE_LICENZA]->(l:Licenza)
+WHERE l.nome = 'PSIONICA' AND r.grado >= 4
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:15:34,095 - INFO - 
+91 Trova i piatti che:
+- utilizzano almeno una tecnica di surgelamento
+- sono serviti in un ristorante che ha una distanza in anni luce dal pianeta Krypton <= 317)
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia = 'SURGELAMENTO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Distanza]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta),
+      (pl)-[d:HA_DISTANZA]->(k:Pianeta {nome: 'KRYPTON'})
+WHERE d.distanza <= 317
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:15:57,886 - INFO - 
+92 Trova i piatti che:
+- utilizzano le tecniche di impasto
+- sono serviti in un ristorante che ha una distanza in anni luce dal pianeta Krypton <= 21)
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.tipologia = 'TECNICHE DI IMPASTO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Distanza]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta),
+      (pl)-[d:HA_DISTANZA]->(k:Pianeta {nome: 'KRYPTON'})
+WHERE d.distanza <= 21
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:16:16,676 - INFO - 
+93 Trova i piatti che:
+- sono serviti in ristoranti che hanno una distanza in anni luce dal pianeta Cybertron <= 126
+- non includono come ingrediente 'Funghi dell'Etere')
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'FUNGHI DELL’ETERE'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Distanza]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(pl:Pianeta)
+MATCH (pl)-[d:HA_DISTANZA]->(pl2:Pianeta {nome: 'CYBERTRON'})
+WHERE d.distanza <= 126
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:16:35,903 - INFO - 
+94 Trova i piatti che:
+- sono serviti in un ristorante che ha una distanza in anni luce dal pianeta Cybertron <= 83
+- non utilizzano la 'Farina di Nettuno' come ingrediente)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)
+WHERE NOT EXISTS {
+  MATCH (p)-[:CONTIENE]->(i:Ingrediente)
+  WHERE i.nome = 'FARINA DI NETTUNO'
+}
+RETURN DISTINCT p.nome AS piatto
+
+
+[Distanza]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:SITUATO_SU]->(rp:Pianeta),
+      (rp)-[d:HA_DISTANZA]->(cp:Pianeta {nome: 'CYBERTRON'})
+WHERE d.distanza <= 83
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:16:51,711 - INFO - 
+95 Trova i piatti che:
+- sono destinati ai membri dell'Ordine degli Armonisti)
+
+
+[Ordine]
+
+MATCH (p:Piatto)-[:APPARTIENE_A_ORDINE]->(o:Ordine)
+WHERE o.nome = 'ORDINE DEGLI ARMONISTI'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:17:08,001 - INFO - 
+96 Trova i piatti che:
+- sono adatti a chi è membro dell'Ordine della Galassia di Andromeda)
+
+
+[Ordine]
+
+MATCH (p:Piatto)-[:APPARTIENE_A_ORDINE]->(o:Ordine)
+WHERE o.nome = 'ORDINE DELLA GALASSIA DI ANDROMEDA'
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:17:28,174 - INFO - 
+97 Trova i piatti che:
+- contengono l'ingrediente 'Essenza di Tachioni'
+- utilizzano la tecnica della 'Cottura a Vapore Ecodinamico Bilanciato'
+- rientrano nella legalità del codice Galattico)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'ESSENZA DI TACHIONI'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'COTTURA A VAPORE CON VAPORE ECODINAMICO BILANCIATO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Legale]
+
+MATCH (p:Piatto)
+WHERE p.legale = true
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:17:47,824 - INFO - 
+98 Trova i piatti che:
+- hanno come ingredienti sia 'Petali di Eco' sia 'Foglie di Mandragora'
+- rientrano nella legalità del codice Galattico)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome IN ['PETALI DI ECO', 'FOGLIE DI MANDRAGORA']
+WITH p, COLLECT(i.nome) AS ingredienti_filtrati
+WHERE 'PETALI DI ECO' IN ingredienti_filtrati AND 'FOGLIE DI MANDRAGORA' IN ingredienti_filtrati
+RETURN DISTINCT p.nome AS piatto
+
+
+[Legale]
+
+MATCH (p:Piatto)
+WHERE p.legale = true
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:18:14,756 - INFO - 
+99 Trova i piatti che:
+- contengono l'ingrediente 'Fusilli del Vento'
+- utilizzano nella loro preparazione la tecnica della 'Marinatura a Infusione Gravitazionale'
+- sono preparati da uno chef che ha le corrette licenze e certificazioni in regola con il Codice di Galattico)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'FUSILLI DEL VENTO'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'MARINATURA A INFUSIONE GRAVITAZIONALE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Abilitazione]
+
+MATCH (p:Piatto)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c:Chef)
+MATCH (p)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[:PUO_ESSERE_OPERATA_CORRETAMENTE_DA]->(c)
+MATCH (t)-[:RICHIEDE_LICENZA]->(l:Licenza)
+MATCH (c)-[:HA_LICENZA]->(l)
+RETURN DISTINCT p.nome AS piatto
+
+
+2025-03-06 18:18:34,193 - INFO - 
+100 Trova i piatti che:
+- hanno come ingrediente 'Teste di Idra'
+- utilizzano la tecnica della 'Marinatura a Infusione Gravitazionale'
+- sono preparati da uno chef con le corrette licenze e certificazioni secondo il Codice Galattico)
+
+
+[Ingrediente]
+
+MATCH (p:Piatto)-[:CONTIENE]->(i:Ingrediente)
+WHERE i.nome = 'TESTE DI IDRA'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Tecnica]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)
+WHERE t.nome = 'MARINATURA A INFUSIONE GRAVITAZIONALE'
+RETURN DISTINCT p.nome AS piatto
+
+
+[Abilitazione]
+
+MATCH (p:Piatto)-[:CUCINATO_MEDIANTE]->(t:Tecnica)-[:PUO_ESSERE_OPERATA_CORRETAMENTE_DA]->(c:Chef)
+MATCH (p)-[:OFFERTO_DA]->(r:Ristorante)-[:HA_CHEF]->(c)
+RETURN DISTINCT p.nome AS piatto
+
+

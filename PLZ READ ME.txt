@@ -1,0 +1,18 @@
+Ciao!
+
+Qui trovate tutto il codice che ho utilizzato per questa challenge. Mi rendo conto che in alcune parti sia molto confusionario e mi scuso per questo, ma ho fatto davvero il possibile nel tempo che avevo. In generale, ho preferito concentrarmi sullo sviluppo piuttosto che sulla code review.
+
+Breve panoramica
+📌 Main.py → Qui vengono richiamate tutte le funzioni per l'estrazione dei dati con LLM e, in generale, tutto il preprocessing. Verso la fine, costruisco la Graph RAG.
+
+📂Cartella "agents", con due script principali:
+
+📌 agents_from_zero.py → Script utilizzato per la challenge. Verso il fondo c'è un flag "read_from_file", che permette di eseguire il codice a partire da una determinata domanda oppure di inserirne una manualmente.
+📌 run_agent_system.py → Versione simile al precedente, ma sotto forma di funzione, richiamata dalla GUI.
+
+📌 pyqt.py → Script che, nel momento in cui il flag "interfaccia" è attivo, mostra un'interfaccia molto semplice che evidenzia quali agenti vengono attivati in base alla domanda inserita. 
+Basta scrivere la domanda nell'ultimo campo e attendere. Le finestre si popolano in base ai log. Se invece "interfaccia" è impostato su False, si utilizza il classico input di Python.
+
+L'interfaccia è ultra basilare e sicuramente migliorabile, a partire dai messaggi stampati, ma spero apprezziate l'idea :)
+
+
