@@ -1,0 +1,39 @@
+{
+    "nome ristorante": "L'Equilibrio Quantico",
+    "nome pianeta": "Mos Eisley",
+    "nome chef": "Alessandro Quantum",
+    "licenze": [
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "11"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Magnetica",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "LTK",
+            "grado_licenza": "6"
+        }
+    ]
+}

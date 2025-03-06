@@ -1,0 +1,31 @@
+{
+    "nome ristorante": "L'Infinito Sapore",
+    "nome pianeta": "Pandora",
+    "nome chef": "Alessandro-Pierpaolo-Jack Quantum",
+    "licenze": [
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "11"
+        },
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Magnetica",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "LTK",
+            "grado_licenza": "IX"
+        }
+    ]
+}

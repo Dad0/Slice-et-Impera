@@ -1,0 +1,92 @@
+[
+    {
+        "nome piatto": "Cosmic Harmony",
+        "nomi ingredienti": [
+            "Foglie di Mandragora",
+            "Radici di Gravità",
+            "Lacrime di Unicorno",
+            "Lattuga Namecciana",
+            "Petali di Eco"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Fusilli Sferici alla Risonanza Crononica",
+        "nomi ingredienti": [
+            "Fusilli del Vento",
+            "Nettare di Sirena",
+            "Carne di Kraken",
+            "Balena Spaziale",
+            "Salsa Szechuan",
+            "Farina di Nettuno",
+            "Polvere di Crononite",
+            "Fibra di Sintetex"
+        ]
+    },
+    {
+        "nome piatto": "Galassia in Tavola: Sinfonia dei Sensi",
+        "nomi ingredienti": [
+            "Spaghi del Sole",
+            "Gnocchi del Crepuscolo",
+            "Muffa Lunare triturata",
+            "Baccacedro",
+            "Spezie Melange"
+        ]
+    },
+    {
+        "nome piatto": "Galassia Rinascente",
+        "nomi ingredienti": [
+            "Lattuga Namecciana",
+            "Muffa Lunare",
+            "Carne di Drago",
+            "Uovo di Fenice",
+            "Biscotti della Galassia",
+            "Zucchero cosmico scintillante",
+            "Carne delle Teste di Idra"
+        ]
+    },
+    {
+        "nome piatto": "Galassie alla Spirale di Vento con Sfera di Ghiaccio Eterno",
+        "nomi ingredienti": [
+            "Fusilli del Vento",
+            "Carne di Xenodonte",
+            "Teste di Idra",
+            "Farina di Nettuno",
+            "Gnocchi del Crepuscolo",
+            "Radici di Gravità",
+            "Lacrime di Andromeda",
+            "salsa Nduja Fritta Tanto"
+        ]
+    },
+    {
+        "nome piatto": "Galaxia Rinasciata",
+        "nomi ingredienti": [
+            "Uova di Fenice",
+            "Salsa di Lacrime di Unicorno",
+            "Spezie Melange",
+            "Baccacedro",
+            "Biscotti della Galassia",
+            "scaglie stellari",
+            "zucchero cosmico"
+        ]
+    },
+    {
+        "nome piatto": "Mandragola e Radici",
+        "nomi ingredienti": [
+            "Polvere di Stelle",
+            "Radici di Gravità",
+            "Foglie di Mandragora",
+            "Lacrime di Unicorno",
+            "Nduja Fritta Tanto"
+        ]
+    },
+    {
+        "nome piatto": "Nebulosa di Sapori Quantici",
+        "nomi ingredienti": [
+            "Riso di Cassandra",
+            "Funghi Orbitali",
+            "Essenza di Vuoto",
+            "Radici di Singolarità",
+            "Cristalli di Nebulite"
+        ]
+    }
+]

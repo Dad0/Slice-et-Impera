@@ -1,0 +1,27 @@
+{
+    "nome ristorante": "Eredità Galattica Hub Temporale della Gastronomia Interstellare",
+    "nome pianeta": "Cybertron",
+    "nome chef": "Alessandro Chronos",
+    "licenze": [
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "LTK",
+            "grado_licenza": "III"
+        }
+    ]
+}

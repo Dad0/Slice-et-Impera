@@ -1,0 +1,35 @@
+{
+    "nome ristorante": "L'Etere del Gusto",
+    "nome pianeta": "Pandora",
+    "nome chef": "Pierino \"Il Custode\" Temporali",
+    "licenze": [
+        {
+            "nome_licenza": "Livello di Sviluppo Tecnologico",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "V"
+        },
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "Magnetica",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "I"
+        }
+    ]
+}

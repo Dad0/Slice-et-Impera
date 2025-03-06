@@ -1,0 +1,101 @@
+[
+    {
+        "nome piatto": "Entropia Eterna",
+        "nomi ingredienti": [
+            "Carne di balena spaziale",
+            "Teste di Idra",
+            "Radici di gravità",
+            "Fibra di Sintetex",
+            "Biscotti della galassia",
+            "Polvere di stelle"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Sogni Cosmogastronomici",
+        "nomi ingredienti": [
+            "Spaghi del Sole",
+            "Shard di Prisma Stellare",
+            "Nettare di Sirena",
+            "Nebbia Arcobaleno",
+            "Baccacedro",
+            "Erba Pipa"
+        ]
+    },
+    {
+        "nome piatto": "Rivisitazione del Kraken sotto Molecole",
+        "nomi ingredienti": [
+            "Carne di Kraken",
+            "Colonia di Mycoflora",
+            "Spezie Melange",
+            "Fusilli del Vento",
+            "Foglie di Mandragora",
+            "Polvere di Crononite",
+            "Pane di Luce",
+            "Fibra di Sintetex"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Celestiale",
+        "nomi ingredienti": [
+            "Gnocchi del Crepuscolo",
+            "Muffa Lunare",
+            "Pane degli Abissi",
+            "Uova di Fenice",
+            "Polvere di Stelle",
+            "Teste di Idra",
+            "Petali di Eco",
+            "Biscotti della Galassia"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica di Sapori",
+        "nomi ingredienti": [
+            "Liane di Plasmodio",
+            "Teste di Idra",
+            "Alghe Bioluminescenti",
+            "Biscotti della Galassia",
+            "Lattuga Namecciana",
+            "Shard di Materia Oscura",
+            "Nduja Fritta Tanto",
+            "Nettare di Sirena"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia di Galassie Riflesse",
+        "nomi ingredienti": [
+            "Fusilli del Vento",
+            "Carne di Kraken",
+            "Funghi dell’Etere",
+            "Shard di Materia Oscura",
+            "Foglie di Mandragora",
+            "Colonia di Mycoflora",
+            "Petali di Eco"
+        ]
+    },
+    {
+        "nome piatto": "Valzer Cosmico di Asteria",
+        "nomi ingredienti": [
+            "Carne di Xenodonte",
+            "Pane di Luce",
+            "Nettare di Sirena",
+            "Frammenti di Supernova",
+            "Uova di Fenice",
+            "Erba Pipa"
+        ]
+    },
+    {
+        "nome piatto": "Valzer delle Stelle",
+        "nomi ingredienti": [
+            "Carne di Drago",
+            "Spaghi del Sole",
+            "Carne di Kraken",
+            "Paté di Carne di Kraken",
+            "Pane di Luce",
+            "Uova di Fenice",
+            "Amido di Stellarion",
+            "Polvere di Pulsar",
+            "Spore Quantiche",
+            "Nduja Fritta Tanto"
+        ]
+    }
+]

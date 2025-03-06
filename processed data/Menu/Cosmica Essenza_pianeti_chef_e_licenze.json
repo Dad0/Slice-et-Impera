@@ -1,0 +1,31 @@
+{
+    "nome ristorante": "Cosmica Essenza",
+    "nome pianeta": "Tatooine",
+    "nome chef": "Aurelio \"Starweaver\" Celestini",
+    "licenze": [
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "V"
+        },
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "9"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Livello di Sviluppo Tecnologico",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "II"
+        }
+    ]
+}

@@ -1,0 +1,228 @@
+## Ristorante "Sapore del Dune" (20.0px)
+
+Chef Alessandra Quanti (10.0px)
+
+Nel cuore arido di Tatooine, dove i mondi si mescolano e le stelle guidano i viaggiatori intergalattici, Chef (10.0px)
+Alessandra Quanti porta una rivoluzione culinaria che sfida le distanze siderali. Non è raro vedere i (10.0px)
+commensali rimanere incantati osservando i suoi piatti che sembrano danzare tra le dune e le stelle, frutto (10.0px)
+della sua straordinaria padronanza degli stati quantici, che le permette di esplorare e materializzare le infinite (10.0px)
+possibilità nascoste in ogni ingrediente rarefatto del deserto. (10.0px)
+
+La sua storia ebbe inizio nei laboratori di spezie di Mos Eisley, dove la passione per la gastronomia (10.0px)
+molecolare si fuse con la sua profonda comprensione dell'universo subatomico. Fu proprio durante un (10.0px)
+esperimento particolarmente intenso con i Cristalli Kyber che scoprì la sua innata capacità di percepire le (10.0px)
+probabilità culinarie, un dono che trasformò ogni sua creazione in un'esperienza di perfezione matematica (10.0px)
+anche tra le tempeste di sabbia. (10.0px)
+
+Le sue presentazioni sono vere opere d'arte viventi, dove la luce danza e si trasforma, creando atmosfere (10.0px)
+che portano gli ospiti in un viaggio tra le galassie. I commensali più attenti potrebbero notare come alcuni (10.0px)
+elementi dei suoi piatti sembrino sfidare gentilmente la gravità, un'abilità raffinata durante il suo periodo (10.0px)
+come chef a bordo di uno Star Destroyer, dove la cucina assumeva significati completamente nuovi. (10.0px)
+
+Un giorno, un peculiare incidente con un forno quantico di sua invenzione le donò una comprensione unica (10.0px)
+del tempo culinario. Questo "fortunato incidente", come ama definirlo, le permise di perfezionare l'arte della (10.0px)
+cottura a livelli inimmaginabili, orchestrando ogni secondo in una danza perfetta di temperature, anche nei (10.0px)
+climi più extraterritoriali. (10.0px)
+
+Al Sapore del Dune, ogni serata è un viaggio attraverso le infinite possibilità del gusto. Chef Quanti non si (10.0px)
+limita a cucinare: plasma la realtà stessa del cibo, trasformando ogni pasto in un'esperienza che trascende i (10.0px)
+confini tradizionali della gastronomia. Come ama ricordare ai suoi ospiti: "In cucina, come nell'universo, tutto (10.0px)
+è possibile. Dobbiamo solo saper osservare tutte le possibilità simultaneamente, per poi scegliere la più (10.0px)
+straordinaria." (10.0px)
+
+Le skill certificate dello Chef sono: (10.0px)
+
+Psionica II (10.0px)
+Temporale I (10.0px)
+Gravitazionale I (10.0px)
+Quantistica 13 (10.0px)
+Luce II (10.0px)
+
+Il ristorante possiede una tecnologia LTK II (10.0px)
+
+## Menu (20.0px)
+
+## Sinfonia Quantistica delle Stelle (15.0px)
+
+Ingredienti (12.0px)
+
+Shard di Prisma Stellare (10.0px)
+Lattuga Namecciana (10.0px)
+Radici di Singolarità (10.0px)
+Fibra di Sintetex (10.0px)
+Carne di Balena spaziale (10.0px)
+Teste di Idra (10.0px)
+Nettare di Sirena (10.0px)
+Sale Temporale (10.0px)
+
+Tecniche (12.0px)
+
+Marinatura Temporale Sincronizzata (10.0px)
+Cottura Sottovuoto Frugale Energeticamente Negativa (10.0px)
+Cottura a Vapore Termocinetica Multipla (10.0px)
+Cottura a Vapore Ecodinamico Bilanciato (10.0px)
+
+## Sinfonia Quantistica dell'Universo (15.0px)
+
+Ingredienti (12.0px)
+
+Shard di Prisma Stellare (10.0px)
+Foglie di Nebulosa (10.0px)
+Lattuga Namecciana (10.0px)
+Teste di Idra (10.0px)
+Carne di Mucca (10.0px)
+Farina di Nettuno (10.0px)
+Riso di Cassandra (10.0px)
+Fusilli del Vento (10.0px)
+Nduja Fritta Tanto (10.0px)
+
+Tecniche (12.0px)
+
+Cottura Sottovuoto Frugale Energeticamente Negativa (10.0px)
+Cottura a Vapore Termocinetica Multipla (10.0px)
+Marinatura Temporale Sincronizzata (10.0px)
+
+## Evanescenza Quantica (15.0px)
+
+Ingredienti (12.0px)
+
+Cristalli di Memoria (10.0px)
+Radici di Singolarità (10.0px)
+Lattuga Namecciana (10.0px)
+Baccacedro (10.0px)
+Granuli di Nebbia Arcobaleno (10.0px)
+Plasma Vitale (10.0px)
+Petali di Eco (10.0px)
+
+Tecniche (12.0px)
+
+Cottura Sottovuoto Frugale Energeticamente Negativa (10.0px)
+Grigliatura Eletro-Molecolare a Spaziatura Variabile (10.0px)
+Bollitura Termografica a Rotazione Veloce (10.0px)
+Affumicatura a Stratificazione Quantica (10.0px)
+Saltare in Padella Classica (10.0px)
+
+## Galassia di Sapori Sublimi (15.0px)
+
+Ingredienti (12.0px)
+
+Frammenti di Supernova (10.0px)
+Baccacedro (10.0px)
+Foglie di Nebulosa (10.0px)
+Radici di Singolarità (10.0px)
+Amido di Stellarion (10.0px)
+Fusilli del Vento (10.0px)
+
+Tecniche (12.0px)
+
+Cottura con Microonde Entropiche Sincronizzate (10.0px)
+Congelamento Bio-Luminiscente Sincronico (10.0px)
+Cottura Sottovuoto Frugale Energeticamente Negativa (10.0px)
+Marinatura Temporale Sincronizzata (10.0px)
+Impasto Gravitazionale Vorticoso (10.0px)
+
+## Galassia di Sapore Quantico (15.0px)
+
+Ingredienti (12.0px)
+
+Polvere di Stelle (10.0px)
+Alghe Bioluminescenti (10.0px)
+Colonia di Mycoflora (10.0px)
+Carne di Drago (10.0px)
+Teste di Idra (10.0px)
+Plasma Vitale (10.0px)
+Nduja Fritta Tanto (10.0px)
+
+Tecniche (12.0px)
+
+Grigliatura Eletro-Molecolare a Spaziatura Variabile (10.0px)
+Cottura a Vapore Termocinetica Multipla (10.0px)
+Cottura Sottovuoto Frugale Energeticamente Negativa (10.0px)
+Impasto Gravitazionale Vorticoso (10.0px)
+
+## Interstellare Risveglio di Kraken (15.0px)
+
+Ingredienti (12.0px)
+
+Polvere di Pulsar (10.0px)
+Liane di Plasmodio (10.0px)
+Radici di Singolarità (10.0px)
+Carne di Kraken (10.0px)
+Amido di Stellarion (10.0px)
+Riso di Cassandra (10.0px)
+Plasma Vitale (10.0px)
+Nduja Fritta Tanto (10.0px)
+
+Tecniche (12.0px)
+
+Congelamento Bio-Luminiscente Sincronico (10.0px)
+Affumicatura a Stratificazione Quantica (10.0px)
+Bollitura Infrasonica Armonizzata (10.0px)
+
+## Sinfonia Temporale delle Profondità Infrasoniche (15.0px)
+
+Ingredienti (12.0px)
+
+Polvere di Crononite (10.0px)
+Carne di Kraken (10.0px)
+Carne di Balena spaziale (10.0px)
+Funghi Orbitali (10.0px)
+Sale Temporale (10.0px)
+
+Tecniche (12.0px)
+
+Saltare in Padella Classica (10.0px)
+Bollitura Infrasonica Armonizzata (10.0px)
+Cottura Sottovuoto Frugale Energeticamente Negativa (10.0px)
+
+## Pioggia di Dimensioni Galattiche (15.0px)
+
+Ingredienti (12.0px)
+
+Shard di Prisma Stellare (10.0px)
+Lattuga Namecciana (10.0px)
+Biscotti della Galassia (10.0px)
+Pane degli Abissi (10.0px)
+Nettare di Sirena (10.0px)
+Essenza di Vuoto (10.0px)
+
+Tecniche (12.0px)
+
+Bollitura Termografica a Rotazione Veloce (10.0px)
+Affumicatura a Stratificazione Quantica (10.0px)
+Fermentazione Quantico Biometrica (10.0px)
+
+## Ode Cosmica di Terra e Stelle (15.0px)
+
+Ingredienti (12.0px)
+
+Polvere di Stelle (10.0px)
+Alghe Bioluminescenti (10.0px)
+Teste di Idra (10.0px)
+Fibra di Sintetex (10.0px)
+Carne di Balena spaziale (10.0px)
+Spaghi del Sole (10.0px)
+Nettare di Sirena (10.0px)
+Spezie Melange (10.0px)
+
+Tecniche (12.0px)
+
+Grigliatura Eletro-Molecolare a Spaziatura Variabile (10.0px)
+Marinatura Temporale Sincronizzata (10.0px)
+
+## Sinfonia Galattica (15.0px)
+
+Ingredienti (12.0px)
+
+Cristalli di Nebulite (10.0px)
+Colonia di Mycoflora (10.0px)
+Teste di Idra (10.0px)
+Carne di Xenodonte (10.0px)
+Carne di Drago (10.0px)
+Pane degli Abissi (10.0px)
+Funghi dell’Etere (10.0px)
+
+Tecniche (12.0px)
+
+Cottura a Vapore con Flusso di Particelle Isoarmoniche (10.0px)
+Marinatura Temporale Sincronizzata (10.0px)

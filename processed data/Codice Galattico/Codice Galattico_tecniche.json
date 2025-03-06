@@ -1,0 +1,999 @@
+{
+    "tecniche": {
+        "Marinatura": {
+            "marinatura a infusione gravitazionale": {
+                "requisiti": [
+                    {
+                        "nome licenza": "gravitazionale",
+                        "sigla": "G",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "marinatura temporale sincronizzata": {
+                "requisiti": [
+                    {
+                        "nome licenza": "temporale",
+                        "sigla": "t",
+                        "livello": "I"
+                    }
+                ]
+            },
+            "marinatura psionica": {
+                "requisiti": [
+                    {
+                        "nome licenza": "psionica",
+                        "sigla": "P",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "marinatura tramite reazioni d’antimateria diluite": {
+                "requisiti": [
+                    {
+                        "nome licenza": "Antimateria",
+                        "sigla": "e+",
+                        "livello": "I"
+                    }
+                ]
+            },
+            "marinatura sotto zero a polarità inversa": {
+                "requisiti": [
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            }
+        },
+        "Affumicatura": {
+            "affumicatura a stratificazione quantica": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "3"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "affumicatura temporale risonante": {
+                "requisiti": [
+                    {
+                        "nome licenza": "temporale",
+                        "sigla": "t",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "affumicatura psionica sensoriale": {
+                "requisiti": [
+                    {
+                        "nome licenza": "psionica",
+                        "sigla": "P",
+                        "livello": "II"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "affumicatura tramite big bang microcosmico": {
+                "requisiti": [
+                    {
+                        "nome licenza": "antimateria",
+                        "sigla": "e+",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "10"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "affumicatura polarizzata a freddo iperbarico": {
+                "requisiti": [
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            }
+        },
+        "Fermentazione": {
+            "fermentazione quantica a strati multiversali": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "5"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "VI+"
+                    }
+                ]
+            },
+            "fermentazione temporale sincronizzata": {
+                "requisiti": [
+                    {
+                        "nome licenza": "temporale",
+                        "sigla": "t",
+                        "livello": "III"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "fermentazione psionica energetica": {
+                "requisiti": [
+                    {
+                        "nome licenza": "psionica",
+                        "sigla": "P",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "fermentazione tramite singolarità": {
+                "requisiti": [
+                    {
+                        "nome licenza": "gravitazionale",
+                        "sigla": "G",
+                        "livello": "III"
+                    },
+                    {
+                        "nome licenza": "antimateria",
+                        "sigla": "e+",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "IV"
+                    }
+                ]
+            },
+            "fermentazione quantico biometrica": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "3"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            }
+        },
+        "Decostruzione": {
+            "decostruzione atomica a strati energetici": {
+                "requisiti": [
+                    {
+                        "nome licenza": "antimaterica",
+                        "sigla": "e+",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "1"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "decostruzione magnetica risonante": {
+                "requisiti": [
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "decostruzione bio-fotonica emotiva": {
+                "requisiti": [
+                    {
+                        "nome licenza": "psionica",
+                        "sigla": "P",
+                        "livello": "III"
+                    },
+                    {
+                        "nome licenza": "luce",
+                        "sigla": "c",
+                        "livello": "III"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "decostruzione ancestrale": {
+                "requisiti": [
+                    {
+                        "nome licenza": "temporale",
+                        "sigla": "t",
+                        "livello": "III"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "decostruzione interdimensionale Lovercraftiana": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "7"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "VI"
+                    }
+                ]
+            }
+        },
+        "Sferificazione": {
+            "sferificazione a gravità psionica variabile": {
+                "requisiti": [
+                    {
+                        "nome licenza": "psionica",
+                        "sigla": "P",
+                        "livello": "IV"
+                    },
+                    {
+                        "nome licenza": "gravitazionale",
+                        "sigla": "G",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "sferificazione filamentare a molecole vibrazionali": {
+                "requisiti": [
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "4"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "sferificazione cromatica interdimensionale": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "6"
+                    },
+                    {
+                        "nome licenza": "luce",
+                        "sigla": "c",
+                        "livello": "III"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "sferificazione con campi magnetici entropici": {
+                "requisiti": [
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "sferificazione tramite matrici biofotiche": {
+                "requisiti": [
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "3"
+                    },
+                    {
+                        "nome licenza": "luce",
+                        "sigla": "c",
+                        "livello": "II"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            }
+        },
+        "Tecniche di Taglio": {
+            "taglio dimensionale a lame fotofilliche": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "6"
+                    },
+                    {
+                        "nome licenza": "luce",
+                        "sigla": "c",
+                        "livello": "III"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "IV"
+                    }
+                ]
+            },
+            "affettamento a pulsazioni quantistiche": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "4"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "taglio sinaptico biomimetico": {
+                "requisiti": [
+                    {
+                        "nome licenza": "psionica",
+                        "sigla": "P",
+                        "livello": "IV"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "incisione elettromagnetica plasmica": {
+                "requisiti": [
+                    {
+                        "nome licenza": "antimateria",
+                        "sigla": "e+",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            }
+        },
+        "Tecniche di Impasto": {
+            "impasto gravitazionale vorticoso": {
+                "requisiti": [
+                    {
+                        "nome licenza": "gravitazionale",
+                        "sigla": "G",
+                        "livello": "I"
+                    }
+                ]
+            },
+            "amalgamazione sintetica molecolare": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "3"
+                    }
+                ]
+            },
+            "impasto a campi magnetici dualistici": {
+                "requisiti": [
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    }
+                ]
+            },
+            "sinergia elettro-osmotica programmabile": {
+                "requisiti": [
+                    {
+                        "nome licenza": "antimateria",
+                        "sigla": "e+",
+                        "livello": "I"
+                    }
+                ]
+            },
+            "modellatura onirica tetrazionale": {
+                "requisiti": [
+                    {
+                        "nome licenza": "psionica",
+                        "sigla": "P",
+                        "livello": "IV"
+                    },
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "4"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "IV"
+                    }
+                ]
+            }
+        },
+        "Surgelamento": {
+            "cryo-tessitura energetica polarizzata": {
+                "requisiti": [
+                    {
+                        "nome licenza": "antimateria",
+                        "sigla": "e+",
+                        "livello": "I"
+                    }
+                ]
+            },
+            "congelamento bio-luminiscente sincronico": {
+                "requisiti": [
+                    {
+                        "nome licenza": "luce",
+                        "sigla": "c",
+                        "livello": "II"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "II"
+                    }
+                ]
+            },
+            "cristallizzazione temporale reversiva": {
+                "requisiti": [
+                    {
+                        "nome licenza": "temporale",
+                        "sigla": "t",
+                        "livello": "III"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            },
+            "congelazione iperdimensionalmente stratificata": {
+                "requisiti": [
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "5"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "IV"
+                    }
+                ]
+            },
+            "surgelamento antimaterico a risonanza inversa": {
+                "requisiti": [
+                    {
+                        "nome licenza": "antimateria",
+                        "sigla": "e+",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "magnetica",
+                        "sigla": "Mx",
+                        "livello": "I"
+                    },
+                    {
+                        "nome licenza": "quantistica",
+                        "sigla": "Q",
+                        "livello": "3"
+                    },
+                    {
+                        "nome licenza": "grado tecnologico LTK",
+                        "sigla": "LTK",
+                        "livello": "III"
+                    }
+                ]
+            }
+        },
+        "Cottura": {
+            "Bollitura": {
+                "ebollizione magneto-cinetica pulsante": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "magnetica",
+                            "sigla": "Mx",
+                            "livello": "I"
+                        }
+                    ]
+                },
+                "bollitura infrasonica armonizzata": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "3"
+                        }
+                    ]
+                },
+                "bollitura termografica a rotazione veloce": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "luce",
+                            "sigla": "c",
+                            "livello": "I"
+                        }
+                    ]
+                },
+                "bollitura entropica sincronizzata": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "4"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                },
+                "idro-cristallizzazione sonora quantistica": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "5"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                }
+            },
+            "Grigliatura": {
+                "grigliatura a energia stellare DiV": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "luce",
+                            "sigla": "c",
+                            "livello": "III"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "II"
+                        }
+                    ]
+                },
+                "grigliatura plasma sintetico risonante": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "antimateria",
+                            "sigla": "e+",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "magnetica",
+                            "sigla": "Mx",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                },
+                "grigliatura eletro-molecolare a spaziatura variabile": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "3"
+                        }
+                    ]
+                },
+                "grigliatura tachionica refrattaria": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "temporale",
+                            "sigla": "t",
+                            "livello": "II"
+                        },
+                        {
+                            "nome licenza": "luce",
+                            "sigla": "c",
+                            "livello": "III"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "V"
+                        }
+                    ]
+                },
+                "grigliatura psionica dinamica ritmica": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "psionica",
+                            "sigla": "P",
+                            "livello": "III"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                }
+            },
+            "Cottura al forno": {
+                "cottura al forno con paradosso temporale cronospeculare": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "temporale",
+                            "sigla": "t",
+                            "livello": "III"
+                        },
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "1"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                },
+                "cottura con microonde entropiche sincronizzate": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "4"
+                        }
+                    ]
+                },
+                "cottura a forno dinamico inversionale": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "antimateria",
+                            "sigla": "e+",
+                            "livello": "I"
+                        }
+                    ]
+                },
+                "cottura olografica quantum fluttuante": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "5"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                },
+                "cottura geomagnetica psicosincronizzata": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "psionica",
+                            "sigla": "P",
+                            "livello": "V"
+                        },
+                        {
+                            "nome licenza": "magnetica",
+                            "sigla": "Mx",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "IV"
+                        }
+                    ]
+                }
+            },
+            "Cottura al vapore": {
+                "cottura a vapore risonante simbiotico": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "psionica",
+                            "sigla": "P",
+                            "livello": "III"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                },
+                "cottura idrodinamica autoregolante": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "antimateria",
+                            "sigla": "e+",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "II"
+                        }
+                    ]
+                }
+            },
+            "Cottura sottovuoto": {
+                "cottura sottovuoto antimateria": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "gravitazionale",
+                            "sigla": "G",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "antimateria",
+                            "sigla": "e+",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                },
+                "cottura sottovuoto multirealità collassante": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "gravitazionale",
+                            "sigla": "G",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "5"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "VI"
+                        }
+                    ]
+                },
+                "cottura sottovuoto frugale energeticamente negativa": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "gravitazionale",
+                            "sigla": "G",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "3"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "II"
+                        }
+                    ]
+                },
+                "cottura sottovuoto pulsar magnetica": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "gravitazionale",
+                            "sigla": "G",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "magnetica",
+                            "sigla": "Mx",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                },
+                "cottura sottovuoto bioma sintetico": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "psionica",
+                            "sigla": "P",
+                            "livello": "II"
+                        },
+                        {
+                            "nome licenza": "gravitazionale",
+                            "sigla": "G",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                }
+            },
+            "Cottura al salto": {
+                "saltare in padella Big Bang termico": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "gravitazionale",
+                            "sigla": "G",
+                            "livello": "III"
+                        },
+                        {
+                            "nome licenza": "antimateria",
+                            "sigla": "e+",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "V"
+                        }
+                    ]
+                },
+                "saltare in padella realtà energetiche parallele": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "quantistica",
+                            "sigla": "Q",
+                            "livello": "6"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "IV"
+                        }
+                    ]
+                },
+                "saltare in padella singolarità inversa": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "gravitazionale",
+                            "sigla": "G",
+                            "livello": "III"
+                        },
+                        {
+                            "nome licenza": "antimateria",
+                            "sigla": "e+",
+                            "livello": "I"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "IV"
+                        }
+                    ]
+                },
+                "saltare in padella sinergia psionica": {
+                    "requisiti": [
+                        {
+                            "nome licenza": "psionica",
+                            "sigla": "P",
+                            "livello": "V"
+                        },
+                        {
+                            "nome licenza": "grado tecnologico LTK",
+                            "sigla": "LTK",
+                            "livello": "III"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

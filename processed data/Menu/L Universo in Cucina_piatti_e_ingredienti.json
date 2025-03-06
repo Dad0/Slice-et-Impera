@@ -1,0 +1,117 @@
+[
+    {
+        "nome piatto": "Galassia Aurorale",
+        "nomi ingredienti": [
+            "Liane di Plasmodio",
+            "Radici di Gravità",
+            "Cristalli di Nebulite",
+            "Carne di Xenodonte",
+            "Carne di Drago",
+            "Foglie di Nebulosa",
+            "Spaghi del Sole",
+            "Uovo di Fenice",
+            "Farina di Nettuno",
+            "Amido di Stellarion",
+            "Plasma Vitale"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Sapori Interstellari",
+        "nomi ingredienti": [
+            "Gnocchi del Crepuscolo",
+            "Granuli di Nebbia Arcobaleno",
+            "Amido di Stellarion",
+            "Foglie di Nebulosa",
+            "Erba Pipa",
+            "Spore Quantiche",
+            "Radici di Singolarità",
+            "Baccacedro",
+            "Polvere di Crononite"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Sapori: L'Eterno Ritorno",
+        "nomi ingredienti": [
+            "Riso di Cassandra",
+            "Carne di Balena Spaziale",
+            "Carne di Drago",
+            "Pane di Luce",
+            "Farina di Nettuno",
+            "Radici di Singolarità",
+            "Lacrime di Andromeda",
+            "Sale Temporale",
+            "Cristalli di Memoria",
+            "Fibra di Sintetex"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Sapori",
+        "nomi ingredienti": [
+            "Carne di Mucca e Drago",
+            "Radici di Gravità",
+            "Nettare di Sirena",
+            "Essenza di Speziaria"
+        ]
+    },
+    {
+        "nome piatto": "Portale delle Stelle",
+        "nomi ingredienti": [
+            "Carne di Xenodonte",
+            "Funghi dell’Etere",
+            "Biscotti della Galassia",
+            "Scaglie di stelle",
+            "Zucchero cosmico",
+            "Frammenti di Supernova",
+            "Spezie Melange"
+        ]
+    },
+    {
+        "nome piatto": "Rivelazione del Multiverso",
+        "nomi ingredienti": [
+            "Carne di Kraken",
+            "Lacrime di Andromeda",
+            "Sale Temporale",
+            "Pane degli Abissi",
+            "Farina di Nettuno",
+            "Cristalli di Memoria",
+            "Baccacedro"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica della Rinascita",
+        "nomi ingredienti": [
+            "Carne di Mucca",
+            "uovo di fenice",
+            "foglie di nebulosa",
+            "radici di singolarità",
+            "granuli di nebbia arcobaleno",
+            "cristalli di nebulite",
+            "spaghi del sole",
+            "biscotti della galassia",
+            "zucchero cosmico",
+            "erba pipa"
+        ]
+    },
+    {
+        "nome piatto": "Sogni di Abisso Cosmico",
+        "nomi ingredienti": [
+            "Pane degli Abissi",
+            "Carne di Kraken",
+            "Farina di Nettuno",
+            "Erba Pipa",
+            "Teste di Idra",
+            "Fusilli del Vento",
+            "Uova di Fenice"
+        ]
+    },
+    {
+        "nome piatto": "Stellar Fusion",
+        "nomi ingredienti": [
+            "Farina di Nettuno",
+            "Funghi Orbitali",
+            "Fibra di Sintetex",
+            "Salsa Szechuan",
+            "Shard di Materia Oscura"
+        ]
+    }
+]

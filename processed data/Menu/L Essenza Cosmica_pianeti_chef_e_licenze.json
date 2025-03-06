@@ -1,0 +1,27 @@
+{
+    "nome ristorante": "L'Essenza Cosmica",
+    "nome pianeta": "Pandora",
+    "nome chef": "Alessandro Stellanova",
+    "licenze": [
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "V"
+        },
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "3"
+        },
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "LTK",
+            "grado_licenza": "III"
+        }
+    ]
+}

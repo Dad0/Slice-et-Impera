@@ -1,0 +1,121 @@
+[
+    {
+        "nome piatto": "Astro-Risotto alle Onde Temporali",
+        "nomi ingredienti": [
+            "Polvere di Pulsar",
+            "Foglie di Nebulosa",
+            "Radici di Singolarità",
+            "Baccacedro",
+            "Sale Temporale"
+        ]
+    },
+    {
+        "nome piatto": "Galassia Commovente di Stellari",
+        "nomi ingredienti": [
+            "Polvere di Stelle",
+            "Alghe Bioluminescenti",
+            "Baccacedro",
+            "Carne di Balena spaziale",
+            "Teste di Idra",
+            "Fibra di Sintetex",
+            "Funghi Orbitali",
+            "Essenza di Tachioni"
+        ]
+    },
+    {
+        "nome piatto": "Galassie Infiammate: Sinfonia Cosmica in Sei Dimensioni",
+        "nomi ingredienti": [
+            "Frammenti di Supernova",
+            "Uova di Fenice",
+            "Carne di Mucca",
+            "Riso di Cassandra",
+            "Spaghi del Sole",
+            "Biscotti della Galassia",
+            "Lacrime di Unicorno",
+            "Nduja Fritta Tanto"
+        ]
+    },
+    {
+        "nome piatto": "Galassie Sospese: Un Viaggio di Sapori Cosmogalattici",
+        "nomi ingredienti": [
+            "Cristalli di Memoria",
+            "Radici di Gravità",
+            "Pane degli Abissi",
+            "Biscotti della Galassia",
+            "Lacrime di Unicorno",
+            "Nduja Fritta Tanto"
+        ]
+    },
+    {
+        "nome piatto": "Nebulosa Celestiale alla Stellaris",
+        "nomi ingredienti": [
+            "Shard di Materia Oscura",
+            "Carne di Balena spaziale",
+            "Carne di Mucca",
+            "Teste di Idra",
+            "Riso di Cassandra",
+            "Biscotti della Galassia",
+            "Pane di Luce",
+            "Funghi dell’Etere",
+            "Spezie Melange"
+        ]
+    },
+    {
+        "nome piatto": "Odissea Cosmica di Nettuno",
+        "nomi ingredienti": [
+            "Pane di Luce",
+            "Farina di Nettuno",
+            "Amido di Stellarion",
+            "Nettare di Sirena",
+            "Essenza di Vuoto"
+        ]
+    },
+    {
+        "nome piatto": "Pioggia di Andromeda",
+        "nomi ingredienti": [
+            "Cristalli di Memoria",
+            "Lattuga Namecciana",
+            "Radici di Singolarità",
+            "Carne di Kraken",
+            "Uova di Fenice",
+            "Fibra di Sintetex",
+            "Fusilli del Vento",
+            "Lacrime di Andromeda",
+            "Essenza di Speziaria"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica ma Fatta Bene",
+        "nomi ingredienti": [
+            "Shard di Materia Oscura",
+            "Colonia di Mycoflora",
+            "Carne di Balena spaziale",
+            "Amido di Stellarion",
+            "Nettare di Sirena",
+            "Petali di Eco"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica ma Fatta Male",
+        "nomi ingredienti": [
+            "Polvere di Pulsar",
+            "Radici di Singolarità",
+            "Lattuga Namecciana",
+            "Baccacedro",
+            "Granuli di Nebbia Arcobaleno",
+            "Funghi dell’Etere",
+            "Erba Pipa"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Galattica alla Griglia Cangiante",
+        "nomi ingredienti": [
+            "Shard di Materia Oscura",
+            "Teste di Idra",
+            "Amido di Stellarion",
+            "Fusilli del Vento",
+            "Spore Quantiche",
+            "Erba Pipa"
+        ]
+    }
+]

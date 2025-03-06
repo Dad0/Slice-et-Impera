@@ -1,0 +1,123 @@
+[
+    {
+        "nome piatto": "Cosmo Sferico di Sogni Rigenerativi",
+        "nomi ingredienti": [
+            "Radici di Gravità",
+            "Baccacedro",
+            "Lattuga Namecciana",
+            "Teste di Idra",
+            "Carne di Xenodonte",
+            "Farina di Nettuno",
+            "Nettare di Sirena"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Sapore Interstellare",
+        "nomi ingredienti": [
+            "Frammenti di Supernova",
+            "Colonia di Mycoflora",
+            "Foglie di Nebulosa",
+            "Carne di Mucca",
+            "Fibra di Sintetex",
+            "Carne di Kraken",
+            "Spaghi del Sole",
+            "Nettare di Sirena",
+            "Spezie Melange",
+            "Burrobirra"
+        ]
+    },
+    {
+        "nome piatto": "Portale Cosmico: Sinfonia di Gnocchi del Crepuscolo con Essenza di Tachioni e Sfumature di Fenice",
+        "nomi ingredienti": [
+            "Shard di Materia Oscura",
+            "Uova di Fenice",
+            "Gnocchi del Crepuscolo",
+            "Plasma Vitale",
+            "Essenza di Tachioni"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica di Armonie Terrestri e Celesti",
+        "nomi ingredienti": [
+            "Cristalli di Memoria",
+            "Uova di Fenice",
+            "Carne di Kraken",
+            "Fibra di Sintetex",
+            "Granuli di Nebbia Arcobaleno",
+            "Lacrime di Andromeda",
+            "Spezie Melange"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica di Luminiscenze e Contrasti",
+        "nomi ingredienti": [
+            "Uova di Fenice",
+            "Carne di Drago",
+            "Carne di Kraken",
+            "Amido di Stellarion",
+            "Riso di Cassandra",
+            "Spezie Melange",
+            "Slurm"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica di Sapore",
+        "nomi ingredienti": [
+            "Shard di Materia Oscura",
+            "Carne di Xenodonte",
+            "Fibra di Sintetex",
+            "Farina di Nettuno",
+            "Granuli di Nebbia Arcobaleno",
+            "Nduja Fritta Tanto",
+            "Ravioli al Vaporeon"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica in Otto Movimenti",
+        "nomi ingredienti": [
+            "Frammenti di Supernova",
+            "Foglie di Nebulosa",
+            "Alghe Bioluminescenti",
+            "Fibra di Sintetex",
+            "Carne di Mucca",
+            "Gnocchi del Crepuscolo",
+            "Lacrime di Andromeda",
+            "Spezie Melange"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica: Versione Data",
+        "nomi ingredienti": [
+            "Polvere di Stelle",
+            "Radici di Gravità",
+            "Colonia di Mycoflora",
+            "Fusilli del Vento",
+            "Pane degli Abissi",
+            "Essenza di Tachioni"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica: Versione Pizza",
+        "nomi ingredienti": [
+            "Polvere di Pulsar",
+            "Radici di Gravità",
+            "Radici di Singolarità",
+            "Spaghi del Sole",
+            "Riso di Cassandra",
+            "Farina di Nettuno",
+            "Funghi Orbitali",
+            "Spezie Melange",
+            "Cioccorane"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmologica",
+        "nomi ingredienti": [
+            "Shard di Materia Oscura",
+            "Radici di Gravità",
+            "Foglie di Nebulosa",
+            "Biscotti della Galassia",
+            "Essenza di Vuoto"
+        ]
+    }
+]

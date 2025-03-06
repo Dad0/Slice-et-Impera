@@ -1,0 +1,119 @@
+[
+    {
+        "nome piatto": "Antipasto Stellare dell'Eterna Armonia",
+        "nomi ingredienti": [
+            "Polvere di Crononite",
+            "Baccacedro",
+            "Fibra di Sintetex",
+            "Teste di Idra",
+            "Pane di Luce",
+            "Farina di Nettuno",
+            "Spore Quantiche",
+            "Essenza di Speziaria"
+        ]
+    },
+    {
+        "nome piatto": "Essenze dell'Infinito",
+        "nomi ingredienti": [
+            "Lattuga Namecciana",
+            "Baccacedro",
+            "Carne di Kraken",
+            "Funghi Orbitali",
+            "Essenza di Vuoto"
+        ]
+    },
+    {
+        "nome piatto": "Etereo Crepuscolare",
+        "nomi ingredienti": [
+            "Vero Ghiaccio",
+            "Colonia di Mycoflora",
+            "Lattuga Namecciana",
+            "Gnocchi del Crepuscolo",
+            "Granuli di Nebbia Arcobaleno"
+        ]
+    },
+    {
+        "nome piatto": "Il Viaggio delle Dimensioni Confluenti",
+        "nomi ingredienti": [
+            "Polvere di Crononite",
+            "Baccacedro",
+            "Carne di Balena spaziale",
+            "Teste di Idra",
+            "Carne di Mucca",
+            "Riso di Cassandra",
+            "Amido di Stellarion",
+            "Funghi dell’Etere",
+            "Essenza di Speziaria"
+        ]
+    },
+    {
+        "nome piatto": "Nebulare Asteroideo con Crepuscolo di Mucca",
+        "nomi ingredienti": [
+            "Cristalli di Nebulite",
+            "Foglie di Nebulosa",
+            "Liane di Plasmodio",
+            "Fibra di Sintetex",
+            "Teste di Idra",
+            "Carne di Mucca",
+            "Pane degli Abissi",
+            "Fusilli del Vento",
+            "Gnocchi del Crepuscolo",
+            "Plasma Vitale",
+            "Erba Pipa"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia del Multiverso Calante",
+        "nomi ingredienti": [
+            "Shard di Prisma Stellare",
+            "Granuli di Nebbia Arcobaleno",
+            "Fusilli del Vento",
+            "Pane degli Abissi",
+            "Lacrime di Unicorno"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia del Multiverso Nascente",
+        "nomi ingredienti": [
+            "Polvere di Crononite",
+            "Carne di Balena spaziale",
+            "Fibra di Sintetex",
+            "Gnocchi del Crepuscolo",
+            "Muffa Lunare",
+            "Essenza di Vuoto"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Quantica dell’Oceano Interstellare",
+        "nomi ingredienti": [
+            "Vero Ghiaccio",
+            "Carne di Xenodonte",
+            "Teste di Idra",
+            "Carne di Kraken",
+            "Nettare di Sirena",
+            "Essenza di Vuoto"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Temporale del Drago",
+        "nomi ingredienti": [
+            "Polvere di Crononite",
+            "Radici di Gravità",
+            "Baccacedro",
+            "Carne di Drago",
+            "Amido di Stellarion",
+            "Biscotti della Galassia",
+            "Nettare di Sirena"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Temporale di Fenice e Xenodonte su Pane degli Abissi con Colata di Plasma Vitale e Polvere di Crononite",
+        "nomi ingredienti": [
+            "Polvere di Crononite",
+            "Uova di Fenice",
+            "Carne di Xenodonte",
+            "Pane degli Abissi",
+            "Plasma Vitale"
+        ]
+    }
+]

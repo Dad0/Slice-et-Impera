@@ -1,0 +1,125 @@
+[
+    {
+        "nome piatto": "Cosmos Culinary Symphony",
+        "nomi ingredienti": [
+            "Biscotti della Galassia",
+            "Spaghi del Sole",
+            "Carne di Mucca",
+            "Salsa Szechuan",
+            "Amido di Stellarion",
+            "Radici di Gravità",
+            "Plasma Vitale",
+            "Uova di Fenice",
+            "Lattuga Namecciana",
+            "Vero Ghiaccio"
+        ]
+    },
+    {
+        "nome piatto": "Danza Cosmica al Crepuscolo",
+        "nomi ingredienti": [
+            "Gnocchi del Crepuscolo",
+            "Carne di Drago",
+            "Muffa Lunare",
+            "Polvere di Stelle",
+            "Essenza di Vuoto"
+        ]
+    },
+    {
+        "nome piatto": "Dimensioni di Sapori Infusi",
+        "nomi ingredienti": [
+            "Riso di Cassandra",
+            "Carne di Mucca",
+            "Pane di Luce",
+            "Colonia di Mycoflora",
+            "Nettare di Sirena",
+            "Foglie di Nebulosa"
+        ]
+    },
+    {
+        "nome piatto": "Portale delle Meraviglie",
+        "nomi ingredienti": [
+            "Pane di Luce",
+            "Carne di Balena spaziale",
+            "Amido di Stellarion",
+            "Carne di Drago speziata",
+            "Radici di Singolarità",
+            "Radici di Gravità",
+            "Uovo di Fenice",
+            "Granuli di Nebbia Arcobaleno",
+            "Essenza di Speziaria",
+            "Vero Ghiaccio"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Astrale - Risotto Multiversale con Risacca Celeste",
+        "nomi ingredienti": [
+            "Riso di Cassandra",
+            "Brodo di Teste di Idra",
+            "Carne di Xenodonte",
+            "Polvere di Pulsar",
+            "Lattuga Namecciana",
+            "Amido di Stellarion",
+            "Lacrime di Andromeda",
+            "Farina di Nettuno"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Astrale",
+        "nomi ingredienti": [
+            "Riso di Cassandra",
+            "Pane degli Abissi",
+            "Gnocchi del Crepuscolo",
+            "Nduja Fritta",
+            "Uova di Fenice",
+            "Lacrime di Unicorno",
+            "Frammenti di Supernova"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica",
+        "nomi ingredienti": [
+            "Shard di Prisma Stellare",
+            "Granuli di Nebbia Arcobaleno",
+            "Colonia di Mycoflora",
+            "Carne di Balena Spaziale",
+            "Radici di Singolarità",
+            "Pane degli Abissi",
+            "Funghi dell’Etere",
+            "Essenza di Vuoto",
+            "Baccacedro caramellato"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia del Multiverso di Gusto",
+        "nomi ingredienti": [
+            "Amido di Stellarion",
+            "Fusilli del Vento",
+            "Granuli di Nebbia Arcobaleno",
+            "Carne di Xenodonte",
+            "Carne di Kraken",
+            "Carne di Mucca",
+            "Erba Pipa"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Temporale Galattica",
+        "nomi ingredienti": [
+            "Colonies di Mycoflora",
+            "Fibra di Sintetex",
+            "Cristalli di Nebulite",
+            "Spore Quantiche",
+            "Bacche di Baccacedro",
+            "Sale Temporale"
+        ]
+    },
+    {
+        "nome piatto": "Universo in Fluttuazione",
+        "nomi ingredienti": [
+            "Vero Ghiaccio",
+            "Farina di Nettuno",
+            "Carne di Drago",
+            "Lacrime di Unicorno",
+            "Amido di Stellarion"
+        ]
+    }
+]

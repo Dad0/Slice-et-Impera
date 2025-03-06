@@ -1,0 +1,27 @@
+{
+    "nome ristorante": "Tutti a TARSvola",
+    "nome pianeta": "Tatooine",
+    "nome chef": "Isabella Quantum-Stellari",
+    "licenze": [
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "Livello IV"
+        },
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "8 stati"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "Livello II"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "Livello I"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "Livello I"
+        }
+    ]
+}

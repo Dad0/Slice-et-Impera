@@ -1,0 +1,107 @@
+[
+    {
+        "nome piatto": "Antipasto Celestiale",
+        "nomi ingredienti": [
+            "Carne di Balena Spaziale",
+            "Pane di Luce",
+            "Granuli di Nebbia Arcobaleno",
+            "Carne di Kraken",
+            "Teste di Idra",
+            "Fusilli del Vento",
+            "Frammenti di Supernova",
+            "Erba Pipa"
+        ]
+    },
+    {
+        "nome piatto": "Evanescenza Cosmica",
+        "nomi ingredienti": [
+            "Fusilli del Vento",
+            "Shard di Materia Oscura",
+            "Foglie di Mandragora",
+            "Fibra di Sintetex",
+            "Uova di Fenice",
+            "Plasma Vitale",
+            "Essenza di Tachioni"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Sapore Interdimensionale",
+        "nomi ingredienti": [
+            "Cristalli di Memoria",
+            "Carne di Mucca",
+            "Carne di Balena Spaziale",
+            "Riso di Cassandra",
+            "Erba Pipa",
+            "Pane di Luce"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Sapori di Aurora",
+        "nomi ingredienti": [
+            "Carne di Mucca",
+            "Fibra di Sintetex",
+            "uova di Fenice",
+            "Funghi dell’Etere",
+            "Amido di Stellarion",
+            "Nduja Fritta Tanto"
+        ]
+    },
+    {
+        "nome piatto": "Galassia di Sapori: Sinfonia Transdimensionale",
+        "nomi ingredienti": [
+            "Granuli di Nebbia Arcobaleno",
+            "Pane degli Abissi",
+            "Spaghi del Sole",
+            "Crema aerea di Muffa Lunare",
+            "Polvere di Frammenti di Supernova"
+        ]
+    },
+    {
+        "nome piatto": "Galassia nel Piatto: Sinfonia Universale di Aromi e Sapori",
+        "nomi ingredienti": [
+            "Riso di Cassandra",
+            "Sintetex",
+            "Carne di Drago",
+            "Carne di Xenodonte",
+            "Salsa Szechuan",
+            "Spaghi del Sole",
+            "Muffa Lunare",
+            "Biscotti della Galassia",
+            "Vero Ghiaccio"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica: il Ritorno dell'Imperatore",
+        "nomi ingredienti": [
+            "Carne di Balena spaziale",
+            "Carne di Mucca",
+            "Spore Quantiche",
+            "Polvere di Crononite",
+            "Erba Pipa"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Cosmica: la Vendetta Fantasma",
+        "nomi ingredienti": [
+            "Fusilli del Vento",
+            "Essenza di Vuoto",
+            "Spaghi del Sole",
+            "Colonia di Mycoflora",
+            "fungo",
+            "Biscotti della Galassia",
+            "scaglie di stelle",
+            "zucchero cosmico"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Galattica di Sapori con Sorpresa di Drago Fiammante",
+        "nomi ingredienti": [
+            "Lattuga Namecciana",
+            "Carne di Balena spaziale",
+            "Carne rigenerativa delle Teste di Idra",
+            "Fibra di Sintetex",
+            "Funghi Orbitali",
+            "Nduja Fritta Tanto"
+        ]
+    }
+]

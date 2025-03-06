@@ -1,0 +1,31 @@
+{
+    "nome ristorante": "Sapore del Dune",
+    "nome pianeta": "Tatooine",
+    "nome chef": "Alessandra Quanti",
+    "licenze": [
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "13"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "LTK",
+            "grado_licenza": "II"
+        }
+    ]
+}

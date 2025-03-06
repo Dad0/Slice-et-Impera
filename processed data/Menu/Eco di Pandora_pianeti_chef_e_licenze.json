@@ -1,0 +1,39 @@
+{
+    "nome ristorante": "L'Eco di Pandora",
+    "nome pianeta": "Pandora",
+    "nome chef": "Alessandra Novastella",
+    "licenze": [
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Magnetica",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "3"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "LTK",
+            "grado_licenza": "VI"
+        }
+    ]
+}

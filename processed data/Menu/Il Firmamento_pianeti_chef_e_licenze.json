@@ -1,0 +1,39 @@
+{
+    "nome ristorante": "Il Firmamento",
+    "nome pianeta": "Ego",
+    "nome chef": "Maestro Alessio \"Eterno\" Stellaris",
+    "licenze": [
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "IV"
+        },
+        {
+            "nome_licenza": "LTK",
+            "grado_licenza": "IV"
+        },
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "II"
+        },
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "2"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Magnetica",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "I"
+        }
+    ]
+}
