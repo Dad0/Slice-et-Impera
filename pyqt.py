@@ -1,8 +1,19 @@
+"""
+Questo script può essere eseguito per fare una domanda al sistema di Graph RAG con agenti tramite GUI, oppure
+tramite un classico input di python (interfaccia = False). In entrambi i casi, il sistema risponderà alla domanda.
+I log vengono monitorati in tempo reale e visualizzati nella GUI.
+
+Non viene monitorato il log Query per evitare sovraccarichi di informazioni, ma è possibile trovare il log con tutte
+le query effettuate in "Slice et Impera\logs\Query.log"
+
+La GUI è davvero semplice e piena di potenziali migliorie attuabili, ed è solo a scopo dimostrativo.
+Al momento, dopo ogni domanda è meglio chiuderla e riavviarla in modo che vengano resettati i log
+"""
+
 import sys
 import os
 from PyQt6.QtWidgets import QApplication, QWidget, QTextEdit, QVBoxLayout, QGridLayout, QLabel, QLineEdit
 from PyQt6.QtCore import QTimer, Qt
-from PyQt6.QtGui import QPalette, QPixmap, QBrush
 import agents.run_agent_system as ras
 
 # Percorso della cartella dei log relativo alla posizione dello script
@@ -29,18 +40,6 @@ def clear_logs():
             with open(log_file, "w", encoding="utf-8") as f:
                 f.write("")
     print("Log files cleared.")
-
-def set_background(widget, image_path):
-    if os.path.exists(image_path):
-        pixmap = QPixmap(image_path)
-        scaled_pixmap = pixmap.scaled(widget.size(), Qt.AspectRatioMode.KeepAspectRatioByExpanding,
-                                      Qt.TransformationMode.SmoothTransformation)
-        palette = widget.palette()
-        palette.setBrush(QPalette.ColorRole.Window, QBrush(scaled_pixmap))
-        widget.setPalette(palette)
-        widget.setAutoFillBackground(True)
-    else:
-        print(f"Immagine di sfondo non trovata: {image_path}")
 
 class LogViewer(QWidget):
     def __init__(self, title, log_file):
@@ -90,7 +89,7 @@ class LogViewer(QWidget):
             self.text_edit.verticalScrollBar().setValue(scroll_position)
 
 class MainWindow(QWidget):
-    def __init__(self, background_image_path=None):
+    def __init__(self):
         super().__init__()
         self.setObjectName("mainWindow")
         self.setWindowTitle("Log Monitor")
@@ -145,9 +144,6 @@ if __name__ == "__main__":
 
         app = QApplication(sys.argv)
         clear_logs()  # Pulisce i log (inclusi i campi Results e SetEvaluator)
-
-        # Percorso dell'immagine di sfondo (se necessario)
-        background_image_path = os.path.join(BASE_DIR, "Sfondo2.png")
 
         main_window = MainWindow()
         main_window.show()

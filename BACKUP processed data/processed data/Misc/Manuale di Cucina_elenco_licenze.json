@@ -1,0 +1,78 @@
+[
+    {
+        "nome": "Psionica",
+        "sigla": "P",
+        "livelli": [
+            "Livello 0",
+            "Livello I",
+            "Livello II",
+            "Livello III",
+            "Livello IV",
+            "Livello V"
+        ]
+    },
+    {
+        "nome": "Temporale",
+        "sigla": "t",
+        "livelli": [
+            "Livello I",
+            "Livello II",
+            "Livello III"
+        ]
+    },
+    {
+        "nome": "Gravitazionale",
+        "sigla": "G",
+        "livelli": [
+            "Livello 0",
+            "Livello I",
+            "Livello II",
+            "Livello III"
+        ]
+    },
+    {
+        "nome": "Antimateria",
+        "sigla": "e+",
+        "livelli": [
+            "Livello 0",
+            "Livello I"
+        ]
+    },
+    {
+        "nome": "Magnetica",
+        "sigla": "Mx",
+        "livelli": [
+            "Livello 0",
+            "Livello I"
+        ]
+    },
+    {
+        "nome": "Quantistica",
+        "sigla": "Q",
+        "livelli": [
+            "Livello n"
+        ]
+    },
+    {
+        "nome": "Luce",
+        "sigla": "c",
+        "livelli": [
+            "Livello I",
+            "Livello II",
+            "Livello III"
+        ]
+    },
+    {
+        "nome": "Livello di Sviluppo Tecnologico",
+        "sigla": "LTK",
+        "livelli": [
+            "Livello I",
+            "Livello II",
+            "Livello III",
+            "Livello IV",
+            "Livello V",
+            "Livello VI",
+            "Livello VI+"
+        ]
+    }
+]

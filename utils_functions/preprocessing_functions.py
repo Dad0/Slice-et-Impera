@@ -1,17 +1,26 @@
 from openai import OpenAI
 from docx import Document
-import re
-import json
-from pyexpat.errors import messages
-from transformers.utils.chat_template_utils import returns_re
-
-import utils_functions.preprocessing_functions as pf
-import utils_functions.preprocessing_prompts as pp
+import statistics
+import shutil
+import fitz
+import unicodedata
+import jellyfish
 import os
-import fitz  # PyMuPDF
+import json
+import math
+from collections import Counter
 
 def docx_to_markdown(docx_path, md_path):
-    """Converte un file .docx in .md, assegnando i livelli in base alla struttura gerarchica dei capitoli."""
+    """
+    Converte un file .docx in .md, assegnando i livelli in base alla struttura gerarchica dei capitoli.
+
+    Args:
+        docx_path (str): Il percorso del file .docx da convertire.
+        md_path (str): Il percorso del file .md di output.
+
+    Returns:
+        str: Il contenuto del file Markdown generato.
+    """
     doc = Document(docx_path)
     md_text = ""
 
@@ -49,12 +58,452 @@ def docx_to_markdown(docx_path, md_path):
 
     return md_text
 
-import fitz  # PyMuPDF
-import re
+def extract_section(text, start_section, end_section):
+    """
+    Estrae una sezione di testo delimitata da due intestazioni.
 
-import fitz  # PyMuPDF
-import re
+    Args:
+        text (str): Il testo completo da cui estrarre la sezione.
+        start_section (str): L'intestazione di inizio della sezione.
+        end_section (str): L'intestazione di fine della sezione.
 
+    Returns:
+        str: La sezione di testo estratta, senza le intestazioni, oppure una stringa vuota se la sezione non viene trovata.
+    """
+    pattern = rf"#\s*{start_section}(.*?)(?=#\s*{end_section}|\Z)"
+    match = re.search(pattern, text, re.DOTALL)
+    return match.group(1).strip() if match else ""
+
+def transform_path(original_path: str, new_extension: str):
+    """
+    Trasforma un percorso di file sostituendo 'original data' con 'processed data' e cambiando l'estensione del file.
+
+    Args:
+        original_path (str): Il percorso originale del file.
+        new_extension (str): La nuova estensione da assegnare al file.
+
+    Returns:
+        str: Il nuovo percorso del file con 'processed data' e la nuova estensione.
+    """
+
+    # Verifica che la stringa 'original data' sia nel percorso
+    if "original data" not in original_path:
+        raise ValueError("Il percorso non contiene 'original data'.")
+
+    # Crea il nuovo percorso sostituendo 'original data' con 'processed data'
+    new_path = original_path.replace("original data", "processed data")
+
+    # Separa il percorso in nome del file e estensione
+    file_name, file_extension = os.path.splitext(new_path)
+
+    # Cambia l'estensione in base al parametro passato
+    new_path = file_name + "." + new_extension
+
+    # Estrai la cartella del nuovo percorso
+    new_dir = os.path.dirname(new_path)
+
+    # Usa os.path.normpath() per correggere i separatori di percorso
+    new_dir = os.path.normpath(new_dir)  # Normalizza il percorso
+
+    # Crea la cartella se non esiste
+    os.makedirs(new_dir, exist_ok=True)
+
+    return new_path
+
+def transform_path2(original_path: str):
+    """
+    Sostituisce 'original data' con 'processed data' nel path e crea la cartella se non esiste.
+
+    Args:
+        original_path (str): Il percorso originale del file.
+
+    Returns:
+        str: Il nuovo percorso del file con 'processed data'.
+    """
+
+    # Verifica che la stringa 'original data' sia nel percorso
+    if "original data" not in original_path:
+        raise ValueError("Il percorso non contiene 'original data'.")
+
+    # Crea il nuovo percorso sostituendo 'original data' con 'processed data'
+    new_path = original_path.replace("original data", "processed data")
+
+    # Estrai la cartella del nuovo percorso
+    new_dir = os.path.dirname(new_path)
+
+    # Usa os.path.normpath() per correggere i separatori di percorso
+    new_dir = os.path.normpath(new_dir)  # Normalizza il percorso
+
+    # Crea la cartella se non esiste
+    os.makedirs(new_dir, exist_ok=True)
+
+    return new_path
+
+def extract_info(json_path, prompt, suffix, model):
+    """
+    Estrae informazioni chiave da un menù utilizzando l'API di OpenAI e salva il risultato in un file JSON.
+
+    Args:
+        json_path (str): Il percorso del file JSON di input.
+        prompt (str): Il prompt da inviare all'API di OpenAI.
+        suffix (str): Il suffisso da aggiungere al nome del file di output.
+
+    Raises:
+        RuntimeError: Se si verifica un errore durante la chiamata all'API OpenAI.
+    """
+
+    # Inizializza il client OpenAI con la chiave API
+    client = OpenAI(
+        api_key=os.getenv("OPENAI_API_KEY")
+    )
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system",
+                 "content": "Sei un critico culinario esperto. Estrai, senza aggiungere commenti, le informazioni chiave da un menù delimitato da [START_TEXT] e [END_TEXT] e restituisci un JSON con la struttura richiesta."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0
+        )
+
+        cleaned_response = clean_response(response)
+        cleaned_response_dict = convert_to_dict(cleaned_response)
+
+        path_json = add_suffix_to_filename(json_path, suffix)
+
+        save_json_to_file(cleaned_response_dict, path_json)
+
+    except Exception as e:
+        raise RuntimeError(f"Errore durante la chiamata all'API OpenAI: {e}")
+
+    return path_json
+
+def clean_response(response):
+    """
+    Pulisce la risposta dell'API OpenAI rimuovendo i delimitatori di codice JSON.
+
+    Args:
+        response (object): La risposta dell'API OpenAI contenente il contenuto del messaggio.
+
+    Returns:
+        str: La risposta pulita senza i delimitatori di codice JSON.
+    """
+    cleaned_response = response.choices[0].message.content
+    return re.sub(r"^```json\n|\n```$", "", cleaned_response.strip())
+
+def convert_to_dict(json_string: str):
+    """
+    Converte una stringa JSON in un dizionario Python.
+
+    Args:
+        json_string (str): La stringa JSON da convertire.
+
+    Returns:
+        dict: Il dizionario Python risultante dalla conversione, oppure None se si verifica un errore di decodifica JSON.
+    """
+    try:
+        return json.loads(json_string)
+    except json.JSONDecodeError as e:
+        print(e)
+        return None
+
+def add_suffix_to_filename(file_path: str, suffix: str) -> str:
+    """
+    Aggiunge un suffisso al nome di un file prima dell'estensione.
+
+    Args:
+        file_path (str): Il percorso completo del file.
+        suffix (str): Il suffisso da aggiungere al nome del file.
+
+    Returns:
+        str: Il percorso completo del file con il suffisso aggiunto.
+    """
+    dir_name, base_name = os.path.split(file_path)  # Divide il percorso in directory e nome file
+    name, ext = os.path.splitext(base_name)  # Divide il nome del file dall'estensione
+    new_file_name = f"{name}{suffix}{ext}"  # Aggiunge il suffisso prima dell'estensione
+    return os.path.join(dir_name, new_file_name)  # Ricompone il percorso completo
+
+def convert_pdfs_to_html_with_size(input_path: str, output_path: str, threshold: float = 10.0,
+                                   size_threshold: float = 14.0):
+    """
+    Converte tutti i PDF in una directory in file HTML, preservando il testo e applicando
+    una formattazione che ingrandisce le sezioni di testo in base alla dimensione originale.
+
+    Per ogni span di testo nel PDF:
+      - Se la dimensione del font è maggiore o uguale a size_threshold, lo span viene visualizzato
+        con il font-size corrispondente (e in grassetto).
+      - Altrimenti, il testo viene visualizzato con il font-size originale.
+
+    Quando si passa da una pagina all'altra, se la coordinata x0 del primo blocco della nuova pagina
+    è diversa da quella dell'ultimo blocco della pagina precedente, viene inserita una separazione (con <br>).
+
+    Args:
+        input_path (str): La directory contenente i file PDF.
+        output_path (str): La directory dove salvare i file HTML.
+        threshold (float, optional): La soglia (in punti) per il gap verticale tra le linee (default: 10.0).
+        size_threshold (float, optional): La soglia oltre la quale il testo viene considerato "grande" (default: 14.0).
+    """
+    import os, fitz
+
+    if not os.path.exists(input_path):
+        raise FileNotFoundError(f"Input directory '{input_path}' does not exist.")
+
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+    for file_name in os.listdir(input_path):
+        if file_name.lower().endswith(".pdf"):
+            pdf_path = os.path.join(input_path, file_name)
+            # Inizializza il contenuto HTML con il doctype e i tag base
+            html_content = (
+                "<!DOCTYPE html>\n<html>\n<head>\n<meta charset='utf-8'>\n"
+                f"<title>{file_name}</title>\n</head>\n<body>\n"
+            )
+            previous_last_x0 = None  # x0 dell'ultimo blocco della pagina precedente
+            previous_y1 = None  # y1 della linea precedente (per il gap verticale)
+
+            with fitz.open(pdf_path) as pdf_document:
+                for page_num in range(len(pdf_document)):
+                    page = pdf_document[page_num]
+                    page_dict = page.get_text("dict")
+                    blocks = page_dict.get("blocks", [])
+
+                    if not blocks:
+                        print(f"Warning: La pagina {page_num + 1} di '{file_name}' è vuota o non contiene testo.")
+                        continue
+
+                    # Ordina i blocchi in base alla coordinata y (dall'alto verso il basso)
+                    blocks.sort(key=lambda b: b["bbox"][1])
+                    current_first_x0 = blocks[0]["bbox"][0] if blocks else None
+                    current_last_x0 = blocks[-1]["bbox"][0] if blocks else None
+
+                    # Se la nuova pagina inizia con un x0 diverso, inserisce una separazione
+                    if page_num > 0 and previous_last_x0 is not None and current_first_x0 is not None:
+                        if current_first_x0 != previous_last_x0:
+                            html_content += "<br><br>\n"
+
+                    # Processa i blocchi della pagina
+                    for block in blocks:
+                        for line in block.get("lines", []):
+                            line_html = ""
+                            # Inserisce un'interruzione se c'è un gap verticale significativo
+                            if previous_y1 is not None and (line["bbox"][1] - previous_y1) > threshold:
+                                html_content += "<br>\n"
+                            for span in line.get("spans", []):
+                                text = span.get("text", "").strip()
+                                font_size = span.get("size", 12)
+                                if text:
+                                    if font_size >= size_threshold:
+                                        # Per testo "grande": applica lo stile con il font-size e in grassetto
+                                        line_html += (
+                                            f'<span style="font-size:{font_size}px; font-weight:bold;">'
+                                            f'{text}</span> '
+                                        )
+                                    else:
+                                        line_html += f'<span style="font-size:{font_size}px;">{text}</span> '
+                            if line_html.strip():
+                                html_content += line_html.strip() + "<br>\n"
+                                previous_y1 = line["bbox"][3]
+
+                    previous_last_x0 = current_last_x0
+                    print(f"Finished processing page {page_num + 1} of '{file_name}'")
+
+            html_content += "</body>\n</html>"
+            html_file_name = os.path.splitext(file_name)[0] + ".html"
+            html_path = os.path.join(output_path, html_file_name)
+            with open(html_path, "w", encoding="utf-8") as html_file:
+                html_file.write(html_content)
+            print(f"File '{file_name}' converted successfully to '{html_file_name}'.")
+
+    print(f"Conversion completed. HTML files saved in '{output_path}'.")
+
+def process_all_html_files(input_dir: str, output_base_dir: str):
+    """
+    Cerca tutti i file .html in 'input_dir' e, per ciascuno:
+      1) Crea (se non esiste) la cartella "Ristoranti" all'interno di 'output_base_dir'.
+      2) All'interno della cartella "Ristoranti", crea una sottocartella con lo stesso nome del file HTML (senza estensione).
+      3) Richiama la funzione process_html_and_create_dish_files, passando il percorso del file HTML
+         e il percorso della sottocartella appena creata.
+
+    Args:
+        input_dir (str): Directory in cui cercare i file HTML.
+        output_base_dir (str): Directory base in cui verrà creata la cartella "Ristoranti" e le relative sottocartelle.
+    """
+
+    # Crea la cartella "Ristoranti" se non esiste
+    ristoranti_folder = os.path.join(output_base_dir, "Ristoranti")
+    if not os.path.exists(ristoranti_folder):
+        os.makedirs(ristoranti_folder)
+
+    # Itera su tutti i file in input_dir
+    for file_name in os.listdir(input_dir):
+        if file_name.lower().endswith(".html"):
+            html_path = os.path.join(input_dir, file_name)
+            # Rimuove l'estensione per ottenere il nome della sottocartella
+            folder_name, _ = os.path.splitext(file_name)
+            output_folder = os.path.join(ristoranti_folder, folder_name)
+
+            # Crea la sottocartella se non esiste
+            if not os.path.exists(output_folder):
+                os.makedirs(output_folder)
+
+            print(f"Elaborazione del file: {html_path}")
+            print(f"Output: {output_folder}")
+
+            # Richiama la funzione process_html_and_create_dish_files per questo file HTML
+            process_html_and_create_dish_files2(html_path, output_folder)
+
+
+
+
+
+def find_html_files_with_large_ingredient(directory: str) -> list:
+    """
+    Scansiona tutti i file HTML nella cartella 'directory' e, per ciascuno:
+      1) Estrae tutti i tag <span> con uno stile contenente 'font-size'.
+      2) Calcola la mediana dei font-size trovati.
+      3) Cerca la parola "ingredient" (case-insensitive) all'interno dei <span>.
+      4) Se almeno una occorrenza di "ingredient" appare in un <span> il cui font-size
+         è almeno il 20% maggiore della mediana (ossia, >= 1.2 * mediana),
+         il file viene considerato "positivo" e il suo nome viene salvato.
+
+    Ritorna la lista dei nomi dei file HTML che soddisfano il criterio.
+    """
+    matching_files = []
+
+    # Itera su tutti i file della directory
+    for file_name in os.listdir(directory):
+        if file_name.lower().endswith(('.html', '.htm')):
+            file_path = os.path.join(directory, file_name)
+            with open(file_path, "r", encoding="utf-8") as f:
+                html_content = f.read()
+
+            soup = BeautifulSoup(html_content, "html.parser")
+            spans = soup.find_all("span")
+            font_sizes = []
+
+            # Estrae i font-size dai tag <span> (se specificato nello style)
+            for span in spans:
+                style = span.get("style", "")
+                match = re.search(r'font-size:\s*([\d.]+)px', style)
+                if match:
+                    try:
+                        fs = float(match.group(1))
+                        font_sizes.append(fs)
+                    except ValueError:
+                        continue
+
+            # Se non troviamo font-size, passiamo al file successivo
+            if not font_sizes:
+                continue
+
+            # Calcola la mediana dei font-size
+            median_font_size = statistics.median(font_sizes)
+            found_large_ingredient = False
+
+            # Cerca la parola "ingredient" in ogni <span>
+            for span in spans:
+                text = span.get_text()
+                if re.search(r'ingredient', text, flags=re.IGNORECASE):
+                    style = span.get("style", "")
+                    match = re.search(r'font-size:\s*([\d.]+)px', style)
+                    if match:
+                        try:
+                            fs = float(match.group(1))
+                        except ValueError:
+                            continue
+                        # Definiamo "grande" un font-size almeno 20% superiore alla mediana
+                        if fs >= 1.2 * median_font_size:
+                            found_large_ingredient = True
+                            break
+
+            # Se abbiamo trovato "ingredient" con font grande, aggiungiamo il file alla lista
+            if found_large_ingredient:
+                matching_files.append(file_name)
+
+    matching_files = [x.split(".html")[0] for x in matching_files]
+    return matching_files
+
+def organize_folders(source_path: str, target_names: list):
+    """
+    Cerca, nella cartella source_path, le sottocartelle che hanno il nome uguale a un elemento di target_names.
+    Le cartelle il cui nome corrisponde vengono spostate nella cartella "Menu non discorsivi" (che si trova
+    nel path superiore a source_path). Le altre sottocartelle vengono spostate in "Menu discorsivi".
+    Se le cartelle di destinazione non esistono, vengono create.
+
+    Args:
+        source_path (str): il percorso della cartella in cui cercare le sottocartelle.
+        target_names (list): lista di nomi (stringhe) da cercare.
+
+    Returns:
+        None
+    """
+    # Otteniamo il path del livello superiore rispetto a source_path
+    parent_path = os.path.dirname(source_path)
+
+    # Definiamo i path di destinazione
+    non_discorsivi_path = os.path.join(parent_path, "Menu non discorsivi")
+    discorsivi_path = os.path.join(parent_path, "Menu discorsivi")
+
+    # Creiamo le cartelle di destinazione se non esistono
+    os.makedirs(non_discorsivi_path, exist_ok=True)
+    os.makedirs(discorsivi_path, exist_ok=True)
+
+    # Iteriamo su tutti gli elementi presenti in source_path
+    for item in os.listdir(source_path):
+        item_path = os.path.join(source_path, item)
+        # Consideriamo solo le sottocartelle
+        if os.path.isdir(item_path):
+            # Se il nome della cartella è nella lista target_names, la spostiamo in "Menu non discorsivi"
+            if item in target_names:
+                destination = os.path.join(non_discorsivi_path, item)
+            else:
+                destination = os.path.join(discorsivi_path, item)
+            # Spostiamo la cartella
+            shutil.move(item_path, destination)
+            print(f"Spostata '{item}' in '{destination}'.")
+
+    return discorsivi_path, non_discorsivi_path
+
+
+def move_files_by_suffix(source_path: str, destination_path: str, suffix: str):
+    """
+    Cerca i file in source_path (anche nelle sottocartelle) che terminano con la stringa 'suffix' (senza considerare l'estensione).
+    Se il file non è già in destination_path, lo sposta lì.
+
+    Args:
+        source_path (str): Percorso della cartella sorgente.
+        destination_path (str): Percorso della cartella di destinazione.
+        suffix (str): Stringa con cui devono terminare i nomi dei file (esclusa l'estensione).
+
+    Returns:
+        None
+    """
+    # Crea la cartella di destinazione se non esiste
+    os.makedirs(destination_path, exist_ok=True)
+
+    # Scansiona ricorsivamente tutti i file nella cartella sorgente
+    for root, _, files in os.walk(source_path):
+        for file_name in files:
+            file_path = os.path.join(root, file_name)
+
+            # Estrarre nome file senza estensione
+            name, _ = os.path.splitext(file_name)
+
+            # Controlla se il nome termina con il suffisso specificato
+            if name.endswith(suffix):
+                # Percorso di destinazione
+                new_path = os.path.join(destination_path, file_name)
+
+                # Se il file NON è già in destination_path, spostalo
+                if os.path.abspath(root) != os.path.abspath(destination_path):
+                    shutil.move(file_path, new_path)
+                    print(f"Spostato: {file_name} → {destination_path}")
+
+
+
+###
 def pdf_to_markdown(pdf_path, md_path):
     """Converte un file .pdf in .md, assegnando i livelli in base alla struttura gerarchica dei capitoli."""
     doc = fitz.open(pdf_path)
@@ -93,53 +542,9 @@ def pdf_to_markdown(pdf_path, md_path):
 
     return md_text
 
-def transform_path2(original_path: str):
-    """Sostituisce 'original data' con 'processed data' nel path e crea la cartella se non esiste."""
 
-    # Verifica che la stringa 'original data' sia nel percorso
-    if "original data" not in original_path:
-        raise ValueError("Il percorso non contiene 'original data'.")
 
-    # Crea il nuovo percorso sostituendo 'original data' con 'processed data'
-    new_path = original_path.replace("original data", "processed data")
 
-    # Estrai la cartella del nuovo percorso
-    new_dir = os.path.dirname(new_path)
-
-    # Usa os.path.normpath() per correggere i separatori di percorso
-    new_dir = os.path.normpath(new_dir)  # Normalizza il percorso
-
-    # Crea la cartella se non esiste
-    os.makedirs(new_dir, exist_ok=True)
-
-    return new_path
-
-def transform_path(original_path: str, new_extension: str):
-    """Sostituisce 'original data' con 'processed data' nel path e crea la cartella se non esiste."""
-
-    # Verifica che la stringa 'original data' sia nel percorso
-    if "original data" not in original_path:
-        raise ValueError("Il percorso non contiene 'original data'.")
-
-    # Crea il nuovo percorso sostituendo 'original data' con 'processed data'
-    new_path = original_path.replace("original data", "processed data")
-
-    # Separa il percorso in nome del file e estensione
-    file_name, file_extension = os.path.splitext(new_path)
-
-    # Cambia l'estensione in base al parametro passato
-    new_path = file_name + "." + new_extension
-
-    # Estrai la cartella del nuovo percorso
-    new_dir = os.path.dirname(new_path)
-
-    # Usa os.path.normpath() per correggere i separatori di percorso
-    new_dir = os.path.normpath(new_dir)  # Normalizza il percorso
-
-    # Crea la cartella se non esiste
-    os.makedirs(new_dir, exist_ok=True)
-
-    return new_path
 
 def transform_path3(original_path: str, new_extension: str):
     """Sostituisce 'original data' con 'processed data' nel path e crea la cartella se non esiste."""
@@ -155,9 +560,7 @@ def transform_path3(original_path: str, new_extension: str):
 
     return new_path
 
-def clean_response(response):
-    cleaned_response = response.choices[0].message.content
-    return re.sub(r"^```json\n|\n```$", "", cleaned_response.strip())
+
 
 
 def clean_text(text):
@@ -173,17 +576,7 @@ def clean_text(text):
     return cleaned_text
 
 
-def convert_to_dict(json_string: str):
-    """
-    Converte una stringa JSON in un dizionario. Logga un errore in caso di fallimento.
-    :param json_string: La stringa JSON da convertire
-    :return: Il dizionario convertito, o None in caso di errore
-    """
-    try:
-        return json.loads(json_string)
-    except json.JSONDecodeError as e:
-        print(e)
-        return None
+
 
 def save_json_to_file(data, file_path: str):
     """
@@ -198,18 +591,6 @@ def save_json_to_file(data, file_path: str):
         raise RuntimeError(f"Errore durante il salvataggio del file JSON: {e}")
 
 
-def add_suffix_to_filename(file_path: str, suffix: str) -> str:
-    """
-    Aggiunge un suffisso al nome del file (prima dell'estensione) e restituisce il percorso completo aggiornato.
-
-    :param file_path: Percorso completo del file.
-    :param suffix: Suffisso da aggiungere al nome del file.
-    :return: Percorso completo del file con il nome modificato.
-    """
-    dir_name, base_name = os.path.split(file_path)  # Divide il percorso in directory e nome file
-    name, ext = os.path.splitext(base_name)  # Divide il nome del file dall'estensione
-    new_file_name = f"{name}{suffix}{ext}"  # Aggiunge il suffisso prima dell'estensione
-    return os.path.join(dir_name, new_file_name)  # Ricompone il percorso completo
 
 
 
@@ -237,45 +618,7 @@ def parse_menu_text_to_json(text: str) -> list:
 
     return dishes
 
-def extract_info(json_path, prompt, suffix):
 
-
-    client = OpenAI(
-        api_key=os.getenv("OPENAI_API_KEY")
-    )
-    # Chiamata al modello GPT
-    print("Sto usando 4o mini2")
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini-2024-07-18",  # Specifica il modello GPT-4o mini
-            # model="gpt-4o",  # Specifica il modello GPT-4o mini
-            messages=[
-                {"role": "system", "content": "Sei un critico culinario esperto. Estrai, senza aggiungere commenti, le informazioni chiave da un menù delimitato da [START_TEXT] e [END_TEXT] e restituisci un JSON con la struttura richiesta."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0
-        )
-
-        #print(prompt)
-
-        cleaned_response = clean_response(response)
-        #print(cleaned_response)
-
-        #parsed_text = parse_menu_text_to_json(cleaned_response)
-        # Salva il JSON nel file specificato
-        #with open(json_path, "w", encoding="utf-8") as json_file:
-         #   json.dump(parsed_text, json_file, indent=4, ensure_ascii=False)
-
-        #with open(json_path, "w", encoding="utf-8") as file:
-        #    file.write(cleaned_response)
-        #save_json_to_file(parsed_text, add_suffix_to_filename(json_path, suffix))
-
-        cleaned_response_dict = convert_to_dict(cleaned_response)
-
-        save_json_to_file(cleaned_response_dict, add_suffix_to_filename(json_path, suffix))
-
-    except Exception as e:
-        raise RuntimeError(f"Errore durante la chiamata all'API OpenAI: {e}")
 
 
 def format_menu_text(text: str) -> str:
@@ -343,16 +686,6 @@ def convert_pdfs_to_markdown(input_path: str, output_path: str):
                 markdown_file.write(markdown_content)
 
     print(f"Conversione completata. File markdown salvati in '{output_path}'.")
-
-
-import os
-import fitz  # PyMuPDF
-
-import os
-import fitz  # PyMuPDF
-
-import os
-import fitz  # PyMuPDF
 
 
 def convert_pdfs_to_markdown2(input_path: str, output_path: str, threshold: float = 10.0):
@@ -424,22 +757,6 @@ def convert_pdfs_to_markdown2(input_path: str, output_path: str, threshold: floa
                 markdown_file.write(markdown_content)
 
     print(f"Conversione completata. File markdown salvati in '{output_path}'.")
-
-
-import os
-import fitz  # PyMuPDF
-
-import os
-import fitz  # PyMuPDF
-
-import os
-import fitz  # PyMuPDF
-
-import os
-import fitz  # PyMuPDF
-
-import os
-import fitz  # PyMuPDF
 
 
 def convert_pdfs_to_markdown3(input_path: str, output_path: str, threshold: float = 10.0):
@@ -522,8 +839,6 @@ def convert_pdfs_to_markdown3(input_path: str, output_path: str, threshold: floa
 
     print(f"Conversione completata. File markdown salvati in '{output_path}'.")
 
-import os
-import fitz  # PyMuPDF
 
 def convert_pdfs_to_markdown4(input_path: str, output_path: str, threshold: float = 10.0):
     """
@@ -606,14 +921,9 @@ def convert_pdfs_to_markdown4(input_path: str, output_path: str, threshold: floa
     print(f"Conversione completata. File markdown salvati in '{output_path}'.")
 
 
-import os
-import fitz  # PyMuPDF
-
-import os
-import fitz  # PyMuPDF
 
 
-def convert_pdfs_to_markdown5(input_path: str, output_path: str, threshold: float = 10.0):
+def convert_pdfs_to_md(input_path: str, output_path: str, threshold: float = 10.0):
     """
     Converte tutti i PDF in una directory in file Markdown, preservando il testo originale
     e ricostruendo la formattazione visiva (interlinee e separazione di sezioni) sfruttando
@@ -797,267 +1107,6 @@ def convert_pdfs_to_txt_with_size(input_path: str, output_path: str, threshold: 
     print(f"Conversion completed. txt files saved in '{output_path}'.")
 
 
-def convert_pdfs_to_html_with_size(input_path: str, output_path: str, threshold: float = 10.0,
-                                   size_threshold: float = 14.0):
-    """
-    Converte tutti i PDF in una directory in file HTML, preservando il testo e applicando
-    una formattazione che ingrandisce le sezioni di testo in base alla dimensione originale.
-
-    Per ogni span di testo nel PDF:
-      - Se la dimensione del font è maggiore o uguale a size_threshold, lo span viene visualizzato
-        con il font-size corrispondente (e in grassetto).
-      - Altrimenti, il testo viene visualizzato con il font-size originale.
-
-    Quando si passa da una pagina all'altra, se la coordinata x0 del primo blocco della nuova pagina
-    è diversa da quella dell'ultimo blocco della pagina precedente, viene inserita una separazione (con <br>).
-
-    :param input_path: La directory contenente i file PDF.
-    :param output_path: La directory dove salvare i file HTML.
-    :param threshold: La soglia (in punti) per il gap verticale tra le linee (default: 10.0).
-    :param size_threshold: La soglia oltre la quale il testo viene considerato "grande" (default: 14.0).
-    """
-    import os, fitz
-
-    if not os.path.exists(input_path):
-        raise FileNotFoundError(f"Input directory '{input_path}' does not exist.")
-
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-
-    for file_name in os.listdir(input_path):
-        if file_name.lower().endswith(".pdf"):
-            pdf_path = os.path.join(input_path, file_name)
-            # Inizializza il contenuto HTML con il doctype e i tag base
-            html_content = (
-                "<!DOCTYPE html>\n<html>\n<head>\n<meta charset='utf-8'>\n"
-                f"<title>{file_name}</title>\n</head>\n<body>\n"
-            )
-            previous_last_x0 = None  # x0 dell'ultimo blocco della pagina precedente
-            previous_y1 = None  # y1 della linea precedente (per il gap verticale)
-
-            with fitz.open(pdf_path) as pdf_document:
-                for page_num in range(len(pdf_document)):
-                    page = pdf_document[page_num]
-                    page_dict = page.get_text("dict")
-                    blocks = page_dict.get("blocks", [])
-
-                    if not blocks:
-                        print(f"Warning: La pagina {page_num + 1} di '{file_name}' è vuota o non contiene testo.")
-                        continue
-
-                    # Ordina i blocchi in base alla coordinata y (dall'alto verso il basso)
-                    blocks.sort(key=lambda b: b["bbox"][1])
-                    current_first_x0 = blocks[0]["bbox"][0] if blocks else None
-                    current_last_x0 = blocks[-1]["bbox"][0] if blocks else None
-
-                    # Se la nuova pagina inizia con un x0 diverso, inserisce una separazione
-                    if page_num > 0 and previous_last_x0 is not None and current_first_x0 is not None:
-                        if current_first_x0 != previous_last_x0:
-                            html_content += "<br><br>\n"
-
-                    # Processa i blocchi della pagina
-                    for block in blocks:
-                        for line in block.get("lines", []):
-                            line_html = ""
-                            # Inserisce un'interruzione se c'è un gap verticale significativo
-                            if previous_y1 is not None and (line["bbox"][1] - previous_y1) > threshold:
-                                html_content += "<br>\n"
-                            for span in line.get("spans", []):
-                                text = span.get("text", "").strip()
-                                font_size = span.get("size", 12)
-                                if text:
-                                    if font_size >= size_threshold:
-                                        # Per testo "grande": applica lo stile con il font-size e in grassetto
-                                        line_html += (
-                                            f'<span style="font-size:{font_size}px; font-weight:bold;">'
-                                            f'{text}</span> '
-                                        )
-                                    else:
-                                        line_html += f'<span style="font-size:{font_size}px;">{text}</span> '
-                            if line_html.strip():
-                                html_content += line_html.strip() + "<br>\n"
-                                previous_y1 = line["bbox"][3]
-
-                    previous_last_x0 = current_last_x0
-                    print(f"Finished processing page {page_num + 1} of '{file_name}'")
-
-            html_content += "</body>\n</html>"
-            html_file_name = os.path.splitext(file_name)[0] + ".html"
-            html_path = os.path.join(output_path, html_file_name)
-            with open(html_path, "w", encoding="utf-8") as html_file:
-                html_file.write(html_content)
-            print(f"File '{file_name}' converted successfully to '{html_file_name}'.")
-
-    print(f"Conversion completed. HTML files saved in '{output_path}'.")
-
-
-import os
-import re
-from bs4 import BeautifulSoup
-
-
-def process_html_and_create_dish_files2(html_path: str, output_dir: str):
-    """
-    Legge un file HTML e:
-      1) Estrae il titolo (dal tag <title>) e ne rimuove l'estensione,
-      2) Crea un dizionario in cui:
-             - la chiave è la dimensione in pixel (es. 12.0, 15.0, 20.0, …)
-             - il valore è la lista dei testi (presi dai tag <span>) con quella dimensione.
-      3) Tra le chiavi, il font-size che ha un numero di valori compreso tra 7 e 15
-         viene considerato quello dei "piatti".
-      4) Utilizzando la “timeline” degli elementi (tag <span> e <br> in ordine),
-         per ogni occorrenza (di un <span> con quel font-size) viene creato un file txt.
-         In ogni file verrà scritto il testo, rispettando spazi e newline, partendo dal
-         titolo del piatto (incluso) fino al titolo del piatto successivo (escluso) o fino
-         alla fine del documento.
-
-      Il nome di ciascun file sarà: nome_del_ristorante_nome_del_piatto.txt
-      (il nome del ristorante è ricavato dal tag <title> rimuovendo l'estensione).
-    """
-    # Legge il contenuto dell'HTML
-    with open(html_path, "r", encoding="utf-8") as f:
-        html_content = f.read()
-
-    soup = BeautifulSoup(html_content, "html.parser")
-
-    # 1) Estrae il titolo e rimuove l'estensione (ad es. ".pdf")
-    raw_title = soup.title.text.strip() if soup.title else "Unknown"
-    restaurant_name, _ = os.path.splitext(raw_title)
-
-    # 2) Estrae gli elementi dal body mantenendo l'ordine.
-    # Cerchiamo sia tag <span> che <br>.
-    # Ogni elemento verrà rappresentato come un dizionario:
-    #   {"type": "span", "font_size": valore (float), "text": testo} oppure
-    #   {"type": "br", "text": "\n"}
-    elements = []
-    # Usiamo .find_all con recursive=True per ottenere gli elementi in ordine di apparizione
-    for elem in soup.body.find_all(["span", "br"], recursive=True):
-        if elem.name == "span":
-            style = elem.get("style", "")
-            # Usa una regex per estrarre il font-size
-            match = re.search(r'font-size:\s*([\d.]+)px', style)
-            if match:
-                try:
-                    font_size = float(match.group(1))
-                except ValueError:
-                    font_size = None
-            else:
-                font_size = None
-            text = elem.get_text(strip=True)
-            elements.append({"type": "span", "font_size": font_size, "text": text})
-        elif elem.name == "br":
-            # Per ogni <br> aggiungiamo un newline
-            elements.append({"type": "br", "text": "\n"})
-
-    # 2bis) Costruisce il dizionario: chiave = font_size, valore = lista di testi (da <span>)
-    font_dict = {}
-    for item in elements:
-        if item["type"] == "span" and item["font_size"] is not None:
-            fs = item["font_size"]
-            font_dict.setdefault(fs, []).append(item["text"])
-
-    # 3) Individua quale chiave (font_size) ha tra 7 e 15 occorrenze (si assume sia quella dei piatti)
-    dish_font_sizes = [fs for fs, texts in font_dict.items() if 7 <= len(texts) <= 15]
-    if not dish_font_sizes:
-        print("Nessun font_size con numero di occorrenze compreso tra 7 e 15 è stato trovato.")
-        return
-    elif len(dish_font_sizes) > 1:
-        # Se ce ne sono più di uno, scegliamo quello con il maggior numero di occorrenze
-        dish_font_size = max(dish_font_sizes, key=lambda fs: len(font_dict[fs]))
-    else:
-        dish_font_size = dish_font_sizes[0]
-
-    print(f"Font size individuato per i piatti: {dish_font_size}px (con {len(font_dict[dish_font_size])} occorrenze)")
-
-    # 4) Individua gli indici in cui compaiono le etichette dei piatti (ossia <span> con font_size == dish_font_size)
-    dish_indices = []
-    for i, item in enumerate(elements):
-        if item["type"] == "span" and item["font_size"] == dish_font_size:
-            dish_indices.append(i)
-
-    if not dish_indices:
-        print("Nessun piatto individuato nella struttura degli elementi.")
-        return
-
-    # Prepara la directory di output, se non esiste
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    # 5) Per ogni piatto, crea un file txt con il testo che va dal titolo del piatto
-    #    fino al titolo del piatto successivo (escluso) oppure fino alla fine del documento.
-    for idx, start_index in enumerate(dish_indices):
-        # L'indice finale è il prossimo dish oppure la fine della lista
-        end_index = dish_indices[idx + 1] if idx + 1 < len(dish_indices) else len(elements)
-        # Il titolo del piatto è il testo del <span> all'indice start_index
-        dish_title = elements[start_index]["text"].strip()
-
-        # Costruisce il contenuto del file unendo gli elementi dall'indice start_index a end_index
-        segment_parts = []
-        for item in elements[start_index:end_index]:
-            # Se l'elemento è un <span>, aggiungiamo il suo testo; se è un <br> aggiungiamo "\n"
-            segment_parts.append(item["text"])
-        dish_content = "".join(segment_parts)
-
-        # Costruiamo il nome del file: "nome_del_ristorante_nome_del_piatto.txt"
-        # Si consiglia di pulire eventuali caratteri non ammessi nei nomi file
-        safe_restaurant = re.sub(r'[\\/*?:"<>|]', "", restaurant_name).strip()
-        safe_dish = re.sub(r'[\\/*?:"<>|]', "", dish_title).strip()
-        file_name = f"{safe_restaurant}_{safe_dish}.txt"
-        file_path = os.path.join(output_dir, file_name)
-
-        with open(file_path, "w", encoding="utf-8") as outf:
-            print(file_path)
-            outf.write(dish_content)
-
-        print(f"Creato file: {file_name}")
-
-    print("Elaborazione completata.")
-
-
-def process_all_html_files(input_dir: str, output_base_dir: str):
-    """
-    Cerca tutti i file .html in 'input_dir' e, per ciascuno:
-      1) Crea (se non esiste) la cartella "Ristoranti" all'interno di 'output_base_dir'.
-      2) All'interno della cartella "Ristoranti", crea una sottocartella con lo stesso nome del file HTML (senza estensione).
-      3) Richiama la funzione process_html_and_create_dish_files, passando il percorso del file HTML
-         e il percorso della sottocartella appena creata.
-
-    :param input_dir: Directory in cui cercare i file HTML.
-    :param output_base_dir: Directory base in cui verrà creata la cartella "Ristoranti" e le relative sottocartelle.
-    """
-    # Crea la cartella "Ristoranti" se non esiste
-    ristoranti_folder = os.path.join(output_base_dir, "Ristoranti")
-    if not os.path.exists(ristoranti_folder):
-        os.makedirs(ristoranti_folder)
-
-    # Itera su tutti i file in input_dir
-    for file_name in os.listdir(input_dir):
-        if file_name.lower().endswith(".html"):
-            html_path = os.path.join(input_dir, file_name)
-            # Rimuove l'estensione per ottenere il nome della sottocartella
-            folder_name, _ = os.path.splitext(file_name)
-            output_folder = os.path.join(ristoranti_folder, folder_name)
-
-            # Crea la sottocartella se non esiste
-            if not os.path.exists(output_folder):
-                os.makedirs(output_folder)
-
-            print(f"Elaborazione del file: {html_path}")
-            print(f"Output: {output_folder}")
-
-            # Richiama la funzione process_html_and_create_dish_files per questo file HTML
-            process_html_and_create_dish_files2(html_path, output_folder)
-
-
-import os
-import re
-from bs4 import BeautifulSoup
-
-import os
-import re
-from bs4 import BeautifulSoup
-
-
 def process_html_and_create_dish_files(html_path: str, output_dir: str):
     """
     Legge un file HTML e:
@@ -1230,6 +1279,7 @@ def process_html_and_create_dish_files2(html_path: str, output_dir: str):
       5) Il nome di ciascun file sarà: nome_del_ristorante_nome_del_piatto.txt
          (il nome del ristorante è ricavato dal tag <title> rimuovendo l'estensione).
     """
+
     # Legge il contenuto dell'HTML
     with open(html_path, "r", encoding="utf-8") as f:
         html_content = f.read()
@@ -1367,19 +1417,18 @@ def find_txt_files(path: str):
 
     return txt_files
 
-import re
 def get_text_after_menu(text):
     match = re.search(r'(?i)menu\s*\n', text)
     return text[match.end():] if match else ""
 
 def extract_menu(menu_path, prompt_func, suffix):
-    menu_paths = find_txt_files(menu_path)
+    # Ottieni solo i file .txt nella cartella specificata (senza esplorare sottocartelle)
+    menu_paths = [os.path.join(menu_path, file) for file in os.listdir(menu_path) if file.endswith('.txt')]
+
     for i, menu in enumerate(menu_paths):
         with open(menu, "r", encoding="utf-8") as file:
             text = file.read()  # Legge tutto il contenuto in una variabile
-            # Cerca la parola menu per evitare la descrizione del ristorante
-            #text = get_text_after_menu(text)
-            print(f"Sto processando il menu {i}/{len(menu_paths)}")
+            print(f"Sto processando il menu {i + 1}/{len(menu_paths)}")
             extract_info(transform_path3(menu, "json"), prompt_func(text), suffix)
             #extract_info(transform_path3(menu, "json"), prompt_func(pf.clean_text(text)), suffix)
 
@@ -1413,16 +1462,10 @@ def merge_json_files(input_dir: str, outputname: str):
 
     print(f"Unione completata. I dati sono stati salvati in {output_path}")
 
-def extract_section(text, start_section, end_section):
-    pattern = rf"#\s*{start_section}(.*?)(?=#\s*{end_section}|\Z)"
-    match = re.search(pattern, text, re.DOTALL)
-    return match.group(1).strip() if match else ""
 
 
-import os
-import json
-import re
-import unicodedata
+
+
 
 
 def remove_emoji(text):
@@ -1508,7 +1551,7 @@ def merge_all_restaurants(path):
     gruppi = {}
 
     # Filtri per i tipi di file che ci interessano
-    tipi_file = ["pianeti_chef_e_licenze", "piatti_e_ingredienti_updated", "piatti_e_tecniche_updated"]
+    tipi_file = ["pianeti_chef_e_licenze", "piatti_e_ingredienti_totali_per_ristorante_updated", "piatti_e_tecniche_totali_per_ristorante_updated"]
 
     # Scansiona tutti i file nella directory
     for file in os.listdir(path):
@@ -1532,22 +1575,14 @@ def merge_all_restaurants(path):
         if all(tipo in files for tipo in tipi_file):
             merged = merge_restaurant_files(
                 info_file=files["pianeti_chef_e_licenze"],
-                ingredienti_file=files["piatti_e_ingredienti_updated"],
-                tecniche_file=files["piatti_e_tecniche_updated"]
+                ingredienti_file=files["piatti_e_ingredienti_totali_per_ristorante_updated"],
+                tecniche_file=files["piatti_e_tecniche_totali_per_ristorante_updated"]
             )
             merged_list.append(merged)
         else:
             print(f"Attenzione: file mancanti per il ristorante {ristorante}.")
 
     return merged_list
-
-
-import json
-import unicodedata
-
-import json
-import unicodedata
-
 
 def extract_emojis(text):
     """
@@ -1597,14 +1632,6 @@ def process_emoji_in_menu(merged_results_file):
     with open(merged_results_file, 'w', encoding='utf-8') as f:
         json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
-
-import json
-
-import json
-
-import json
-
-
 def extract_techniques_recursively(d):
     """
     Naviga ricorsivamente nel JSON delle tecniche e restituisce un set con i nomi delle tecniche (in UPPER CASE).
@@ -1622,21 +1649,19 @@ def extract_techniques_recursively(d):
     return techniques
 
 
-import json
-import json
+def correct_techniques_in_merged(merged_results_file, techniques_def_file):
 
-import json
-
-def correct_techniques_in_merged(merged_results_file, merged_results_file2, techniques_def_file):
-
-    print("PORC")
     # Carica il JSON delle tecniche
     with open(techniques_def_file, 'r', encoding='utf-8') as f:
         techniques_def = json.load(f)
 
     # Estrai il set di tecniche valide in UPPER CASE
-    valid_techniques = extract_techniques_recursively(techniques_def["tecniche"])
+    try:
+        valid_techniques = extract_techniques_recursively(techniques_def["tecniche"])
+    except:
+        valid_techniques = extract_techniques_recursively(techniques_def)
 
+    print(valid_techniques)
     # Carica il JSON merged (che contiene una lista di ristoranti)
     with open(merged_results_file, 'r', encoding='utf-8') as f:
         merged_data = json.load(f)
@@ -1674,16 +1699,26 @@ def correct_techniques_in_merged(merged_results_file, merged_results_file2, tech
             dish["ingredienti"] = ingredients
             dish["tecniche"] = techniques
 
+    merged_results_file2 = increment_version(merged_results_file)
+
     # Salva il JSON merged aggiornato
     with open(merged_results_file2, 'w', encoding='utf-8') as f:
         json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
+    return merged_results_file2
 
-import json
+# Trova l'ultima versione e incrementa il numero
+def increment_version(file_path):
+    match = re.search(r"(v\d+)", file_path, re.IGNORECASE)
+    if match:
+        current_version = int(match.group(1)[1:])  # Estrae il numero dopo la "v"
+        new_version = f"v{current_version + 1}"  # Incrementa la versione
+        return re.sub(r"v\d+", new_version, file_path)  # Sostituisce la vecchia versione con quella nuova
+    else:
+        return file_path.replace(".json", "_v2.json")  # Se non trova una versione, aggiunge "_v2"
 
-import json
 
-def extract_and_save_ingredients_techniques_and_dishes(merged_results_file, ingredients_file, techniques_file, dishes_file):
+def extract_and_save_ingredients_techniques_and_dishes(merged_results_file):
     # Carica il JSON merged (che contiene una lista di ristoranti)
     with open(merged_results_file, 'r', encoding='utf-8') as f:
         merged_data = json.load(f)
@@ -1716,6 +1751,14 @@ def extract_and_save_ingredients_techniques_and_dishes(merged_results_file, ingr
     sorted_techniques = sorted(all_techniques)
     sorted_dishes = sorted(all_dishes)
 
+    # Estrai la directory dal path di merged_results_file
+    output_dir = os.path.dirname(merged_results_file)
+
+    # Definisci i nuovi path per i file JSON
+    dishes_file = os.path.join(output_dir, "elenco_piatti.json")
+    techniques_file = os.path.join(output_dir, "elenco_tecniche.json")
+    ingredients_file = os.path.join(output_dir, "elenco_ingredienti.json")
+
     # Salva gli ingredienti in un file JSON
     with open(ingredients_file, 'w', encoding='utf-8') as f:
         json.dump(sorted_ingredients, f, indent=4, ensure_ascii=False)
@@ -1730,7 +1773,23 @@ def extract_and_save_ingredients_techniques_and_dishes(merged_results_file, ingr
 
     print(f"Ingredients, techniques, and dishes have been saved to {ingredients_file}, {techniques_file}, and {dishes_file}.")
 
+    return ingredients_file, techniques_file, dishes_file
+
 def extract_and_save_ingredients_techniques_and_dishes_only_selected_restaurants(merged_results_file, ingredients_file, techniques_file, dishes_file, rest_list):
+    """
+    Estrae e salva gli ingredienti, le tecniche e i piatti solo per i ristoranti selezionati.
+
+    Args:
+        merged_results_file (str): Il percorso del file JSON contenente i dati uniti dei ristoranti.
+        ingredients_file (str): Il percorso del file JSON dove salvare gli ingredienti estratti.
+        techniques_file (str): Il percorso del file JSON dove salvare le tecniche estratte.
+        dishes_file (str): Il percorso del file JSON dove salvare i piatti estratti.
+        rest_list (list): La lista dei nomi dei ristoranti da includere nell'estrazione.
+
+    Raises:
+        ValueError: Se il file JSON unito non contiene una lista di ristoranti.
+    """
+
     # Carica il JSON merged (che contiene una lista di ristoranti)
     with open(merged_results_file, 'r', encoding='utf-8') as f:
         merged_data = json.load(f)
@@ -1781,22 +1840,7 @@ def extract_and_save_ingredients_techniques_and_dishes_only_selected_restaurants
     print(f"Ingredients, techniques, and dishes have been saved to {ingredients_file}, {techniques_file}, and {dishes_file}.")
 
 
-
-import json
-import jellyfish
-
-
-import json
-import jellyfish
-
-import json
-import jellyfish
-import json
-import jellyfish
-import json
-import jellyfish
-
-def correct_licenses_in_merged(merged_results_file, merged_results_file2, licenses_file):
+def correct_licenses_in_merged(merged_results_file, licenses_file):
     # Carica il file delle licenze
     with open(licenses_file, 'r', encoding='utf-8') as f:
         licenses_data = json.load(f)
@@ -1844,21 +1888,19 @@ def correct_licenses_in_merged(merged_results_file, merged_results_file2, licens
                 else:
                     print(f"[{restaurant_name}] WARNING: License '{original_license_name}' has no valid match (similarity: {best_score}).")
 
+    merged_results_file2 = increment_version(merged_results_file)
+
     # Salva il file merged aggiornato
     with open(merged_results_file2, 'w', encoding='utf-8') as f:
         json.dump(merged_data, f, indent=4, ensure_ascii=False)
 
     print(f"Licenses have been corrected and saved to {merged_results_file2}.")
 
+    return merged_results_file2
 
-import json
-
-import json
-import os
-
-
-def sostituisci_ordine_con_nome(json_ordine_path, json_ristorante_path, nuovo_nome_json):
+def sostituisci_ordine_con_nome(json_ordine_path, json_ristorante_path):
     # Carica il primo JSON (ordine) dal percorso specificato
+
     with open(json_ordine_path, 'r', encoding='utf-8') as f:
         json_ordine = json.load(f)
 
@@ -1887,7 +1929,7 @@ def sostituisci_ordine_con_nome(json_ordine_path, json_ristorante_path, nuovo_no
     directory_ristorante = os.path.dirname(json_ristorante_path)
 
     # Crea il nuovo percorso per il file JSON modificato
-    nuovo_json_path = os.path.join(directory_ristorante, nuovo_nome_json)
+    nuovo_json_path = increment_version(json_ristorante_path)
 
     # Salva il JSON modificato con il nuovo nome
     with open(nuovo_json_path, 'w', encoding='utf-8') as f:
@@ -1895,13 +1937,7 @@ def sostituisci_ordine_con_nome(json_ordine_path, json_ristorante_path, nuovo_no
 
     print(f"File JSON modificato salvato come '{nuovo_json_path}'")
 
-import json
-import jellyfish
-
-def jaro_winkler_similarity(str1, str2):
-    return jellyfish.jaro_winkler_similarity(str1, str2)
-import json
-import jellyfish
+    return nuovo_json_path
 
 def find_most_similar(json1_path, json2_path, output_path):
     # Carica i due JSON
@@ -1954,35 +1990,6 @@ def get_ngrams(text, n):
     """Restituisce una lista di n-grammi di lunghezza 'n' da un testo"""
     ngrams = [text[i:i + n] for i in range(len(text) - n + 1)]
     return ngrams
-def cosine_similarity(query, word, n=3):
-    """Calcola la Cosine Similarity tra due stringhe usando n-grammi"""
-    # Ottieni gli n-grammi per entrambe le parole
-    query_ngrams = get_ngrams(query, n)
-    word_ngrams = get_ngrams(word, n)
-
-    # Conta la frequenza di ogni n-gramma
-    query_counter = Counter(query_ngrams)
-    word_counter = Counter(word_ngrams)
-
-    # Ottieni gli n-grammi comuni tra le due parole
-    common_ngrams = set(query_counter.keys()).intersection(set(word_counter.keys()))
-
-    # Calcola il numeratore del Cosine Similarity (somma dei prodotti delle frequenze degli n-grammi comuni)
-    dot_product = sum(query_counter[ngram] * word_counter[ngram] for ngram in common_ngrams)
-
-    # Calcola i denominatori per le parole (somma dei quadrati delle frequenze degli n-grammi)
-    query_magnitude = math.sqrt(sum(query_counter[ngram] ** 2 for ngram in query_counter))
-    word_magnitude = math.sqrt(sum(word_counter[ngram] ** 2 for ngram in word_counter))
-
-    # Evita divisione per zero
-    if query_magnitude == 0 or word_magnitude == 0:
-        return 0.0
-
-    # Calcola la similarità
-    cosine_sim = dot_product / (query_magnitude * word_magnitude)
-    return cosine_sim
-import math
-from collections import Counter
 
 
 def find_most_similar2(json1_path, json2_path, output_path):
@@ -2038,12 +2045,6 @@ def find_most_similar2(json1_path, json2_path, output_path):
     print(f"Similar dishes have been saved to {output_path}")
 
 
-import json
-import jellyfish
-
-import os
-import json
-
 def merge_json_ingredients(directory, output_path):
     merged_data = []
 
@@ -2068,17 +2069,16 @@ def merge_json_ingredients(directory, output_path):
     print(f"Unione completata! File salvato in {output_path}")
 
 
-import json
-import os
-import jellyfish
-
-
 def find_most_similar_and_replace(json1_path, json2_path):
     # Carica i due JSON
     with open(json1_path, 'r', encoding='utf-8') as f:
         json1 = json.load(f)
     with open(json2_path, 'r', encoding='utf-8') as f:
         json2 = json.load(f)
+
+    # Se json1 è una lista e contiene elementi nidificati, appiattiscila.
+    if isinstance(json1, list):
+        json1 = flatten_list(json1)
 
     # Dizionario per il mapping dei nomi dei piatti più simili
     name_mapping = {}
@@ -2209,17 +2209,25 @@ def find_most_similar_and_replace2(json1_path, json2_path):
 
     print(f"Updated JSON saved to {updated_path}")
 
+def flatten_list(nested_list):
+    """
+    Appiattisce una lista di elementi. Se un elemento è una lista, ne estende il contenuto,
+    altrimenti lo aggiunge direttamente.
+    """
+    flattened = []
+    for item in nested_list:
+        if isinstance(item, list):
+            flattened.extend(item)
+        else:
+            flattened.append(item)
+    return flattened
+
 def find_most_similar_and_replace_wrapper(menu_path, json2_path, suffix):
     json_files = [f for f in os.listdir(menu_path) if f.endswith(suffix + ".json")]
     print(json_files)
     for json_file in json_files:
         print(json_file)
         find_most_similar_and_replace(menu_path + '\\\\' + json_file, json2_path)
-
-
-# Funzione di similarità basata su Jaro-Winkler
-def jaro_winkler_similarity(str1, str2):
-    return jellyfish.jaro_winkler_similarity(str1, str2)
 
 # Funzione per raggruppare ingredienti simili e salvare su file
 def group_list(json_path, threshold, simil_func, filename):
@@ -2303,8 +2311,6 @@ def group_list_dict(json_path, threshold, simil_func, filename):
     return new_json_path
 
 
-from rapidfuzz import fuzz
-
 def group_list2(json_path, threshold, simil_func, filename):
     with open(json_path, "r", encoding="utf-8") as file:
         lista = json.load(file)
@@ -2353,11 +2359,7 @@ def group_list_dict2(json_path, threshold, simil_func, filename):
         json.dump(mappatura, f, indent=2, ensure_ascii=False)
     print(f"File salvato come: {new_json_path}")
     return new_json_path
-import json
-import os
 
-import json
-import os
 import re
 
 
@@ -2438,25 +2440,16 @@ def unifica_valori_longest(dizionario):
 
 def processa_json(path, filename_dict, filename_list):
     """
-    Processes a JSON file, corrects the dictionary by unifying its values, and saves both a corrected
-    dictionary and a list of unique values into separate JSON files.
+      Processa un file JSON, unificando i valori di un dizionario e creando una lista di valori distinti.
 
-    This function reads the content of a JSON file specified by `path`. If the content is a dictionary,
-    it unifies the values using an auxiliary `unifica_valori` function. The corrected dictionary is then
-    saved as a new JSON file prefixed with `filename_dict`. Additionally, it generates a list of unique
-    values extracted from the corrected dictionary, saving them in a separate JSON file prefixed with
-    `filename_list`.
+      Args:
+          path (str): Il percorso del file JSON da processare.
+          filename_dict (str): Il nome del file per salvare il dizionario corretto (senza estensione).
+          filename_list (str): Il nome del file per salvare la lista dei valori distinti (senza estensione).
 
-    :param path: The file path of the JSON file to process.
-    :type path: str
-    :param filename_dict: The prefix for the output corrected dictionary file.
-    :type filename_dict: str
-    :param filename_list: The prefix for the output list of unique dictionary values.
-    :type filename_list: str
-    :return: A tuple containing the path to the corrected dictionary JSON file and the path to the
-             JSON file of unique dictionary values.
-    :rtype: tuple
-    """
+      Returns:
+          tuple: Una tupla contenente i percorsi dei file salvati (path_corrected, path_list).
+      """
     # Leggi il contenuto del file JSON
     with open(path, 'r', encoding='utf-8') as f:
         contenuto = json.load(f)
@@ -2564,6 +2557,7 @@ def sostituisci_ingredienti(path_json1, path_json2, filename):
         json.dump(ristoranti, f, ensure_ascii=False, indent=4)
 
     print(f"File corretto salvato in: {path_json2_corrected}")
+
     return path_json2_corrected
 
 def sostituisci_tecniche(path_json1, path_json2, filename):
@@ -2623,6 +2617,7 @@ def get_ngrams(text, n):
     """Restituisce una lista di n-grammi di lunghezza 'n' da un testo"""
     ngrams = [text[i:i + n] for i in range(len(text) - n + 1)]
     return ngrams
+
 def cosine_similarity(query, word, n=3):
     """Calcola la Cosine Similarity tra due stringhe usando n-grammi"""
     # Ottieni gli n-grammi per entrambe le parole
@@ -2867,6 +2862,26 @@ def find_and_replace_techniques_in_restaurants2(restaurants_json_path, technique
 
 def find_and_replace_techniques_in_restaurants3(restaurants_json_path, techniques_def_file, jw_threshold=0.95,
                                                 cosine_threshold=0.7, special_word="PADELL"):
+
+    """
+    Trova e sostituisce le tecniche di cottura nei menu dei ristoranti con tecniche standardizzate.
+
+    Questa funzione carica un file JSON contenente i menu dei ristoranti e un file JSON contenente
+    le tecniche di cottura standard. Per ogni tecnica di cottura nei menu, cerca la tecnica più simile
+    tra quelle standard utilizzando le metriche di similarità Jaro-Winkler e Cosine. Se la similarità
+    supera una soglia predefinita, la tecnica viene sostituita con quella standard. Le tecniche che
+    contengono una parola speciale (es. "PADELL") non vengono sostituite.
+
+    Args:
+        restaurants_json_path (str): Il percorso del file JSON contenente i menu dei ristoranti.
+        techniques_def_file (str): Il percorso del file JSON contenente le tecniche di cottura standard.
+        jw_threshold (float): La soglia di similarità per Jaro-Winkler (default: 0.95).
+        cosine_threshold (float): La soglia di similarità per Cosine (default: 0.7).
+        special_word (str): Una parola speciale che, se presente nella tecnica, impedisce la sostituzione (default: "PADELL").
+
+    Returns:
+        str: Il percorso del file JSON aggiornato.
+    """
     import json, os, jellyfish
 
     with open(restaurants_json_path, 'r', encoding='utf-8') as f:
@@ -3065,6 +3080,8 @@ def update_chefs_in_restaurants(json_path):
 
     print(f"Updated JSON saved to {updated_path}")
 
+    return updated_path
+
 def estrai_differenze_json(input_file):
     # Carica il dizionario dal file JSON
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -3084,27 +3101,21 @@ def estrai_differenze_json(input_file):
     print(f"File salvato: {output_file}")
 
 
-import json
-import os
-import jellyfish  # Assicurati di aver installato jellyfish
-
 
 def get_ingredients(text):
     lines = text.split("\n")
     first_valid_line = next((line for line in lines if line.strip()), None)
     second_valid_line = next((line for line in lines if line.strip() and line != first_valid_line), None)
 
-    match_start = re.search(r'(?i)ingredienti\s*\n', text)
-    match_end = re.search(r'(?i)tecniche\s*\n', text)
+    match_start = re.search(r'(?im)^\s*ingredienti\s*$', text)
+    match_end = re.search(r'(?im)^\s*tecniche\s*$', text)
 
     if match_start:
         start = match_start.start()
         end = match_end.start() if match_end else len(text)
         return f"{second_valid_line if first_valid_line and not first_valid_line.strip() else first_valid_line}\n" + text[
                                                                                                                      start:end]
-
     raise TypeError("PROBLEMA CON LA REGEX")
-
 
 def get_techniques(text):
     lines = text.split("\n")
@@ -3124,21 +3135,20 @@ def get_techniques(text):
 def get_all_text(text):
     return text
 
-def process_files_in_folders(menu_path, prompt_func, suffix, func):
+def process_files_in_folders(menu_path, prompt_func, suffix, func, model):
     # Cammina attraverso tutte le cartelle nel path di base
     for i, (root, dirs, files) in enumerate(os.walk(menu_path)):
-        # Per ogni file nella cartella
-        for j, file in enumerate(files):
-            # Controlla se il file è un .txt
-            if file.endswith('.txt'):
-                file_path = os.path.join(root, file)
-                print(len(files))
-                with open(file_path, "r", encoding="utf-8") as file:
-                    text = file.read()
-                    text = func(text)
-                    print(f"Sto processando il piatto {j+1}/{len(files)} del ristorante {i}")
-                    # Chiama la funzione per processare il file
-                    extract_info(transform_path3(file_path, "json"), prompt_func(text), "_" + f"{j+1}" + suffix)
+        txt_files = [file for file in files if file.endswith('.txt')]
+        for j, file in enumerate(txt_files):
+            file_path = os.path.join(root, file)
+            with open(file_path, "r", encoding="utf-8") as f:
+                text = f.read()
+            text = func(text)
+            print(f"Sto processando il piatto {j+1}/{len(txt_files)} del ristorante {i}")
+            print(text)
+
+            # Chiama la funzione per processare il file
+            extract_info(transform_path3(file_path, "json"), prompt_func(text), "_" + f"{j+1}" + suffix, model)
 
 
 def unisci_json_in_cartella(menu_path, suffix):
@@ -3179,20 +3189,57 @@ def unisci_json_in_cartella(menu_path, suffix):
         print(f"File unito salvato come: {output_file}")
 
 
-import os
-import json
+def unisci_json_in_cartella(menu_path, suffix):
+    """
+    Per ogni cartella (e sottocartella) in menu_path, unisce tutti i file JSON il cui nome (senza considerare l'estensione)
+    termina con il suffisso specificato in 'suffix'. Il file unito viene salvato nella stessa cartella,
+    con il nome della cartella concatenato a 'suffix'.
 
-import os
-import json
+    Il salvataggio avviene solo se nella cartella sono stati trovati dati da unire.
+    """
+    for root, dirs, files in os.walk(menu_path):
+        piatti_tecniche = []  # Lista per raccogliere i dati della cartella corrente
+
+        # Processa ogni file presente nella cartella
+        for file in files:
+            # Usa confronto case-insensitive per il suffisso
+            if file.lower().endswith(suffix.lower() + ".json"):
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        # Se il JSON è una lista con un solo elemento, estrai l'oggetto
+                        if isinstance(data, list) and len(data) == 1:
+                            data = data[0]
+                        piatti_tecniche.append(data)
+                except json.JSONDecodeError as e:
+                    print(f"Errore nella lettura del file {file_path}: {e}")
+
+        # Dopo aver processato tutti i file della cartella, salva il file unito se abbiamo trovato dati
+        if piatti_tecniche:
+            nome_cartella = os.path.basename(root)
+            output_file = os.path.join(root, f"{nome_cartella}{suffix}" + '_totali_per_ristorante.json')
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(piatti_tecniche, f, ensure_ascii=False, indent=4)
+            print(f"File unito salvato come: {output_file}")
+        else:
+            print(f"Nessun file con suffisso '{suffix}' trovato in {root}.")
 
 
-import os
-import json
 
-import os
-import json
 
 def merge_menus(json1_path, json2_path, output_filename):
+    """
+    Unisce i menu di due file JSON basandosi sul nome del piatto e salva il risultato in un nuovo file.
+
+    Args:
+        json1_path (str): Il percorso del primo file JSON contenente i menu.
+        json2_path (str): Il percorso del secondo file JSON contenente i menu.
+        output_filename (str): Il nome del file di output dove salvare il risultato unito.
+
+    Returns:
+        None
+    """
     # Determiniamo il path della cartella di json1
     json1_dir = os.path.dirname(json1_path)
     output_file = os.path.join(json1_dir, output_filename)
@@ -3238,6 +3285,7 @@ def merge_menus(json1_path, json2_path, output_filename):
         json.dump(json1, f, indent=4, ensure_ascii=False)
 
     print(f"File salvato: {output_file}")
+
 
 
 

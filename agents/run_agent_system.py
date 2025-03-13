@@ -1,23 +1,25 @@
+"""
+Questo script non è altro che la versione agents_from_zero sotto forma di funzione
+richiamabile dallo script pyqt.py.
+"""
+
 def find_dishes(query):
-    import time
     from pydantic import BaseModel, Field
-    from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
+    from langchain_core.messages import BaseMessage, HumanMessage
     from typing import TypedDict
     from langchain_core.prompts import ChatPromptTemplate
     from langchain_openai import ChatOpenAI
-    from langgraph.graph import END, StateGraph, START
+    from langgraph.graph import END, StateGraph
     from typing import Dict, List, Any, Annotated
     import operator
     import json
     from graph_rag import graph_retrivial as gr
     from neo4j import GraphDatabase
-    import logging
     from graph_rag import cypher_correction as cc
     from agents import agents_functions as af
     from agents import agents_prompt as ap
     from dotenv import load_dotenv
     import os
-    import re
 
     load_dotenv()
 
@@ -33,14 +35,27 @@ def find_dishes(query):
 
     db_driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD), database="pizzadb")
 
-
     class AgentState(TypedDict):
+        """
+        Rappresenta lo stato di un agente con le informazioni necessarie per elaborare una domanda e generare risposte.
+
+        Attributi:
+            messages (list[BaseMessage]): Lista di messaggi scambiati con l'utente.
+            cleaned_question (str): La domanda dell'utente ripulita e riformulata.
+            dishes_dict (Dict[str, list]): Dizionario dei piatti disponibili.
+            entity_dict (Dict[str, Dict[str, Any]]): Dizionario delle entità con i relativi dettagli.
+            entity (Annotated[str, operator.add]): Nome dell'entità attualmente in elaborazione.
+            dishes (Annotated[List[List[str]], af.merge_list_of_lists]): Lista di liste di piatti associati alle entità.
+            query (Annotated[List[List[str]], af.merge_list_of_lists]): Lista di liste di query generate per le entità.
+            all_queries (List[List[str]]): Lista di tutte le query generate.
+            all_entities (List[List[str]]): Lista di tutte le entità identificate.
+        """
+
         messages: list[BaseMessage]
         cleaned_question: str
 
         dishes_dict: Dict[str, list]
         entity_dict: Dict[str, Dict[str, Any]]
-        string_value: Annotated[str, operator.add]
         entity: Annotated[str, operator.add]
 
         dishes: Annotated[List[List[str]], af.merge_list_of_lists]
@@ -48,17 +63,23 @@ def find_dishes(query):
 
         all_queries: List[List[str]]
         all_entities: List[List[str]]
-        # Aggiunte...
-        # cleaned_question: Annotated[str, operator.add]
-
 
     class QuestionRewriter(BaseModel):
+
         reply: str = Field(
             description="Rispondi creando l'output in base alla domanda dell'utente"
         )
 
-
     def rewrites_questions(state: AgentState):
+        """
+        Riscrive la domanda dell'utente per renderla più chiara e strutturata.
+
+        Args:
+            state (AgentState): Lo stato attuale dell'agente contenente i messaggi e altre informazioni.
+
+        Returns:
+            AgentState: Lo stato aggiornato dell'agente con la domanda ripulita.
+        """
         QUESTION_REWRITER_PROMPT = ap.get_question_rewriter_prompt()
 
         question = state["messages"][-1].content
@@ -81,14 +102,23 @@ def find_dishes(query):
 
         return state
 
-
     class EntityClassifier(BaseModel):
+
         reply: str = Field(
             description="Rispondi creando il json in base alla domanda dell'utente. Non rispondere mai in maniera diversa da quel json."
         )
 
-
     def classifies_entities(state: AgentState):
+        """
+        Classifica le entità presenti nella domanda dell'utente e crea un JSON con le entità identificate.
+
+        Args:
+            state (AgentState): Lo stato attuale dell'agente contenente i messaggi e altre informazioni.
+
+        Returns:
+            dict: Un dizionario contenente i nomi delle entità e il dizionario delle entità.
+        """
+
         # Prompt per classificare entità e creare il json
         ENTITY_CLASSIFIER_PROMPT = ap.get_entity_classifier_prompt()
 
@@ -113,8 +143,26 @@ def find_dishes(query):
 
         return {"entity_names": result_dict.keys(), "entity_dict": result_dict}
 
-
     def generate_agents(state: AgentState):
+        """
+        Genera gli agenti basati sulle entità classificate nello stato dell'agente.
+        Nel particolare, Sends permette di inviare dinamicamente stati differenti a nodi specifici,
+        abilitando l'esecuzione parallela di task (fase map) secondo il flusso definito nel grafo.
+        Utilizzando conditional edges, Send distribuisce elementi a istanze multiple di un nodo,
+        garantendo che ogni ramo riceva uno stato unico da elaborare.
+        In sostanza, è presente una sorta di meccanismo di mapReduce:
+        Durante la fase di map, il lavoro viene suddiviso e distribuito tra vari agenti.
+        Nella fase di reduce, i risultati parziali vengono aggregati per produrre il risultato finale.
+        Per la fase di reduce, viene usata l'Annotated List per combinare i risultati provenienti
+        da più nodi paralleli
+
+        Args:
+            state (AgentState): Lo stato attuale dell'agente contenente i nomi delle entità e il dizionario delle entità.
+
+        Returns:
+            list: Una lista di agenti creati per le entità classificate.
+        """
+
         entity = state["entity_names"]
         dicts = state["entity_dict"]
 
@@ -124,9 +172,17 @@ def find_dishes(query):
 
         return sends
 
-
     def EntityAgent(state: AgentState) -> Any:
-        import re
+        """
+        Gestisce un singolo agente per un'entità specifica, eseguendo query e processando i risultati.
+
+        Args:
+            state (AgentState): Lo stato attuale dell'agente contenente i dettagli dell'entità.
+
+        Returns:
+            dict: Un dizionario contenente il nome dell'entità, i piatti trovati e le query generate.
+        """
+
         single_entity_name = state["single_entity_name"]
 
         print(f"\nQuesto è l'agente '{single_entity_name}'")
@@ -138,13 +194,12 @@ def find_dishes(query):
 
         nomi = single_entity_dict["nomi"]
 
-        # DA VERIFICARE
+        # Utile per mettersi al riparo da eventuali (rari) casi in cui il campo nome non è stato popolato
         if nomi == "":
             return {"entity": "fake_entity" + "|", "dishes": [], "query": []}
 
-        # print(f"Vecchia descrizione = {single_entity_dict['descrizione']}")
-        single_entity_dict["descrizione"] = af.replace_with_upper_case_insensitive(single_entity_dict["descrizione"], nomi)
-        # print(f"Nuova descrizione = {single_entity_dict['descrizione']}")
+        single_entity_dict["descrizione"] = af.replace_with_upper_case_insensitive(single_entity_dict["descrizione"],
+                                                                                   nomi)
 
         nomi_upper = [x.upper() for x in nomi]
         max_length = max(len(s) for s in nomi_upper)
@@ -161,24 +216,27 @@ def find_dishes(query):
         logger, logger_error = af.setup_logging_for_entity(single_entity_name)
 
         # Esecuzione delle query
-        # generated_cypher, dishes = af.process_query(single_entity_name, query_for_entity, validate_cypher, gr, cc, logger_error)
-        generated_cypher, dishes = af.process_query(single_entity_name, query_for_entity, db_driver, validate_cypher, gr,
-                                                    cc, logger_error)
+        generated_cypher, dishes = af.process_query(single_entity_name, query_for_entity, db_driver, validate_cypher,
+                                                    gr, cc, logger_error)
 
         # Log dei piatti trovati
-        logger.info(f"\nCiao! Questo è l'agente '{single_entity_name}'\n. Ho trovato i seguenti piatti che corrispondono alla tua richiesta :) \n")
-
         logger.info(f"\n{i}\n{dishes}\n")
-
-        # print(f"Cypher che sto passando a Combiner: {generated_cypher}")
 
         return {"entity": single_entity_name + "|", "dishes": [dishes], "query": [[generated_cypher]]}
 
-
     def Combiner(state: Dict[str, Any]) -> Dict[str, Any]:
-        # print(state["entity"])
+        """
+        Combina i risultati parziali degli agenti, rimuovendo eventuali entità fittizie e aggiornando lo stato.
+
+        Args:
+            state (Dict[str, Any]): Lo stato attuale contenente i piatti trovati, le entità e le query.
+
+        Returns:
+            Dict[str, Any]: Lo stato aggiornato con le entità e i piatti validi.
+        """
+
         print(f"\nTotale piatti trovati:{state['dishes']}")
-        # print(f"ECCO TUTTE LE CYPHER RICEVUTE {state['query']}")
+
         all_entities = (state["entity"].split("|"))[:-1]
         state["all_queries"] = state['query']
 
@@ -201,8 +259,17 @@ def find_dishes(query):
         state["all_entities"] = all_entities
         return state
 
-
     def evaluates_results(state: AgentState) -> any:
+        """
+        Valuta i risultati delle query eseguite dagli agenti e registra i risultati.
+
+        Args:
+            state (AgentState): Lo stato attuale dell'agente contenente le entità, le query e altre informazioni.
+
+        Returns:
+            any: I risultati valutati delle query eseguite.
+        """
+
         print("\nQuesto è l'agente SetEvaluator")
 
         all_entities = state["all_entities"]
@@ -232,7 +299,6 @@ def find_dishes(query):
             log_message += "\n" + "[" + all_entities[z] + "]" + "\n\n" + cypher_query[0] + "\n\n"
 
         logger.info(log_message)
-
 
     workflow = StateGraph(AgentState)
     workflow.set_entry_point("Question_Rewriter")
@@ -268,4 +334,5 @@ def find_dishes(query):
             "messages": [HumanMessage(content=query)]
         }
     )
+
 

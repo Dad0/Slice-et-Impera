@@ -1,0 +1,101 @@
+[
+    {
+        "nome piatto": "Cosmos in Tavola",
+        "nomi ingredienti": [
+            "Gnocchi del Crepuscolo",
+            "Carne di Drago",
+            "Cristalli di Nebulite",
+            "Amido di Stellarion",
+            "Nettare di Sirena",
+            "Biscotti della Galassia",
+            "Scaglie di pulsar",
+            "Zucchero cosmico",
+            "Essenza di Speziaria"
+        ]
+    },
+    {
+        "nome piatto": "Eclissi del Drago nell'Abbraccio del Kraken",
+        "nomi ingredienti": [
+            "Carne di Drago",
+            "Carne di Kraken",
+            "Riso di Cassandra",
+            "Colonia di Mycoflora",
+            "Plasma Vitale",
+            "Shard di Materia Oscura"
+        ]
+    },
+    {
+        "nome piatto": "Il Viaggio Cosmico di Marinetti",
+        "nomi ingredienti": [
+            "Pane degli Abissi",
+            "Polvere di Crononite",
+            "Teste di Idra",
+            "Granuli di Nebbia Arcobaleno",
+            "Alghe Bioluminescenti",
+            "Colonia di Mycoflora"
+        ]
+    },
+    {
+        "nome piatto": "Nebulosa di Dragone all'Essenza di Vuoto",
+        "nomi ingredienti": [
+            "Lattuga Namecciana",
+            "Polvere di stelle",
+            "Carne di Drago",
+            "Spore Quantiche",
+            "Essenza di Vuoto"
+        ]
+    },
+    {
+        "nome piatto": "Piastrella Celestiale di Gnocchi del Crepuscolo con Nebulosa di Riso di Cassandra, Lacrime di Unicorno e Velo di Materia Oscura",
+        "nomi ingredienti": [
+            "Gnocchi del Crepuscolo",
+            "Riso di Cassandra",
+            "Lacrime di Unicorno",
+            "Materia Oscura"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Celeste di Granuli Arcobaleno e Riso di Cassandra",
+        "nomi ingredienti": [
+            "Granuli di Nebbia Arcobaleno",
+            "Riso di Cassandra",
+            "Fusilli del Vento",
+            "Essenza di Speziaria",
+            "Nettare di Sirena"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Galattica Agentica",
+        "nomi ingredienti": [
+            "Pane di Luce",
+            "Carne di Drago",
+            "Carne di Balena spaziale",
+            "Carne di Kraken",
+            "Plasma Vitale"
+        ]
+    },
+    {
+        "nome piatto": "Sinfonia Quantica Galattica",
+        "nomi ingredienti": [
+            "Lattuga Namecciana",
+            "Carne di Drago",
+            "Riso di Cassandra",
+            "Salsa Szechuan",
+            "Biscotti della Galassia",
+            "Scaglie di stelle",
+            "Zucchero cosmico"
+        ]
+    },
+    {
+        "nome piatto": "Viaggio Cosmico tra Mare e Stelle",
+        "nomi ingredienti": [
+            "Carne di Balena Spaziale",
+            "Carne di Kraken",
+            "Teste di Idra",
+            "Lacrime di Andromeda",
+            "Riso di Cassandra",
+            "Pane degli Abissi",
+            "Spezie Melange"
+        ]
+    }
+]

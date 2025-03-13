@@ -1,17 +1,28 @@
 import os
-from typing import Dict, List, Any, Annotated
+from typing import List
 import json
-import logging
-import re
 import csv
 from langgraph.types import Send
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from graph_rag import cypher_correction as cc
+import re
+
 
 def extract_cypher_query_from_log():
+    """
+  Questa funzione è stata creata per catturare dal log le query Cypher che hanno generato
+  errori di sintassi. Tuttavia, dopo aver implementato la funzione e apportato diverse
+  migliorie al sistema, gli errori si sono verificati solo raramente. Al momento,
+  è necessario effettuare ulteriori test per verificarne l'efficacia. In particolare,
+  l'estrazione della query corretta dal log risulta complessa a causa dell'elevato numero
+  di query registrate, quindi non posso ancora affermare con certezza che la funzione
+  sia del tutto affidabile e catturi la query corretta.
+    """
     import re
-    log_file_path = r'C:\Users\Awotc\PycharmProjects\Kaggle DataPizza\agents\neo4j_queries.log'  # Modifica con il path corretto del file
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Path della cartella dello script attuale
+    log_file_path = os.path.join(BASE_DIR, "agents", "neo4j_queries.log")
 
     # Apriamo e leggiamo il contenuto del file di log
     with open(log_file_path, 'r') as log_file:
@@ -24,7 +35,21 @@ def extract_cypher_query_from_log():
     else:
         return -1
 
+
 def intersect_lists_of_lists(lists: List[List[str]]) -> List[str]:
+    """
+      Calcola l'intersezione di più liste di stringhe.
+      Funzione assolutamente necessaria per gestire il corretto mapReduce con
+      Annotated List
+
+      Args:
+          lists (List[List[str]]): Una lista di liste di stringhe.
+
+      Returns:
+          List[str]: Una lista contenente gli elementi comuni a tutte le liste.
+                     Restituisce -1 se una delle liste è vuota.
+      """
+
     # Controlla se c'è almeno una lista vuota e stampa un warning
     if any(len(lst) == 0 for lst in lists):
         print("Attenzione: almeno una delle liste è vuota.")
@@ -51,10 +76,6 @@ def load_dish_dict(json_path):
         return json.load(f)
 
 def append_dish_indices(row_id, dish_names, dish_dict, csv_filename, empty_result=0):
-
-    # Trova gli indici per ogni piatto presente nel dizionario
-    #print(f"PIATTI = {dish_names}")
-    #print(f"DICT = {dish_dict}")
 
     if empty_result == 1:
         # Per ora, se non sai il risultato, spara a caso il 23, e spera in bene :)
@@ -99,10 +120,6 @@ def setup_logger(nome_entità):
 
 def clean_cypher_query(query: str) -> str:
     return query.lstrip("cypher\n").strip()
-
-
-import re
-
 
 def replace_query_names3(text, mappings):
     """
@@ -171,63 +188,6 @@ def replace_query_names_sembra_ottimo(text, mappings):
     return modified_text
 
 
-# def replace_query_names(text, mappings):
-#     """
-#     Sostituisce, nel testo, ogni occorrenza di 'queryName' (case-insensitive)
-#     con il relativo 'bestMatch', tollerando variazioni minori (spazi, virgolette opzionali).
-#
-#     Dopo la sostituzione, per ciascun bestMatch, se l'occorrenza non è interamente
-#     racchiusa tra apici singoli, viene sostituita con la versione racchiusa da apici.
-#     Inoltre, se non c'è uno spazio tra il token precedente e gli apici, ne viene aggiunto uno.
-#
-#     Esempio:
-#       text = "- non utilizzano la tecnica della 'FERMENTAZIONE QUANTICO BIOMETRICA'
-#               ma utilizzano sia il Taglio', sia la tecnica della 'COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA'"
-#       mappings = [
-#           {'queryName': 'taglio', 'bestMatch': 'TECNICHE DI TAGLIO', 'jaroWinkler_distance': 0},
-#           {'queryName': 'COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA', 'bestMatch': 'COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA', 'jaroWinkler_distance': 0},
-#           {'queryName': 'FERMENTAZIONE QUANTICO BIOMETRICA', 'bestMatch': 'FERMENTAZIONE QUANTICO BIOMETRICA', 'jaroWinkler_distance': 0}
-#       ]
-#
-#       Risultato atteso:
-#       "- non utilizzano la tecnica della 'FERMENTAZIONE QUANTICO BIOMETRICA'
-#        ma utilizzano sia il 'TECNICHE DI TAGLIO', sia la tecnica della 'COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA'"
-#     """
-#     modified_text = text
-#     # Fase 1: Sostituzione dei queryName con bestMatch (ignora variazioni di spazi e virgolette)
-#     for mapping in mappings:
-#         query_name = mapping['queryName']
-#         best_match = mapping['bestMatch']
-#         # Costruisce un pattern flessibile per intercettare query_name con eventuali virgolette o spazi extra
-#         words = query_name.split()
-#         pattern = r"(?i)\b" + r"\s*['\"]?\s*".join(map(re.escape, words)) + r"\b"
-#         modified_text = re.sub(pattern, best_match, modified_text)
-#
-#     # Fase 2: Aggiunge gli apici se il bestMatch non è completamente racchiuso da essi.
-#     for mapping in mappings:
-#         best_match = mapping['bestMatch']
-#         # Il pattern intercetta best_match con eventuali spazi e apici opzionali
-#         pattern = re.compile(
-#             r"(?i)(?P<lquote>')?\s*" + re.escape(best_match) + r"\s*(?P<rquote>')?"
-#         )
-#
-#         def wrap_quotes(m):
-#             # Ottieni la posizione del match
-#             pos = m.start()
-#             # Se entrambi gli apici sono presenti, restituisce il match invariato
-#             if m.group('lquote') == "'" and m.group('rquote') == "'":
-#                 return m.group(0)
-#             # Altrimenti, controlla se c'è uno spazio prima del match nel testo originale
-#             # Se non c'è spazio, aggiungilo
-#             prefix = ""
-#             if pos > 0 and m.string[pos - 1] != " ":
-#                 prefix = " "
-#             return prefix + f"'{best_match}'"
-#
-#         modified_text = pattern.sub(wrap_quotes, modified_text)
-#
-#     return modified_text
-
 def replace_query_names(text, mappings):
     """
     Sostituisce, nel testo, ogni occorrenza di 'queryName' (case-insensitive)
@@ -279,10 +239,6 @@ def replace_query_names(text, mappings):
         modified_text = pattern.sub(wrap_quotes, modified_text)
 
     return modified_text
-
-# text = "- non utilizzano la tecnica della 'FERMENTAZIONE QUANTICO BIOMETRICa ma utilizzano sia il 'Taglio', sia la tecnica della 'COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA'"
-# mappings = [{'queryName': 'taglio', 'bestMatch': 'TECNICHE DI TAGLIO', 'jaroWinkler_distance': 0}, {'queryName': 'COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA', 'bestMatch': 'COTTURA SOTTOVUOTO FRUGALE ENERGETICAMENTE NEGATIVA', 'jaroWinkler_distance': 0}, {'queryName': 'FERMENTAZIONE QUANTICO BIOMETRICA', 'bestMatch': 'FERMENTAZIONE QUANTICO BIOMETRICA', 'jaroWinkler_distance': 0}]
-# print(replace_query_names(text, mappings))
 
 def replace_query_names2(text, mappings):
     """
@@ -442,15 +398,6 @@ def replace_with_upper_case_insensitive2(text, words_list):
         text = updated_text  # Aggiorna il testo per la prossima iterazione
     return text
 
-
-
-import re
-import difflib
-from typing import List, Tuple
-
-
-import re
-
 def replace_with_upper_case_insensitive(text, words_list):
     for word in words_list:
         # Usa negative lookbehind e lookahead per definire i confini,
@@ -470,8 +417,6 @@ def replace_with_upper_case_insensitive(text, words_list):
             updated_text = re.sub(pattern_ignore_quotes, word.upper(), text)
         text = updated_text  # Aggiorna il testo per la prossima iterazione
     return text
-
-
 
 def process_entity(single_entity_name, single_entity_dict, db_driver, nomi_upper, max_length):
     """
@@ -1052,3 +997,4 @@ def evaluate_entities_query(i, state: dict, all_entities: list, ap, QuestionRewr
         result_single = state["dishes"][0]
         print(f"L'unica entità trovata ha dato come risultati:\n{result_single}")
         return result_single
+

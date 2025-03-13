@@ -7,8 +7,10 @@
 *.log
 *.docx
 
+
 original data/
 .venv/
 .idea/
 
 !Query.log
+!requirements.txt

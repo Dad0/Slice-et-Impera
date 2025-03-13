@@ -1,3 +1,7 @@
+"""
+Script che mi è stato utile per vedere le differenze tra le varie sub caricate su Kaggle
+"""
+
 import os
 import csv
 
@@ -42,3 +46,4 @@ best_result = "PATH"
 current_result = "PATH"
 # Esempio di utilizzo
 compare_csv_sets(best_result, current_result)
+

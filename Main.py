@@ -1,237 +1,258 @@
-import os
+"""
+Questo script si occupa esclusivamente di
+- estrazione dati
+- preprocessing
+- costruzione della Graph RAG
+
+La Graph RAG creata tramite questo script è stata salvata nella cartella "DUMP DB"
+
+L'idea è che ci debba essere una cartella "original data" con all'interno l'intero contenuto di
+HackAPizza Dataset, e una cartella "processed data" che viene invece man mano popolata dai file
+processati
+
+Slice et Impera\original data\ -> le 4 cartelle di HackAPizza dataset + il file delle domande
+Slice et Impera\processed data\ -> Cartella vuota che si popolerà man mano
+
+ps: per chiarezza, ho spostato i processed data "vecchi" in un backup, così da lasciare la
+cartella vuota. In quel mare di file dai nomi ambigui, quello definitivo utilizzato per
+costruire la RAG era "menu_update_final_updated_chef_updated.json"
+"""
+
 import utils_functions.preprocessing_functions as pf
 import utils_functions.preprocessing_prompts as pp
 import json
 from dotenv import load_dotenv
 import os
 import importlib
-import roman
-import csv
 
 # Caricamento variabili
 load_dotenv()
 
-PATH_CODICE_GALATTICO = os.getenv("PATH_CODICE_GALATTICO")
+# path docx codice galattico (file all'interno di original data\Codice Galattico\)
+PATH_CODICE_GALATTICO_DOCX = os.getenv("PATH_CODICE_GALATTICO_DOCX")
+# path pdf manuale cucina (file all'interno di original data\Misc\)
+PATH_MANUALE_CUCINA_PDF = os.getenv("PATH_MANUALE_CUCINA_PDF")
+# path folder con i vari menu originali in pdf (all'interno di \original data\Menu)
 PATH_MENU_DIR = os.getenv("PATH_MENU_DIR")
-PATH_MANUALE_CUCINA = os.getenv("PATH_MANUALE_CUCINA")
-PATH_MENU_DISCORSIVI = os.getenv("PATH_MENU_DISCORSIVI")
-PATH_MENU_LISTA = os.getenv("PATH_MENU_LISTA")
-DISH_DICT = os.getenv("DISH_DICT")
-PATH_JSON_MERGED = os.getenv("PATH_JSON_MERGED")
-PATH_JSON_MERGED_CORRECTED = os.getenv("PATH_JSON_MERGED_CORRECTED")
-PATH_TECNICHE = os.getenv("PATH_TECNICHE")
-PATH_ELENCO_PIATTI_MERGED = os.getenv("PATH_ELENCO_PIATTI_MERGED")
-PATH_JSON_MERGED_CORRECTED2 = os.getenv("PATH_JSON_MERGED_CORRECTED2")
-PATH_JSON_LICENCES_ELENCO = os.getenv("PATH_JSON_LICENCES_ELENCO")
-PATH_JSON_ORDINI = os.getenv("PATH_JSON_ORDINI")
-PATH_MENU_DIR_PROCESSED = os.getenv("PATH_MENU_DIR_PROCESSED")
 
-PATH_ELENCO_INGREDIENTI_MERGED = os.getenv("PATH_ELENCO_INGREDIENTI_MERGED")
-PATH_ELENCO_INGREDIENTI_MERGED2 = os.getenv("PATH_ELENCO_INGREDIENTI_MERGED2")
-PATH_ELENCO_INGREDIENTI_MERGED3 = os.getenv("PATH_ELENCO_INGREDIENTI_MERGED3")
-PATH_ELENCO_INGREDIENTI_MERGED4 = os.getenv("PATH_ELENCO_INGREDIENTI_MERGED4")
-PATH_ELENCO_INGREDIENTI_MERGED5 = os.getenv("PATH_ELENCO_INGREDIENTI_MERGED5")
-
-PATH_ELENCO_TECNICHE_MERGED = os.getenv("PATH_ELENCO_TECNICHE_MERGED")
-PATH_ELENCO_TECNICHE_MERGED2 = os.getenv("PATH_ELENCO_TECNICHE_MERGED2")
-PATH_ELENCO_TECNICHE_MERGED3 = os.getenv("PATH_ELENCO_TECNICHE_MERGED3")
-PATH_ELENCO_TECNICHE_MERGED4 = os.getenv("PATH_ELENCO_TECNICHE_MERGED4")
-
-PATH_TECNICHE_AFTER_REVIEW = os.getenv("PATH_TECNICHE_AFTER_REVIEW")
-PATH_ING_AFTER_REVIEW = os.getenv("PATH_ING_AFTER_REVIEW")
-PATH_FINAL_MENU = os.getenv("PATH_FINAL_MENU")
-PATH_ELENCO_TECNICHE_MERGED5 = os.getenv("PATH_ELENCO_TECNICHE_MERGED5")
-PATH_ELENCO_INGREDIENTI_MERGED6 = os.getenv("PATH_ELENCO_INGREDIENTI_MERGED6")
-PATH_ELENCO_PIATTI_MERGED2 = os.getenv("PATH_ELENCO_PIATTI_MERGED2")
-PATH_MENU_FINAL = os.getenv("PATH_MENU_FINAL")
+# path distanze e dish mapping (file all'interno di original data\Misc\)
 PATH_DISTANZE = os.getenv("PATH_DISTANZE")
+DISH_DICT = os.getenv("DISH_DICT")
 
-###################################################################################################################
+PATH_MENU_DIR_PROCESSED = pf.transform_path2(PATH_MENU_DIR)
+
+# ================================================================================
 # CODICE GALATTICO
-###################################################################################################################
+# ================================================================================
 
-# Converti in markdown (non standardizzato)
-md_text = pf.docx_to_markdown(PATH_CODICE_GALATTICO, pf.transform_path(PATH_CODICE_GALATTICO, "md"))
-# Estrai capitolo [...)
-capitolo_tecniche = pf.extract_section(md_text, 4, 5)
-# Estrai json con tecniche e licenze richieste
-pf.extract_info(pf.transform_path(PATH_CODICE_GALATTICO, "json"), pp.generate_technique_extraction_prompt(capitolo_tecniche), "_tecniche")
+"""
+In questa sezione viene estratto il capitolo relativo alle tecniche dal codice galattico, 
+e vengono estratte le tecniche e le licenze richieste. Il json risultante viene salvato
+all'interno della variabile PATH_TECNICHE.
+"""
 
-###################################################################################################################
+# Converti in markdown (non standardizzato) il codice galattico presente in "original data" e salvalo in "processed data"
+codice_galattico_md = pf.docx_to_markdown(PATH_CODICE_GALATTICO_DOCX, pf.transform_path(PATH_CODICE_GALATTICO_DOCX, "md"))
+# Estrai capitolo con tutte le tecniche e salvalo in "capitolo_tecniche"
+capitolo_tecniche = pf.extract_section(codice_galattico_md, 4, 5)
+# Estrai json con tecniche e licenze richieste, tramite GPT 4o-mini (nb: non sempre alla prima run prende tutte le tecniche)
+PATH_TECNICHE_JSON = pf.extract_info(pf.transform_path(PATH_CODICE_GALATTICO_DOCX, "json"), pp.generate_technique_extraction_prompt(capitolo_tecniche), "_tecniche", "gpt-4o-mini-2024-07-18")
+
+# ================================================================================
 # MANUALE CUCINA
-###################################################################################################################
+# ================================================================================
 
-# Converti in markdown (non standardizzato)
-md_text2 = pf.pdf_to_markdown(PATH_MANUALE_CUCINA, pf.transform_path(PATH_MANUALE_CUCINA, "md"))
+"""
+In questa sezione vengono estratti i capitoli relativi alle licenze e agli ordini del
+manuale di cucina, e i conseguenti elenchi di licenze e ordini. 
+I json risultanti vengono salvati all'interno delle variabili PATH_ELENCO_LICENZE_JSON e
+PATH_ELENCO_ORDINI_JSON.
+"""
 
-# Estrai capitolo [...)
+# Converti in markdown (non standardizzato) il manuale cucina presente in "original data" e salvalo in "processed data"
+md_text2 = pf.pdf_to_markdown(PATH_MANUALE_CUCINA_PDF, pf.transform_path(PATH_MANUALE_CUCINA_PDF, "md"))
+
+# Estrai capitolo con tutte le licenze e salvalo in "capitolo_elenco_licenze"
 capitolo_elenco_licenze = pf.extract_section(md_text2, "Capitolo 1", "Capitolo 2")
-# Estrai json con elenco licenze
-pf.extract_info(pf.transform_path(PATH_MANUALE_CUCINA, "json"), pp.generate_licenses_extraction_prompt(capitolo_elenco_licenze), "_elenco_licenze")
+# Estrai json con elenco licenze, tramite GPT 4o-mini
+PATH_ELENCO_LICENZE_JSON = pf.extract_info(pf.transform_path(PATH_MANUALE_CUCINA_PDF, "json"), pp.generate_licenses_extraction_prompt(capitolo_elenco_licenze), "_elenco_licenze")
 
-# Estrai capitolo [...)
+# Estrai capitolo con elenco ordini e salvalo in "capitolo_elenco_ordini"
 capitolo_elenco_ordini = pf.extract_section(md_text2, "Capitolo 2", "Capitolo 3")
-# Estrai json con elenco ordini
-pf.extract_info(pf.transform_path(PATH_MANUALE_CUCINA, "json"), pp.generate_orders_extraction_prompt(capitolo_elenco_ordini), "_elenco_ordini")
+# Estrai json con elenco ordini, tramite GPT 4o-mini
+PATH_ELENCO_ORDINI_JSON = pf.extract_info(pf.transform_path(PATH_MANUALE_CUCINA_PDF, "json"), pp.generate_orders_extraction_prompt(capitolo_elenco_ordini), "_elenco_ordini")
 
-###################################################################################################################
+# ================================================================================
 # MENU
-###################################################################################################################
-#Test menu preciso
-importlib.reload(pf)
-importlib.reload(pp)
-
-# Converti menu in .txt normali
-pf.convert_pdfs_to_markdown5(PATH_MENU_DIR, pf.transform_path2(PATH_MENU_DIR))
-# Convertili prendendoti le grandezze dei font per ogni linea
-pf.convert_pdfs_to_txt_with_size(PATH_MENU_DIR, pf.transform_path2(PATH_MENU_DIR))
-# Converti in html
-pf.convert_pdfs_to_html_with_size(PATH_MENU_DIR, pf.transform_path2(PATH_MENU_DIR))
-
-# Crea cartella ristoranti con all'interno un txt per piatto
-pf.process_all_html_files(pf.transform_path2(PATH_MENU_DIR), pf.transform_path2(PATH_MENU_DIR))
+# ================================================================================
 
 """
-Qui, per fare velocemente, ho manualmente creato 2 cartelle in PATH_MENU_DIR, denominate "Menu discorsivi" e "Menu lista".
-In ogni cartella ho copiato le 15 cartelle corrispondenti ai menu discorsivi e ai menu fatti a lista.
+In questa sezione vengono estratti ingredienti e tecniche.
+Successivamente vengono estratti anche nomi dei ristoranti, chef, pianeti e licenze.
+Infine viene creato un unico json chiamato all_extracted_info_v1 contenente tutte le informazioni estratte.
 """
 
-# Crea file con piatti e ingredienti per i menu discorsivi e non
-pf.process_files_in_folders(pf.transform_path2(PATH_MENU_DISCORSIVI), pp.generate_ingredients_from_menu_extraction_prompt, "_piatti_e_ingredienti", pf.get_all_text)
-pf.unisci_json_in_cartella(pf.transform_path2(PATH_MENU_DISCORSIVI), "_piatti_e_ingredienti.json")
+# Converti i vari pdf in html
+pf.convert_pdfs_to_html_with_size(PATH_MENU_DIR, PATH_MENU_DIR_PROCESSED)
 
-pf.process_files_in_folders(pf.transform_path2(PATH_MENU_LISTA), pp.generate_ingredients_from_menu_extraction_prompt2, "_piatti_e_ingredienti", pf.get_ingredients)
-pf.unisci_json_in_cartella(pf.transform_path2(PATH_MENU_LISTA), "_piatti_e_ingredienti.json")
+# Crea cartella ristoranti con all'interno un txt per ogni piatto, partendo dagli html
+pf.process_all_html_files(PATH_MENU_DIR_PROCESSED, PATH_MENU_DIR_PROCESSED)
 
-"""
-Qui andavo a prendere gli ultimi file creati (i merge con tutti i piatti e ingredienti per ogni ristorante, ovvero 30 file json, e li mettevo in PATH_MENU_DIR.
-Poi runnavo la seguente funzione che va a correggere i nomi dei piatti, basandosi sul dish mapping
-"""
-pf.find_most_similar_and_replace_wrapper(pf.transform_path2(PATH_MENU_DIR), DISH_DICT, "_piatti_e_ingredienti")
+# Trova i ristoranti con i menu non discorsivi
+lista_ristoranti_con_menu_discorsivi = pf.find_html_files_with_large_ingredient(PATH_MENU_DIR_PROCESSED)
+
+# Sposta le cartelle dei ristoranti nelle rispettive cartelle "Menu discorsivi" e "Menu non discorsivi"
+PATH_MENU_DISCORSIVI, PATH_MENU_LISTA = pf.organize_folders(os.path.join(PATH_MENU_DIR_PROCESSED, "Ristoranti"), lista_ristoranti_con_menu_discorsivi)
+
+# Crea file con piatti e ingredienti per i menu discorsivi e non, e unisci i json in modo da averne uno per ogni ristorante
+pf.process_files_in_folders(pf.transform_path2(PATH_MENU_DISCORSIVI), pp.generate_ingredients_from_menu_extraction_prompt, "_piatti_e_ingredienti", pf.get_all_text, "gpt-4o")
+pf.unisci_json_in_cartella(pf.transform_path2(PATH_MENU_DISCORSIVI), "_piatti_e_ingredienti")
+
+pf.process_files_in_folders(pf.transform_path2(PATH_MENU_LISTA), pp.generate_ingredients_from_menu_extraction_prompt2, "_piatti_e_ingredienti", pf.get_ingredients, "gpt-4o-mini-2024-07-18")
+pf.unisci_json_in_cartella(pf.transform_path2(PATH_MENU_LISTA), "_piatti_e_ingredienti")
+
+# Sposta i file uniti nella cartella menu
+pf.move_files_by_suffix(PATH_MENU_DIR_PROCESSED, PATH_MENU_DIR_PROCESSED, "_piatti_e_ingredienti_totali_per_ristorante")
+
+# Cambia i nomi dei piatti con quelli più simili presenti nel dizionario
+pf.find_most_similar_and_replace_wrapper(PATH_MENU_DIR_PROCESSED, DISH_DICT, "_piatti_e_ingredienti_totali_per_ristorante")
+
 
 # Stesso identico procedimento con piatti e tecniche
-pf.process_files_in_folders(pf.transform_path2(PATH_MENU_DISCORSIVI), pp.generate_techniques_from_menu_extraction_prompt, "_piatti_e_tecniche", pf.get_all_text)
-pf.unisci_json_in_cartella(pf.transform_path2(PATH_MENU_DISCORSIVI),"_piatti_e_tecniche.json")
+pf.process_files_in_folders(pf.transform_path2(PATH_MENU_DISCORSIVI), pp.generate_techniques_from_menu_extraction_prompt, "_piatti_e_tecniche", pf.get_all_text, "gpt-4o")
+pf.unisci_json_in_cartella(pf.transform_path2(PATH_MENU_DISCORSIVI),"_piatti_e_tecniche")
 
-pf.process_files_in_folders(pf.transform_path2(PATH_MENU_LISTA), pp.generate_ingredients_from_menu_extraction_prompt3, "_piatti_e_tecniche", pf.get_techniques)
-pf.unisci_json_in_cartella(pf.transform_path2(PATH_MENU_LISTA),"_piatti_e_tecniche.json")
+pf.process_files_in_folders(pf.transform_path2(PATH_MENU_LISTA), pp.generate_ingredients_from_menu_extraction_prompt3, "_piatti_e_tecniche", pf.get_techniques, "gpt-4o-mini-2024-07-18")
+pf.unisci_json_in_cartella(pf.transform_path2(PATH_MENU_LISTA),"_piatti_e_tecniche")
 
-# Anche qui, sposto i 30 file creati e poi processo (mi ero ripromesso di automatizzare la cosa, ma non ce l'ho fatta, sorry)
-pf.find_most_similar_and_replace_wrapper(pf.transform_path2(PATH_MENU_DIR), DISH_DICT, "_piatti_e_tecniche")
+# Sposta i file uniti nella cartella menu
+pf.move_files_by_suffix(PATH_MENU_DIR_PROCESSED, PATH_MENU_DIR_PROCESSED, "_piatti_e_tecniche_totali_per_ristorante")
 
+# Cambia i nomi dei piatti con quelli più simili presenti nel dizionario
+pf.find_most_similar_and_replace_wrapper(PATH_MENU_DIR_PROCESSED, DISH_DICT, "_piatti_e_tecniche_totali_per_ristorante")
+
+
+# Converti menu in .txt che hanno ancora la descrizione del ristorante, per estrarre nome ristorante, chef, pianeta e licenze
+pf.convert_pdfs_to_md(PATH_MENU_DIR, PATH_MENU_DIR_PROCESSED)
 # Estrai ristorante, pianeta, chef e licenze
-pf.extract_menu(pf.transform_path2(PATH_MENU_DIR), pp.generate_licenses_from_menu_extraction_prompt, "_pianeti_chef_e_licenze")
+pf.extract_menu(PATH_MENU_DIR_PROCESSED, pp.generate_licenses_from_menu_extraction_prompt, "_pianeti_chef_e_licenze")
 
 # Fai un merge dei vari json ottenuti dai menu per avere un unico json
 risultato = pf.merge_all_restaurants(PATH_MENU_DIR_PROCESSED)
-output_path = os.path.join(pf.transform_path2(PATH_MENU_DIR), "merged_results.json")
-with open(output_path, 'w', encoding='utf-8') as f:
+ALL_EXTRACTED_INFO_V1 = os.path.join(PATH_MENU_DIR_PROCESSED, "all_extracted_info_v1.json")
+with open(ALL_EXTRACTED_INFO_V1, 'w', encoding='utf-8') as f:
     json.dump(risultato, f, indent=4, ensure_ascii=False)
 
-
 # Se una emoji è a fianco al nome di un piatto, mettila nella sezione "ordini"
-pf.process_emoji_in_menu(PATH_JSON_MERGED)
+pf.process_emoji_in_menu(ALL_EXTRACTED_INFO_V1)
 
-# Se una tecnica è finita tra gli ingredienti, mettila tra le tecniche (se non c'è già) e salva tutto in merged_results2
-pf.correct_techniques_in_merged(PATH_JSON_MERGED, PATH_JSON_MERGED_CORRECTED, PATH_TECNICHE)
+# Se una tecnica è finita tra gli ingredienti, mettila tra le tecniche (se non c'è già)
+ALL_EXTRACTED_INFO_V2 = pf.correct_techniques_in_merged(ALL_EXTRACTED_INFO_V1, PATH_TECNICHE_JSON)
 
 # Estrai tutti gli ingredienti e tutte le tecniche per un check
-pf.extract_and_save_ingredients_techniques_and_dishes(PATH_JSON_MERGED_CORRECTED, PATH_ELENCO_INGREDIENTI_MERGED, PATH_ELENCO_TECNICHE_MERGED, PATH_ELENCO_PIATTI_MERGED)
+PATH_ELENCO_INGREDIENTI, PATH_ELENCO_TECNICHE, PATH_ELENCO_PIATTI = pf.extract_and_save_ingredients_techniques_and_dishes(ALL_EXTRACTED_INFO_V2)
 
-# Se una licenza ha un nome incorretto, se la distanza non è troppo grande cambiala, altrimenti stampa. Salva tutto in merged_results3
-pf.correct_licenses_in_merged(PATH_JSON_MERGED_CORRECTED, PATH_JSON_MERGED_CORRECTED2, PATH_JSON_LICENCES_ELENCO)
+# Se una licenza ha un nome incorretto, se la distanza non è troppo grande cambiala, altrimenti stampa
+ALL_EXTRACTED_INFO_V3 = pf.correct_licenses_in_merged(ALL_EXTRACTED_INFO_V2, PATH_ELENCO_LICENZE_JSON)
 
 # Modifica il file in modo da sostituire simbolo dell'ordine con nome dell'ordine
-ristoranti_modificati = pf.sostituisci_ordine_con_nome(PATH_JSON_ORDINI, PATH_JSON_MERGED_CORRECTED2, "new_merge.json")
+ALL_EXTRACTED_INFO_V4 = pf.sostituisci_ordine_con_nome(PATH_ELENCO_ORDINI_JSON, ALL_EXTRACTED_INFO_V3)
 
-# PROCESSA INGREDIENTI
-json_path = PATH_ELENCO_INGREDIENTI_MERGED
+# ================================================================================
+# INGREDIENTI
+# ================================================================================
+"""
+In questa sezione vengono modificate le liste di ingredienti in base a similarità ottenute tramite metriche di
+jaro-winkler e cosine similarity. L'idea è che, se due ingredienti hanno nomi simili, allora probabilmente sono la stessa cosa,
+ed è possibile riuscire ad avere un solo nome per entrambi.
+Ovviamente ogni run potrebbe aver estratto ingredienti diversi, e di conseguenza potrebbero essere necessarie tresholds
+leggermente diverse. Per riuscire agevolmente a capire se la treshold è troppo bassa / alta, è possibile vedere
+il file json prodotto da "estrai_differenze_json". Se la treshold è troppo bassa, il file json prodotto avrà un dizionario con
+alcune entry incorrette, e bisognerà quindi alzare la treshold per ottenere un approccio più cautelativo.
+"""
+
+# Treshold per jaro-winkler
 threshold = 0.93
-dict_after_jw = pf.group_list_dict(json_path, threshold, pf.jaro_winkler_similarity, "ingredients_dict_after_jw")
-list_after_jw = pf.group_list(json_path, threshold, pf.jaro_winkler_similarity, "ingredients_list_after_jw")
-json_path = PATH_ELENCO_INGREDIENTI_MERGED2
-menu_updated_path = pf.sostituisci_ingredienti(dict_after_jw, json_path, "menu_after_jw_ing")
-pf.estrai_differenze_json(PATH_ELENCO_INGREDIENTI_MERGED3)
+dict_after_jw = pf.group_list_dict(PATH_ELENCO_INGREDIENTI, threshold, pf.jaro_winkler_similarity, "ingredients_dict_after_jw")
+list_after_jw = pf.group_list(PATH_ELENCO_INGREDIENTI, threshold, pf.jaro_winkler_similarity, "ingredients_list_after_jw")
+menu_updated_path = pf.sostituisci_ingredienti(dict_after_jw, ALL_EXTRACTED_INFO_V4, "all_extracted_info_v4_after_jw_ing")
+pf.estrai_differenze_json(dict_after_jw)
 
+# Treshold per cosine similarity
 threshold = 0.7
 dict_after_jw_and_cos = pf.group_list_dict(list_after_jw, threshold, pf.cosine_similarity, "ingredients_dict_after_jw_and_cos")
 list_after_jw_and_cos = pf.group_list(list_after_jw, threshold, pf.cosine_similarity, "ingredients_list_after_jw_and_cos")
-menu_updated_path = pf.sostituisci_ingredienti(dict_after_jw_and_cos, menu_updated_path, "menu_after_jw_and_cos_ing")
-pf.estrai_differenze_json(PATH_ELENCO_INGREDIENTI_MERGED4)
+menu_updated_path = pf.sostituisci_ingredienti(dict_after_jw_and_cos, menu_updated_path, "all_extracted_info_v4_after_jw_and_cos_ing")
+pf.estrai_differenze_json(dict_after_jw_and_cos)
 
+# Unifica i valori facendo si che gli ingredienti che fanno match tra loro ma che hanno nomi diversi vengano sostituiti con il nome più corto
 final_dict_path, fina_list_path = pf.processa_json(dict_after_jw_and_cos, "final_dict_ing", "final_list_ing")
-pf.sostituisci_ingredienti(final_dict_path, menu_updated_path, "menu_with_reviewed_ing")
-pf.estrai_differenze_json(PATH_ELENCO_INGREDIENTI_MERGED5)
+ALL_EXTRACTED_INFO_V5 = pf.sostituisci_ingredienti(final_dict_path, menu_updated_path, "all_extracted_info_V5")
+pf.estrai_differenze_json(final_dict_path)
 
 # Test
-target_string = "RADICI DI SINGOLARITA"
+target_string = "NDUJA"
 threshold_value = 0.8
+# Lev
 print(pf.filter_similar_strings(target_string.upper(), fina_list_path, threshold_value))
-threshold_value = 0.75
+threshold_value = 0.8
+# Jw
 print(pf.filter_similar_strings2(target_string.upper(), fina_list_path, threshold_value))
 threshold_value = 0.9
+# Cos
 print(pf.filter_similar_strings3(target_string.upper(), fina_list_path, threshold_value))
 
-# PROCESSA TECNICHE
-json_path = PATH_ELENCO_TECNICHE_MERGED  # Sostituisci con il percorso corretto
-threshold = 0.94
-dict_after_jw = pf.group_list_dict(json_path, threshold, pf.jaro_winkler_similarity, "techniques_dict_after_jw")
-list_after_jw = pf.group_list(json_path, threshold, pf.jaro_winkler_similarity, "techniques_list_after_jw")
-menu_updated_path = pf.sostituisci_tecniche(dict_after_jw, menu_updated_path, "menu_after_jw_tec")
-pf.estrai_differenze_json(PATH_ELENCO_TECNICHE_MERGED2)
+# ================================================================================
+# TECNICHE
+# ================================================================================
 
+"""
+Tutto analogo, ma per le tecniche
+"""
+
+# Treshold per jaro-winkler
+threshold = 0.94
+dict_after_jw = pf.group_list_dict(PATH_ELENCO_TECNICHE, threshold, pf.jaro_winkler_similarity, "techniques_dict_after_jw")
+list_after_jw = pf.group_list(PATH_ELENCO_TECNICHE, threshold, pf.jaro_winkler_similarity, "techniques_list_after_jw")
+menu_updated_path = pf.sostituisci_tecniche(dict_after_jw, ALL_EXTRACTED_INFO_V5, "all_extracted_info_v5_after_jw_tec")
+pf.estrai_differenze_json(dict_after_jw)
+
+# Treshold per cosine similarity
 threshold = 0.75
 dict_after_jw_and_cos = pf.group_list_dict(list_after_jw, threshold, pf.cosine_similarity, "techniques_dict_after_jw_and_cos")
 list_after_jw_and_cos = pf.group_list(list_after_jw, threshold, pf.cosine_similarity, "techniques_list_after_jw_and_cos")
-menu_updated_path = pf.sostituisci_tecniche(dict_after_jw_and_cos, menu_updated_path, "menu_after_jw_and_cos_tec")
-pf.estrai_differenze_json(PATH_ELENCO_TECNICHE_MERGED3)
+menu_updated_path = pf.sostituisci_tecniche(dict_after_jw_and_cos, menu_updated_path, "all_extracted_info_v5_after_jw_and_cos_tec")
+pf.estrai_differenze_json(dict_after_jw_and_cos)
 
-#dict_after_jw_and_cos = pf.group_list_dict2(dict_after_jw, threshold, pf.cosine_similarity, "techniques_dict_after_jw_and_cos_longest_better")
-#list_after_jw_and_cos = pf.group_list2(list_after_jw, threshold, pf.cosine_similarity, "techniques_list_after_jw_and_cos_longest_better")
-
-importlib.reload(pf)
+# Unifica i valori facendo si che le tecniche che fanno match tra loro ma che hanno nomi diversi vengano sostituiti con il nome più LUNGO
 final_dict_path, fina_list_path = pf.processa_json2(dict_after_jw_and_cos, "final_dict_ing_and_tec", "final_list_ing_and_tec")
-pf.sostituisci_tecniche(final_dict_path, menu_updated_path, "menu_with_reviewed_ing_and_tec")
-pf.estrai_differenze_json(PATH_ELENCO_TECNICHE_MERGED4)
+ALL_EXTRACTED_INFO_V6 = pf.sostituisci_tecniche(final_dict_path, menu_updated_path, "all_extracted_info_V6")
+pf.estrai_differenze_json(final_dict_path)
 
 # Test
-target_string = "COTTURA SOTTOVUOTO FRUGALE"
+target_string = "COTTURA SOTTOVUOTO"
 threshold_value = 0.8
+# Lev
 print(pf.filter_similar_strings(target_string.upper(), final_dict_path, threshold_value))
 threshold_value = 0.8
+# Jw
 print(pf.filter_similar_strings2(target_string.upper(), final_dict_path, threshold_value))
 threshold_value = 0.75
+# Cos
 print(pf.filter_similar_strings3(target_string.upper(), final_dict_path, threshold_value))
 
-importlib.reload(pf)
-path_tecniche = PATH_TECNICHE
-menu_new = PATH_TECNICHE_AFTER_REVIEW
-menu_updated_path = pf.find_and_replace_techniques_in_restaurants3(menu_new, PATH_TECNICHE, 0.95, 0.65, "PADELL")
+# Sostituisci tecniche con quelle trovate nel codice galattico, se la somiglianza è abbastanza alta
+menu_updated_path = pf.find_and_replace_techniques_in_restaurants3(ALL_EXTRACTED_INFO_V6, PATH_TECNICHE_JSON, 0.95, 0.65, "PADELL")
 
+# Creo nuove liste di ingredienti, tecniche e nomi dei piatti, basandomi sui menu non discorsivi, che in teoria sono piuttosto accurati e affidabili, così da fare un check
+pf.extract_and_save_ingredients_techniques_and_dishes_only_selected_restaurants(ALL_EXTRACTED_INFO_V1,PATH_ELENCO_INGREDIENTI, PATH_ELENCO_TECNICHE, PATH_ELENCO_PIATTI, lista_ristoranti_con_menu_discorsivi)
 
-# Merge di ingredienti e tecniche aggiornate
-input_ingr = PATH_ING_AFTER_REVIEW
-output_file = "menu_update_final.json"
-pf.merge_menus(menu_updated_path, input_ingr, output_file)
-
-
-# Correggo ingredienti basandomi sulla lista degli ingredienti nei menu non discorsivi, che in teoria è piuttosto accurata e affidabile..
-
-rest_list = ["Anima Cosmica", "Armonia Universale", "Cosmica Essenza", "L'Eco di Pandora", "Eredità Galattica Hub Temporale della Gastronomia Interstellare",
-             "L'Essenza dell'Infinito","L'Equilibrio Quantico","L'Essenza di Asgard","L'Oasi delle Dune Stellari",
-             "Le Stelle che Ballano","Ristorante delle Dune Stellari","Sala del Valhalla","Sapore del Dune",
-             "Stelle dell'Infinito Celestiale","Tutti a TARSvola"]
-pf.extract_and_save_ingredients_techniques_and_dishes_only_selected_restaurants(PATH_JSON_MERGED_CORRECTED, PATH_ELENCO_INGREDIENTI_MERGED, PATH_ELENCO_TECNICHE_MERGED, PATH_ELENCO_PIATTI_MERGED, rest_list)
-
-importlib.reload(pf)
-importlib.reload(pp)
-# Ora sostituisco ingredienti
-menu_updated_path = pf.find_and_replace_techniques_in_restaurants4(PATH_FINAL_MENU, PATH_ELENCO_INGREDIENTI_MERGED,
+# Sostituisci ingredienti trovati nei menu non discorsivi con quelli molto simili che sono all'interno del mio json
+menu_updated_path = pf.find_and_replace_techniques_in_restaurants4(ALL_EXTRACTED_INFO_V6, PATH_ELENCO_INGREDIENTI,
                                                                    0.95, 0.65, "")
 
-# Diversifico gli chef in base al nome!
-pf.update_chefs_in_restaurants(menu_updated_path)
-menu_updated_path = PATH_MENU_FINAL
+# Diversifica gli chef in base al nome, per evitare che due chef con lo stesso nome vengano considerati la stessa persona
+menu_updated_path = pf.update_chefs_in_restaurants(menu_updated_path)
 
 ###################################################################################################################
 # Costruzione GRAPH RAG
@@ -241,13 +262,11 @@ from neo4j import GraphDatabase
 import graph_rag.graph_construction_functions as gf
 import graph_rag.graph_construction_queries as gc
 
-
 URI = "bolt://localhost:7687"  # Cambia con il tuo indirizzo se necessario
 USERNAME = "neo4j"
 PASSWORD = "Lapizzaèsemprelapizza!:)"
 
 db_driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD), database="pizzadb")
-
 
 # Crea ristoranti
 gf.estrai_ristorante(db_driver, menu_updated_path, gc.create_restaurant())
@@ -268,13 +287,13 @@ gf.estrai_ristorante_per_pianeta(db_driver, menu_updated_path, gc.create_planet(
 gf.estrai_tecniche_per_piatto(db_driver, menu_updated_path, gc.create_tec())
 
 # Crea licenze da elenco licenze (ancora da collegare ai ristoranti)
-gf.estrai_elenco_licenze(db_driver, PATH_JSON_LICENCES_ELENCO, gc.create_lic())
+gf.estrai_elenco_licenze(db_driver, PATH_ELENCO_LICENZE_JSON, gc.create_lic())
 
 # Crea licenze collegate al ristorante, e verifica che siano coerenti con quelle ufficiali prese dall'elenco
 gf.estrai_licenze_per_ristorante(db_driver, menu_updated_path, gc.create_lic_rest())
 
 # Collega tecniche a licenze
-path_tecniche_e_requisiti = PATH_TECNICHE
+path_tecniche_e_requisiti = PATH_TECNICHE_JSON
 gf.process_json_and_create_relationships2(db_driver, path_tecniche_e_requisiti)
 
 # Crea e collega ordini
@@ -284,7 +303,6 @@ gf.process_json_and_create_order_relationships(db_driver, menu_updated_path)
 gf.carica_distanze(db_driver, PATH_DISTANZE)
 
 # Aggiungi illegalità dei piatti dopo averli estratti
-importlib.reload(gf)
 lista_piatti_legali = ["Il Risveglio del Drago Celeste", "Cosmic Harmony Infusion", "Sinfonia Multiversale in Otto Movimenti"]
 lista_piatti_legali = [x.upper() for x in lista_piatti_legali]
 gf.aggiorna_proprieta_legale(db_driver, lista_piatti_legali)
@@ -305,15 +323,7 @@ def create_indexes(driver):
 
 create_indexes(db_driver)
 
-
 importlib.reload(pf)
-importlib.reload(gf)
-importlib.reload(gc)
+
 # Rimuovi tutto (se mai ci fosse qualche problema)
-gf.remove_all(db_driver, gc.remove_all())
-
-
-
-
-
-
+#gf.remove_all(db_driver, gc.remove_all())

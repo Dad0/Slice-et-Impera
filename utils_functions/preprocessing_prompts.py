@@ -1,5 +1,5 @@
 
-
+# Prompt scartato
 PROMPT_CODICE_GALATTICO = """
 Leggi attentamente il seguente testo, che è in un formato simile al markdown, e individua il capitolo 4.
 Leggi attentamente le tecniche descritte in quel capitolo e i loro requisiti.
@@ -15,16 +15,7 @@ Testo:
 {formatted_text}
 """
 
-
-"""
-Se nel testo trovi una legenda riguardo ad ordini professionali gastronomici, fai particolare attenzione al simbolo utilizzato.
-Se un piatto ha accanto al nome quel simbolo, allora quel piatto fa parte di quell'ordine. Se nessun piatto ha accanto uno di
-quei simboli, o se la leggenda non è presente, lascia vuoto il campo ordine.
-"""
-
-
-
-
+# Prompt scartato
 PROMPT_CODICE_GALATTICO2 = """
 Sei un critico culinario esperto incaricato di estrarre e catalogare in modo preciso informazioni da testi legislativi culinari. DEVI:
 
@@ -126,9 +117,6 @@ Output atteso (in JSON):
 Ora, analizza il seguente testo (compreso tra [START_TEXT] e [END_TEXT]), estrai tutte le informazioni richieste e restituisci il risultato in JSON con la stessa struttura dell'esempio:
 [START_TEXT]
 """
-
-
-
 
 PROMPT_MENU_PIATTI_E_TECNICHE2 = """
 Sei un critico culinario esperto incaricato di estrarre e catalogare in modo preciso informazioni da un menù di ristorante. DEVI:
@@ -1075,52 +1063,35 @@ def generate_technique_extraction_prompt(formatted_text: str) -> str:
 
 def generate_licenses_extraction_prompt(formatted_text: str) -> str:
     formatted_prompt = PROMPT_ELENCO_LICENZE + formatted_text + "[END_TEXT]"
-    print("Updated2)")
     return formatted_prompt
 
 def generate_ingredients_from_menu_extraction_prompt(formatted_text):
-    # formatted_prompt = PROMPT_MENU_PIATTI_E_INGREDIENTI2 + formatted_text + "[END_TEXT]"
     formatted_prompt = PROMPT_MENU_PIATTI_E_INGREDIENTI_DISCORSIVO_ENG_FINAL + formatted_text + "[END_TEXT]"
-    print(formatted_prompt)
-    print("Updated speranzoso2")
     return formatted_prompt
 
 def generate_ingredients_from_menu_extraction_prompt2(formatted_text):
-    # formatted_prompt = PROMPT_MENU_PIATTI_E_INGREDIENTI2 + formatted_text + "[END_TEXT]"
     formatted_prompt = PROMPT_MENU_PIATTI_E_INGREDIENTI_LISTA_ENG_ULTRA_SIMPLE + formatted_text + "[END_TEXT]"
-    print("Updated speranzoso2")
     return formatted_prompt
 
 def generate_ingredients_from_menu_extraction_prompt3(formatted_text):
-    # formatted_prompt = PROMPT_MENU_PIATTI_E_INGREDIENTI2 + formatted_text + "[END_TEXT]"
     formatted_prompt = PROMPT_MENU_PIATTI_E_TECNICHE_LISTA_ENG_ULTRA_SIMPLE + formatted_text + "[END_TEXT]"
-    print("Updated speranzoso2")
     return formatted_prompt
 
-
-
 def generate_techniques_from_menu_extraction_prompt(formatted_text):
-    # formatted_prompt = PROMPT_MENU_PIATTI_E_TECNICHE4 + formatted_text + "[END_TEXT]"
     formatted_prompt = PROMPT_MENU_PIATTI_E_TECNICHE_DISCORSIVO_ENG_FINAL + formatted_text + "[END_TEXT]"
-    print("Updated22")
-    #print(formatted_prompt)
     return formatted_prompt
 
 def generate_techniques_from_menu_extraction_prompt2(formatted_text):
-    # formatted_prompt = PROMPT_MENU_PIATTI_E_TECNICHE4 + formatted_text + "[END_TEXT]"
     formatted_prompt = PROMPT_MENU_PIATTI_E_TECNICHE_LISTA_ENG_FINAL + formatted_text + "[END_TEXT]"
-    print("Updated22")
-    #print(formatted_prompt)
     return formatted_prompt
 
 def generate_licenses_from_menu_extraction_prompt(formatted_text):
     formatted_prompt = PROMPT_MENU_LICENZE_E_CHEF + formatted_text + "[END_TEXT]"
-    print("Updated33)")
     return formatted_prompt
 
 def generate_orders_extraction_prompt(formatted_text: str) -> str:
     formatted_prompt = PROMPT_ELENCO_ORDINI + formatted_text + "[END_TEXT]"
-    print("Updated")
     return formatted_prompt
+
 
 

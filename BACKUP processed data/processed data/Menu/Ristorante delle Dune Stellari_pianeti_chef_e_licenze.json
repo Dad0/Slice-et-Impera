@@ -1,0 +1,39 @@
+{
+    "nome ristorante": "Ristorante delle Dune Stellari",
+    "nome pianeta": "Arrakis",
+    "nome chef": "Alessandro Temporini",
+    "licenze": [
+        {
+            "nome_licenza": "Psionica",
+            "grado_licenza": "IV"
+        },
+        {
+            "nome_licenza": "Temporale",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Gravitazionale",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Antimateria",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Magnetica",
+            "grado_licenza": "I"
+        },
+        {
+            "nome_licenza": "Quantistica",
+            "grado_licenza": "12"
+        },
+        {
+            "nome_licenza": "Luce",
+            "grado_licenza": "III"
+        },
+        {
+            "nome_licenza": "Livello di Sviluppo Tecnologico",
+            "grado_licenza": "II"
+        }
+    ]
+}
